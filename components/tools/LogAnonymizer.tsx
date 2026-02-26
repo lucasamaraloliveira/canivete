@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ShieldAlert, Info, Copy, Check, Search, RotateCcw } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function LogAnonymizer() {
     const [logs, setLogs] = useState(`2024-02-25 16:30:44 [INFO] User login from IP: 192.168.1.1, email: lucas@example.com, phone: +55 (11) 99999-9999\n2024-02-25 16:32:10 [ERROR] Database connection failed for db_user_lucas and password123`);
@@ -66,9 +67,12 @@ export function LogAnonymizer() {
                         )}
                     </div>
                     <div className="flex-1 relative group">
-                        <pre className="absolute inset-0 p-8 font-mono text-xs bg-text-main text-bg-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 whitespace-pre-wrap italic">
-                            {anonymizedLogs || <em className="opacity-20">Os logs seguros aparecerão aqui...</em>}
-                        </pre>
+                        <div className="absolute inset-0 bg-text-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide italic">
+                            <CodeBlock
+                                code={anonymizedLogs || '// Os logs seguros aparecerão aqui...'}
+                                language="log"
+                            />
+                        </div>
                         <div className="absolute top-8 right-8 opacity-5">
                             <ShieldAlert size={120} />
                         </div>

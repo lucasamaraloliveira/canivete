@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { FileCode, Copy, Check, Hash, Code } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function HtmlEntityEncoder() {
     const [input, setInput] = useState('<h1>Exemplo de texto com caracteres especiais: á, é, í, ó, ú, ñ, ©, ®, &</h1>');
@@ -52,8 +53,8 @@ export function HtmlEntityEncoder() {
                     </button>
                 </div>
                 <div className="flex-1 relative group">
-                    <div className="absolute inset-0 bg-text-main text-bg-main p-6 font-mono text-sm rounded-[32px] overflow-auto break-all shadow-xl select-all">
-                        {encoded || <em className="opacity-20">As entidades aparecerão aqui...</em>}
+                    <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto shadow-xl scrollbar-hide">
+                        <CodeBlock code={encoded || '// As entidades aparecerão aqui...'} language="html" />
                     </div>
                     <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
                         <FileCode size={120} />

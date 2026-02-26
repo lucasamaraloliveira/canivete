@@ -1,12 +1,78 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Cpu, Plus, Trash2, RefreshCw, Copy, Check, FileJson, Info } from 'lucide-react';
+import { Cpu, Plus, Trash2, RefreshCw, Copy, Check, FileJson, Info, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { cn } from '@/lib/utils';
+import { CodeBlock } from '../CodeBlock';
 
 interface MockField {
     id: string;
     name: string;
     type: 'string' | 'number' | 'boolean' | 'uuid' | 'date' | 'email' | 'name';
+}
+
+function CustomSelect({
+    value,
+    onChange,
+    options
+}: {
+    value: string;
+    onChange: (val: string) => void;
+    options: { label: string; value: string }[]
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedLabel = options.find(o => o.value === value)?.label || value;
+
+    return (
+        <div className="relative group/select">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={cn(
+                    "w-32 p-2.5 bg-bg-main border border-border-main rounded-xl text-[10px] font-black uppercase tracking-widest outline-none flex items-center justify-between transition-all hover:bg-text-main/5",
+                    isOpen && "ring-2 ring-text-main/10 border-text-main/20"
+                )}
+            >
+                <span className="truncate pr-2">{selectedLabel}</span>
+                <ChevronDown size={14} className={cn("shrink-0 opacity-30 group-hover/select:opacity-100 transition-all", isOpen && "rotate-180 opacity-100")} />
+            </button>
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <div
+                            className="fixed inset-0 z-10"
+                            onClick={() => setIsOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="absolute top-full left-0 right-0 mt-2 bg-card-main/90 backdrop-blur-xl border border-border-main rounded-2xl shadow-2xl z-20 overflow-hidden py-2"
+                        >
+                            {options.map((opt) => (
+                                <button
+                                    key={opt.value}
+                                    onClick={() => {
+                                        onChange(opt.value);
+                                        setIsOpen(false);
+                                    }}
+                                    className={cn(
+                                        "w-full px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest transition-all relative overflow-hidden",
+                                        value === opt.value
+                                            ? "bg-text-main text-bg-main"
+                                            : "text-text-main/60 hover:bg-text-main/5 hover:text-text-main hover:pl-6"
+                                    )}
+                                >
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 }
 
 export function ApiMocker() {
@@ -63,8 +129,8 @@ export function ApiMocker() {
     };
 
     return (
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 h-full min-h-0 overflow-hidden">
-            <div className="flex flex-col gap-6 overflow-hidden">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 min-h-0">
+            <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between">
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Estrutura do Mock</label>
                     <div className="flex items-center gap-2">
@@ -76,7 +142,7 @@ export function ApiMocker() {
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-auto pr-2 space-y-3">
+                <div className="space-y-3">
                     {fields.map((f) => (
                         <div key={f.id} className="bg-card-main border border-border-main p-4 rounded-3xl shadow-sm flex items-center gap-3 animate-in fade-in slide-in-from-left-4">
                             <input
@@ -84,19 +150,19 @@ export function ApiMocker() {
                                 onChange={(e) => updateField(f.id, { name: e.target.value })}
                                 className="flex-1 p-2.5 bg-bg-main border border-border-main rounded-xl text-xs font-mono font-bold focus:ring-2 focus:ring-text-main/10 outline-none"
                             />
-                            <select
+                            <CustomSelect
                                 value={f.type}
-                                onChange={(e) => updateField(f.id, { type: e.target.value as any })}
-                                className="p-2.5 bg-bg-main border border-border-main rounded-xl text-[10px] font-black uppercase tracking-widest outline-none"
-                            >
-                                <option value="uuid">UUID/ID</option>
-                                <option value="name">Nome</option>
-                                <option value="email">E-mail</option>
-                                <option value="string">String</option>
-                                <option value="number">Número</option>
-                                <option value="boolean">Boolean</option>
-                                <option value="date">Data</option>
-                            </select>
+                                onChange={(val) => updateField(f.id, { type: val as any })}
+                                options={[
+                                    { label: 'UUID/ID', value: 'uuid' },
+                                    { label: 'Nome', value: 'name' },
+                                    { label: 'E-mail', value: 'email' },
+                                    { label: 'String', value: 'string' },
+                                    { label: 'Número', value: 'number' },
+                                    { label: 'Boolean', value: 'boolean' },
+                                    { label: 'Data', value: 'date' },
+                                ]}
+                            />
                             <button
                                 onClick={() => removeField(f.id)}
                                 className="p-2.5 text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
@@ -132,11 +198,9 @@ export function ApiMocker() {
                         {copied ? 'Copiado' : 'Copiar JSON'}
                     </button>
                 </div>
-                <div className="flex-1 bg-text-main text-bg-main p-6 sm:p-8 font-mono text-[10px] sm:text-xs rounded-[24px] sm:rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative custom-scrollbar">
-                    <pre className="whitespace-pre">
-                        {mockOutput}
-                    </pre>
-                    <div className="absolute top-8 right-8 opacity-5">
+                <div className="h-[500px] xl:h-[600px] bg-text-main rounded-[24px] sm:rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
+                    <CodeBlock code={mockOutput} language="json" />
+                    <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                         <FileJson size={80} />
                     </div>
                 </div>

@@ -49,31 +49,33 @@ export function DiffChecker() {
                     </button>
                 </div>
 
-                <div className="flex-1 bg-card-main border border-border-main rounded-[32px] overflow-auto p-8 shadow-inner">
-                    <div className="font-mono text-sm space-y-0.5 min-w-full">
-                        {changes.map((part, index) => {
-                            const colorClass = part.added
-                                ? 'bg-green-500/20 text-green-700 dark:text-green-400 border-l-4 border-green-500'
-                                : part.removed
-                                    ? 'bg-red-500/20 text-red-700 dark:text-red-400 border-l-4 border-red-500 line-through opacity-60'
-                                    : 'text-text-main/60 opacity-40';
+                <div className="flex-1 bg-card-main border border-border-main rounded-[32px] overflow-hidden shadow-inner flex flex-col">
+                    <div className="flex-1 overflow-auto p-6 sm:p-8 custom-scrollbar">
+                        <div className="font-mono text-sm space-y-0.5 min-w-full">
+                            {changes.map((part, index) => {
+                                const colorClass = part.added
+                                    ? 'bg-green-500/20 text-green-700 dark:text-green-400 border-l-4 border-green-500'
+                                    : part.removed
+                                        ? 'bg-red-500/20 text-red-700 dark:text-red-400 border-l-4 border-red-500 line-through opacity-60'
+                                        : 'text-text-main/60 opacity-40';
 
-                            const prefix = part.added ? '+ ' : part.removed ? '- ' : '  ';
+                                const prefix = part.added ? '+ ' : part.removed ? '- ' : '  ';
 
-                            return (
-                                <div
-                                    key={index}
-                                    className={`px-4 py-1 rounded-sm whitespace-pre-wrap ${colorClass}`}
-                                >
-                                    {part.value.split('\n').filter(line => line.length > 0 || part.value.includes('\n')).map((line, li) => (
-                                        <div key={li} className="flex gap-4">
-                                            <span className="w-4 shrink-0 opacity-40 select-none">{prefix}</span>
-                                            <span>{line}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            );
-                        })}
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`px-4 py-1 rounded-sm whitespace-pre-wrap ${colorClass}`}
+                                    >
+                                        {part.value.split('\n').filter(line => line.length > 0 || part.value.includes('\n')).map((line, li) => (
+                                            <div key={li} className="flex gap-4">
+                                                <span className="w-4 shrink-0 opacity-40 select-none">{prefix}</span>
+                                                <span>{line}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

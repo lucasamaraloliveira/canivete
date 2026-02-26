@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Settings, Plus, Trash2, Download, Copy, Check, Lock, Globe, Database, Key } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 interface EnvVar {
     id: string;
@@ -148,9 +149,12 @@ export function EnvGenerator() {
                         </button>
                     </div>
                 </div>
-                <div className="flex-1 bg-text-main text-bg-main p-8 font-mono text-sm rounded-[40px] overflow-auto shadow-2xl relative custom-scrollbar">
-                    <pre className="whitespace-pre-wrap">{generateContent() || '# Seu arquivo .env aparecerá aqui...'}</pre>
-                    <div className="absolute top-8 right-8 opacity-5">
+                <div className="flex-1 bg-text-main rounded-[40px] overflow-auto shadow-2xl relative scrollbar-hide">
+                    <CodeBlock
+                        code={generateContent() || '# Seu arquivo .env aparecerá aqui...'}
+                        language="properties"
+                    />
+                    <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                         <Key size={100} />
                     </div>
                 </div>

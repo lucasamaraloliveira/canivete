@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Terminal, Copy, Check, Info, Code2, Zap } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function CurlConverter() {
     const [curl, setCurl] = useState(`curl -X POST https://api.example.com/v1/users \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{"name": "John Doe", "email": "john@example.com"}'`);
@@ -110,8 +111,8 @@ export function CurlConverter() {
                             {copied ? 'Copiado!' : 'Copiar Código'}
                         </button>
                     </div>
-                    <div className="flex-1 bg-text-main text-bg-main p-8 font-mono text-sm rounded-[32px] overflow-auto shadow-2xl border border-border-main/10">
-                        <pre className="whitespace-pre-wrap">{output}</pre>
+                    <div className="flex-1 bg-text-main rounded-[32px] overflow-auto shadow-2xl border border-border-main/10 scrollbar-hide">
+                        <CodeBlock code={output} language="javascript" />
                     </div>
                 </div>
             </div>

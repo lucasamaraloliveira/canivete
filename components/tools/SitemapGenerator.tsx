@@ -1,12 +1,78 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Map, Plus, Trash2, Download, Copy, Check, ExternalLink } from 'lucide-react';
+import { Map, Plus, Trash2, Download, Copy, Check, ExternalLink, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { cn } from '@/lib/utils';
+import { CodeBlock } from '../CodeBlock';
 
 interface SitemapURL {
     url: string;
     changefreq: string;
     priority: string;
+}
+
+function CustomSelect({
+    value,
+    onChange,
+    options
+}: {
+    value: string;
+    onChange: (val: string) => void;
+    options: { label: string; value: string }[]
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedLabel = options.find(o => o.value === value)?.label || value;
+
+    return (
+        <div className="relative group/select">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={cn(
+                    "w-full p-3 bg-bg-main border border-border-main rounded-xl text-[10px] font-black uppercase tracking-widest outline-none flex items-center justify-between transition-all hover:bg-text-main/5",
+                    isOpen && "ring-2 ring-text-main/10 border-text-main/20"
+                )}
+            >
+                <span className="truncate pr-2">{selectedLabel}</span>
+                <ChevronDown size={14} className={cn("shrink-0 opacity-30 group-hover/select:opacity-100 transition-all", isOpen && "rotate-180 opacity-100")} />
+            </button>
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <div
+                            className="fixed inset-0 z-10"
+                            onClick={() => setIsOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="absolute top-full left-0 right-0 mt-2 bg-card-main/90 backdrop-blur-xl border border-border-main rounded-2xl shadow-2xl z-20 overflow-hidden py-2"
+                        >
+                            {options.map((opt) => (
+                                <button
+                                    key={opt.value}
+                                    onClick={() => {
+                                        onChange(opt.value);
+                                        setIsOpen(false);
+                                    }}
+                                    className={cn(
+                                        "w-full px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest transition-all relative overflow-hidden",
+                                        value === opt.value
+                                            ? "bg-text-main text-bg-main"
+                                            : "text-text-main/60 hover:bg-text-main/5 hover:text-text-main hover:pl-6"
+                                    )}
+                                >
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 }
 
 export function SitemapGenerator() {
@@ -27,12 +93,12 @@ export function SitemapGenerator() {
     };
 
     const removeUrl = (index: number) => {
-        setUrls(urls.filter((_, i) => i !== index));
+        setUrls(urls.filter((_: SitemapURL, i: number) => i !== index));
     };
 
     const generateSitemap = () => {
         let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-        urls.filter(u => u.url).forEach(u => {
+        urls.filter((u: SitemapURL) => u.url).forEach((u: SitemapURL) => {
             xml += `  <url>\n`;
             xml += `    <loc>${u.url}</loc>\n`;
             xml += `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n`;
@@ -62,7 +128,7 @@ export function SitemapGenerator() {
                 </div>
 
                 <div className="flex-1 overflow-auto pr-2 space-y-4">
-                    {urls.map((u, i) => (
+                    {urls.map((u: SitemapURL, i: number) => (
                         <div key={i} className="bg-card-main border border-border-main p-4 rounded-3xl shadow-sm relative group">
                             <button
                                 onClick={() => removeUrl(i)}
@@ -79,27 +145,27 @@ export function SitemapGenerator() {
                                     placeholder="https://sua-url.com"
                                 />
                                 <div className="grid grid-cols-2 gap-3">
-                                    <select
+                                    <CustomSelect
                                         value={u.changefreq}
-                                        onChange={(e) => updateUrl(i, 'changefreq', e.target.value)}
-                                        className="p-2 bg-text-main/5 border border-border-main rounded-lg text-xs font-bold outline-none"
-                                    >
-                                        <option value="always">Sempre</option>
-                                        <option value="hourly">Por Hora</option>
-                                        <option value="daily">Diário</option>
-                                        <option value="weekly">Semanal</option>
-                                        <option value="monthly">Mensal</option>
-                                    </select>
-                                    <select
+                                        onChange={(val) => updateUrl(i, 'changefreq', val)}
+                                        options={[
+                                            { label: 'Sempre', value: 'always' },
+                                            { label: 'Por Hora', value: 'hourly' },
+                                            { label: 'Diário', value: 'daily' },
+                                            { label: 'Semanal', value: 'weekly' },
+                                            { label: 'Mensal', value: 'monthly' },
+                                        ]}
+                                    />
+                                    <CustomSelect
                                         value={u.priority}
-                                        onChange={(e) => updateUrl(i, 'priority', e.target.value)}
-                                        className="p-2 bg-text-main/5 border border-border-main rounded-lg text-xs font-bold outline-none"
-                                    >
-                                        <option value="1.0">1.0 (Principal)</option>
-                                        <option value="0.8">0.8 (Importante)</option>
-                                        <option value="0.5">0.5 (Normal)</option>
-                                        <option value="0.3">0.3 (Secundário)</option>
-                                    </select>
+                                        onChange={(val) => updateUrl(i, 'priority', val)}
+                                        options={[
+                                            { label: '1.0 (Principal)', value: '1.0' },
+                                            { label: '0.8 (Importante)', value: '0.8' },
+                                            { label: '0.5 (Normal)', value: '0.5' },
+                                            { label: '0.3 (Secundário)', value: '0.3' },
+                                        ]}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -132,11 +198,9 @@ export function SitemapGenerator() {
                         </button>
                     </div>
                 </div>
-                <div className="flex-1 bg-text-main text-bg-main p-8 font-mono text-xs rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative custom-scrollbar">
-                    <pre className="whitespace-pre">
-                        {generateSitemap()}
-                    </pre>
-                    <div className="absolute top-8 right-8 opacity-5">
+                <div className="flex-1 bg-text-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
+                    <CodeBlock code={generateSitemap()} language="xml" />
+                    <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                         <Map size={100} />
                     </div>
                 </div>

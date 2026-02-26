@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Subtitles, Copy, Check, Info, ArrowLeftRight, Download, RotateCcw } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function VttToSrt() {
     const [vttContent, setVttContent] = useState('WEBVTT\n\n1\n00:00:01.000 --> 00:00:04.000\nOlá, este é um exemplo de legenda VTT.\n\n2\n00:00:05.000 --> 00:00:09.000\nO Canivete Suíço converte isso para SRT facilmente.');
@@ -83,8 +84,11 @@ export function VttToSrt() {
                         </div>
                     </div>
                     <div className="flex-1 relative group">
-                        <div className="absolute inset-0 bg-text-main text-bg-main p-6 sm:p-8 font-mono text-xs sm:text-sm rounded-[32px] overflow-auto shadow-2xl border border-border-main/5 custom-scrollbar">
-                            <pre className="whitespace-pre-wrap">{srtContent || 'O resultado da conversão aparecerá aqui...'}</pre>
+                        <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide">
+                            <CodeBlock
+                                code={srtContent || '// O resultado da conversão aparecerá aqui...'}
+                                language="log"
+                            />
                         </div>
                     </div>
                 </div>

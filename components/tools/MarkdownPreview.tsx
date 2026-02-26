@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { FileText, Eye, Code, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export function MarkdownPreview() {
   const [markdown, setMarkdown] = useState('# Bem-vindo ao Editor Markdown\n\nVocê pode escrever seu texto aqui e ver o resultado ao lado.\n\n## Funcionalidades:\n- **Negrito**\n- *Itálico*\n- [Links](https://google.com)\n- `Código inline`\n\n```javascript\nconsole.log("Hello World");\n```\n\n> Citações também funcionam!');
@@ -62,7 +64,29 @@ export function MarkdownPreview() {
         {(view === 'preview' || view === 'split') && (
           <div className={cn("flex flex-col gap-4 overflow-hidden", view === 'preview' ? "lg:col-span-2" : "")}>
             <div className="flex-1 bg-card-main border border-border-main rounded-[32px] p-8 overflow-y-auto prose prose-slate dark:prose-invert max-w-none markdown-body">
-              <ReactMarkdown>{markdown}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  code({ node, inline, className, children, ...props }: any) {
+                    const match = /language-(\w+)/.exec(className || '');
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        style={vscDarkPlus}
+                        language={match[1]}
+                        PreTag="div"
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, '')}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
+                {markdown}
+              </ReactMarkdown>
             </div>
           </div>
         )}

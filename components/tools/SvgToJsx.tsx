@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Code, Copy, Check, Info, FileCode, RotateCcw } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function SvgToJsx() {
     const [svg, setSvg] = useState(`<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">\n  <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" />\n</svg>`);
@@ -101,9 +102,12 @@ export function SvgToJsx() {
                         )}
                     </div>
                     <div className="flex-1 relative group">
-                        <pre className="absolute inset-0 p-8 font-mono text-xs bg-text-main text-bg-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 whitespace-pre">
-                            {jsx || <em className="opacity-20">O componente JSX aparecerá aqui...</em>}
-                        </pre>
+                        <div className="absolute inset-0 bg-text-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide">
+                            <CodeBlock
+                                code={jsx || '// O componente JSX aparecerá aqui...'}
+                                language="jsx"
+                            />
+                        </div>
                         <div className="absolute top-8 right-8 opacity-5">
                             <Code size={120} />
                         </div>

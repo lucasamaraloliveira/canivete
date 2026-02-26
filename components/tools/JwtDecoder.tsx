@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Key, AlertCircle, Clock, Shield, User } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function JwtDecoder() {
   const [token, setToken] = useState('');
@@ -54,8 +55,11 @@ export function JwtDecoder() {
             <Shield size={18} />
             <span className="text-sm font-bold uppercase tracking-wider">Header</span>
           </div>
-          <div className="flex-1 bg-bg-main rounded-2xl p-4 overflow-auto font-mono text-sm border border-border-main">
-            {header ? JSON.stringify(header, null, 2) : '// Header aparecerá aqui'}
+          <div className="flex-1 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+            <CodeBlock
+              code={header ? JSON.stringify(header, null, 2) : '// Header aparecerá aqui'}
+              language="json"
+            />
           </div>
         </div>
 
@@ -64,8 +68,11 @@ export function JwtDecoder() {
             <User size={18} />
             <span className="text-sm font-bold uppercase tracking-wider">Payload</span>
           </div>
-          <div className="flex-1 bg-bg-main rounded-2xl p-4 overflow-auto font-mono text-sm border border-border-main">
-            {decoded ? JSON.stringify(decoded, null, 2) : '// Payload aparecerá aqui'}
+          <div className="flex-1 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+            <CodeBlock
+              code={decoded ? JSON.stringify(decoded, null, 2) : '// Payload aparecerá aqui'}
+              language="json"
+            />
           </div>
         </div>
       </div>

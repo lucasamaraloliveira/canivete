@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Copy, Check, Info, Layout, Hash, FileCode, RotateCcw } from 'lucide-react';
 import { format as formatSql } from 'sql-formatter';
+import { CodeBlock } from '../CodeBlock';
 
 type Lang = 'sql' | 'json' | 'js' | 'html' | 'css';
 
@@ -110,10 +111,11 @@ export function BrowserPrettier() {
                             </button>
                         )}
                     </div>
-                    <div className="flex-1 relative group overflow-hidden bg-text-main text-bg-main rounded-[32px] shadow-2xl border border-border-main/5">
-                        <div className="absolute inset-0 p-6 sm:p-8 font-mono text-xs sm:text-sm overflow-auto custom-scrollbar">
-                            <pre className="whitespace-pre">{output || '// Sua obra prima formatada aparecerá aqui...'}</pre>
-                        </div>
+                    <div className="flex-1 relative group overflow-hidden bg-text-main rounded-[32px] shadow-2xl border border-border-main/5 scrollbar-hide">
+                        <CodeBlock
+                            code={output || '// Sua obra prima formatada aparecerá aqui...'}
+                            language={lang === 'js' ? 'javascript' : lang}
+                        />
                     </div>
                 </div>
             </div>

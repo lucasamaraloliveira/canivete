@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Papa from 'papaparse';
 import { Table, Upload, Copy, Check, FileSpreadsheet } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function CsvToHtml() {
   const [csv, setCsv] = useState('Nome,Email,Cargo\nJoão Silva,joao@exemplo.com,Desenvolvedor\nMaria Souza,maria@exemplo.com,Designer\nPedro Santos,pedro@exemplo.com,Gerente');
@@ -103,9 +104,12 @@ export function CsvToHtml() {
               </button>
             )}
           </div>
-          <pre className="h-64 p-4 font-mono text-xs bg-text-main text-bg-main rounded-2xl overflow-auto">
-            {generateHtml() || '// O código HTML aparecerá aqui...'}
-          </pre>
+          <div className="h-64 bg-text-main rounded-2xl overflow-auto scrollbar-hide">
+            <CodeBlock
+              code={generateHtml() || '// O código HTML aparecerá aqui...'}
+              language="html"
+            />
+          </div>
         </div>
       </div>
 

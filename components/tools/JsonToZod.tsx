@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Code2 } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function JsonToZod() {
   const [input, setInput] = useState('{\n  "name": "John Doe",\n  "age": 30,\n  "isDeveloper": true,\n  "tags": ["react", "typescript"]\n}');
@@ -74,13 +75,16 @@ export function JsonToZod() {
           )}
         </div>
         <div className="flex-1 relative">
-          <pre className="absolute inset-0 p-4 font-mono text-sm bg-text-main text-bg-main rounded-2xl overflow-auto border border-border-main">
+          <div className="absolute inset-0 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
             {error ? (
-              <span className="text-red-400">Erro: {error}</span>
+              <div className="p-4 text-red-400 font-mono text-sm">Erro: {error}</div>
             ) : (
-              output || '// O schema gerado aparecerá aqui...'
+              <CodeBlock
+                code={output || '// O schema gerado aparecerá aqui...'}
+                language="typescript"
+              />
             )}
-          </pre>
+          </div>
         </div>
       </div>
     </div>

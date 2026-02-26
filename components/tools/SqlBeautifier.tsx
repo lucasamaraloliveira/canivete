@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { format } from 'sql-formatter';
 import { Database, Copy, Check, Sparkles } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 
 export function SqlBeautifier() {
   const [sql, setSql] = useState("SELECT * FROM users WHERE id = 1 AND status = 'active' GROUP BY department HAVING count(*) > 5 ORDER BY created_at DESC;");
@@ -58,9 +59,12 @@ export function SqlBeautifier() {
           )}
         </div>
         <div className="flex-1 relative">
-          <pre className="absolute inset-0 p-4 font-mono text-sm bg-text-main text-bg-main rounded-2xl overflow-auto border border-border-main">
-            {formatted || '-- O SQL formatado aparecerá aqui...'}
-          </pre>
+          <div className="absolute inset-0 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+            <CodeBlock
+              code={formatted || '-- O SQL formatado aparecerá aqui...'}
+              language="sql"
+            />
+          </div>
         </div>
       </div>
     </div>

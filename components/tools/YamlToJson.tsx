@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import yaml from 'js-yaml';
 import { RefreshCw, FileJson, FileCode, AlertCircle, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CodeBlock } from '../CodeBlock';
 
 export function YamlToJson() {
     const [input, setInput] = useState(`name: Canivete Suiço\nversion: 1.0.4\nfeatures:\n  - JSON to Zod\n  - SQL Beautifier\n  - YAML to JSON\nsettings:\n  theme: dark\n  notifications: true`);
@@ -100,9 +101,12 @@ export function YamlToJson() {
                         )}
                     </div>
                     <div className="flex-1 relative">
-                        <pre className="absolute inset-0 p-6 font-mono text-sm bg-text-main text-bg-main rounded-[32px] overflow-auto border border-border-main shadow-xl whitespace-pre-wrap">
-                            {output || (error ? '' : 'O resultado aparecerá aqui...')}
-                        </pre>
+                        <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto border border-border-main shadow-xl scrollbar-hide">
+                            <CodeBlock
+                                code={output || (error ? '' : 'O resultado aparecerá aqui...')}
+                                language={direction === 'yaml2json' ? 'json' : 'yaml'}
+                            />
+                        </div>
                         {error && (
                             <div className="absolute inset-x-4 bottom-4 p-4 bg-red-500/20 backdrop-blur-md border border-red-500/30 rounded-2xl flex items-center gap-3 text-red-500 text-xs">
                                 <AlertCircle size={16} />
