@@ -104,10 +104,11 @@ export function CsvToHtml() {
               </button>
             )}
           </div>
-          <div className="h-64 bg-text-main rounded-2xl overflow-auto scrollbar-hide">
+          <div className="h-64 bg-[#1e1e1e] rounded-2xl overflow-auto custom-scrollbar shadow-inner grid">
             <CodeBlock
               code={generateHtml() || '// O código HTML aparecerá aqui...'}
               language="html"
+              className="w-full"
             />
           </div>
         </div>
@@ -118,31 +119,33 @@ export function CsvToHtml() {
           <Table size={18} />
           <span className="text-sm font-bold uppercase tracking-wider">Visualização da Tabela</span>
         </div>
-        <div className="flex-1 bg-card-main border border-border-main rounded-[32px] overflow-auto shadow-inner">
-          {data.length > 0 ? (
-            <table className="min-w-full divide-y divide-border-main">
-              <thead className="bg-text-main/5">
-                <tr>
-                  {headers.map(h => (
-                    <th key={h} className="px-6 py-4 text-left text-xs font-bold text-text-main/40 uppercase tracking-widest">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border-main/5">
-                {data.map((row, i) => (
-                  <tr key={i} className="hover:bg-text-main/5 transition-colors">
+        <div className="flex-1 bg-card-main border border-border-main rounded-[32px] overflow-hidden shadow-inner flex flex-col">
+          <div className="flex-1 overflow-auto">
+            {data.length > 0 ? (
+              <table className="min-w-full divide-y divide-border-main">
+                <thead className="bg-text-main/5">
+                  <tr>
                     {headers.map(h => (
-                      <td key={h} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-main/70">{row[h]}</td>
+                      <th key={h} className="px-6 py-4 text-left text-xs font-bold text-text-main/40 uppercase tracking-widest">{h}</th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="h-full flex items-center justify-center text-text-main/20 font-bold">
-              Processe um CSV para visualizar a tabela
-            </div>
-          )}
+                </thead>
+                <tbody className="divide-y divide-border-main/5">
+                  {data.map((row, i) => (
+                    <tr key={i} className="hover:bg-text-main/5 transition-colors">
+                      {headers.map(h => (
+                        <td key={h} className="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-main/70">{row[h]}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="h-full flex items-center justify-center text-text-main/20 font-bold">
+                Processe um CSV para visualizar a tabela
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

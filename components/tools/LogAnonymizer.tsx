@@ -66,11 +66,12 @@ export function LogAnonymizer() {
                             </button>
                         )}
                     </div>
-                    <div className="flex-1 relative group">
-                        <div className="absolute inset-0 bg-text-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide italic">
+                    <div className="flex-1 relative group overflow-hidden rounded-[40px]">
+                        <div className="absolute inset-0 bg-[#1e1e1e] overflow-auto custom-scrollbar shadow-2xl border border-border-main/5 grid">
                             <CodeBlock
                                 code={anonymizedLogs || '// Os logs seguros aparecerão aqui...'}
                                 language="log"
+                                className="w-full"
                             />
                         </div>
                         <div className="absolute top-8 right-8 opacity-5">

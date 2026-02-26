@@ -1,5 +1,72 @@
 import React, { useState, useMemo } from 'react';
-import { Ruler, RefreshCw, ArrowRightLeft } from 'lucide-react';
+import { Ruler, RefreshCw, ArrowRightLeft, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { cn } from '@/lib/utils';
+
+function CustomSelect({
+  value,
+  onChange,
+  options
+}: {
+  value: string;
+  onChange: (val: string) => void;
+  options: { label: string; value: string }[]
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectedLabel = options.find(o => o.value === value)?.label || value;
+
+  return (
+    <div className="relative group/select">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "w-full p-3 bg-card-main border border-border-main rounded-xl text-sm font-bold shadow-sm outline-none flex items-center justify-between transition-all hover:bg-text-main/5",
+          isOpen && "ring-2 ring-text-main/10 border-text-main/20"
+        )}
+      >
+        <span className="truncate pr-2 capitalize">{selectedLabel}</span>
+        <ChevronDown size={14} className={cn("shrink-0 opacity-30 group-hover/select:opacity-100 transition-all", isOpen && "rotate-180 opacity-100")} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-10"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="absolute top-full left-0 right-0 mt-2 bg-white/90 dark:bg-card-main/90 backdrop-blur-xl border border-border-main rounded-2xl shadow-2xl z-20 overflow-hidden py-2"
+            >
+              <div className="max-h-64 overflow-y-auto custom-scrollbar">
+                {options.map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => {
+                      onChange(opt.value);
+                      setIsOpen(false);
+                    }}
+                    className={cn(
+                      "w-full px-4 py-3 text-left text-xs font-bold capitalize transition-all relative overflow-hidden",
+                      value === opt.value
+                        ? "bg-text-main text-bg-main"
+                        : "text-text-main/60 hover:bg-text-main/5 hover:text-text-main hover:pl-6"
+                    )}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 const UNITS = {
   comprimento: {
@@ -85,13 +152,11 @@ export function UnitConverter() {
             onChange={(e) => setValue(Number(e.target.value))}
             className="w-full p-4 text-2xl font-bold bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none"
           />
-          <select
+          <CustomSelect
             value={fromUnit}
-            onChange={(e) => setFromUnit(e.target.value)}
-            className="w-full p-3 bg-card-main border border-border-main rounded-xl text-sm font-bold outline-none capitalize text-text-main px-2"
-          >
-            {Object.keys(UNITS[category]).map(u => <option key={u} value={u}>{u}</option>)}
-          </select>
+            onChange={setFromUnit}
+            options={Object.keys(UNITS[category]).map(u => ({ label: u, value: u }))}
+          />
         </div>
 
         <div className="flex justify-center">
@@ -104,13 +169,11 @@ export function UnitConverter() {
           <div className="w-full p-4 text-2xl font-bold bg-text-main text-bg-main border border-border-main rounded-2xl">
             {result.toLocaleString(undefined, { maximumFractionDigits: 4 })}
           </div>
-          <select
+          <CustomSelect
             value={toUnit}
-            onChange={(e) => setToUnit(e.target.value)}
-            className="w-full p-3 bg-card-main border border-border-main rounded-xl text-sm font-bold outline-none capitalize text-text-main px-2"
-          >
-            {Object.keys(UNITS[category]).map(u => <option key={u} value={u}>{u}</option>)}
-          </select>
+            onChange={setToUnit}
+            options={Object.keys(UNITS[category]).map(u => ({ label: u, value: u }))}
+          />
         </div>
       </div>
 

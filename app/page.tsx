@@ -127,6 +127,50 @@ import { BrowserPrettier } from '@/components/tools/BrowserPrettier';
 import { CaseConverter } from '@/components/tools/CaseConverter';
 import { VttToSrt } from '@/components/tools/VttToSrt';
 
+// Design Tools
+import { GlassmorphismGenerator } from '@/components/tools/GlassmorphismGenerator';
+import { GridFlexGenerator } from '@/components/tools/GridFlexGenerator';
+import { WaveGenerator } from '@/components/tools/WaveGenerator';
+import { NeumorphismGenerator } from '@/components/tools/NeumorphismGenerator';
+import { AspectRatioCalculator } from '@/components/tools/AspectRatioCalculator';
+import { CssFilterPlayground } from '@/components/tools/CssFilterPlayground';
+import { PlaceholderGenerator } from '@/components/tools/PlaceholderGenerator';
+import { ColorPaletteExtractor } from '@/components/tools/ColorPaletteExtractor';
+import { FontPairer } from '@/components/tools/FontPairer';
+import { ImageToAscii } from '@/components/tools/ImageToAscii';
+import { PixelArtCanvas } from '@/components/tools/PixelArtCanvas';
+import { FaviconGenerator } from '@/components/tools/FaviconGenerator';
+import { SvgPathEditor } from '@/components/tools/SvgPathEditor';
+import { WebpConverter } from '@/components/tools/WebpConverter';
+import { SpriteSplitter } from '@/components/tools/SpriteSplitter';
+import { VideoTrimmer } from '@/components/tools/VideoTrimmer';
+import { DitherTool } from '@/components/tools/DitherTool';
+import { GradientMeshBuilder } from '@/components/tools/GradientMesh';
+import { AudioWaveformGen } from '@/components/tools/AudioWaveform';
+import { IconFontPreviewer } from '@/components/tools/IconFontPreviewer';
+import { LottiePreviewer } from '@/components/tools/LottiePreviewer';
+import { PomodoroTimer } from '@/components/tools/PomodoroTimer';
+import { WordCounter } from '@/components/tools/WordCounter';
+import { BrailleTranslator } from '@/components/tools/BrailleTranslator';
+import { MorseCodeFlasher } from '@/components/tools/MorseFlasher';
+import { NameRandomizer } from '@/components/tools/NameRandomizer';
+import { TravelChecklist } from '@/components/tools/TravelChecklist';
+import { StandupTimer } from '@/components/tools/StandupTimer';
+import { TtsTester } from '@/components/tools/TtsTester';
+import { SttNotebook } from '@/components/tools/SttNotebook';
+import { LoremIpsumCustom } from '@/components/tools/LoremIpsum';
+import { ScreenRecorder } from '@/components/tools/ScreenRecorder';
+import { MarkdownToPdf } from '@/components/tools/MarkdownToPdf';
+import { PrivacyGenerator } from '@/components/tools/PrivacyGenerator';
+import { PdfCompressor } from '@/components/tools/PdfCompressor';
+import { DebtPayoffCalc } from '@/components/tools/DebtPayoffCalc';
+import { Flashcards } from '@/components/tools/Flashcards';
+import { AcronymCreator } from '@/components/tools/AcronymCreator';
+import { EbookReader } from '@/components/tools/EbookReader';
+import { PrintWebClipper } from '@/components/tools/PrintWebClipper';
+import { BarcodeReader } from '@/components/tools/BarcodeReader';
+import { BurnerBudget } from '@/components/tools/BurnerBudget';
+
 // Dynamic Icon Component
 const Icon = ({ name, className }: { name: string; className?: string }) => {
   const icons: Record<string, any> = {
@@ -183,6 +227,50 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '45': return <PasswordStrength />;
     case '49': return <UnitConverter />;
     case '50': return <QrCodeGenerator />;
+
+    // Design
+    case '12': return <GridFlexGenerator />;
+    case '26': return <GlassmorphismGenerator />;
+    case '24': return <WaveGenerator />;
+    case '29': return <NeumorphismGenerator />;
+    case '36': return <AspectRatioCalculator />;
+    case '35': return <CssFilterPlayground />;
+    case '31': return <PlaceholderGenerator />;
+    case '22': return <ColorPaletteExtractor />;
+    case '28': return <FontPairer />;
+    case '27': return <ImageToAscii />;
+    case '91': return <PixelArtCanvas />;
+    case '23': return <FaviconGenerator />;
+    case '19': return <SvgPathEditor />;
+    case '39': return <WebpConverter />;
+    case '33': return <SpriteSplitter />;
+    case '21': return <VideoTrimmer />;
+    case '40': return <DitherTool />;
+    case '37': return <GradientMeshBuilder />;
+    case '34': return <AudioWaveformGen />;
+    case '38': return <IconFontPreviewer />;
+    case '30': return <LottiePreviewer />;
+    case '41': return <PomodoroTimer />;
+    case '42': return <WordCounter />;
+    case '43': return <BrailleTranslator />;
+    case '44': return <MorseCodeFlasher />;
+    case '68': return <NameRandomizer />;
+    case '47': return <TravelChecklist />;
+    case '48': return <StandupTimer />;
+    case '51': return <TtsTester />;
+    case '52': return <SttNotebook />;
+    case '55': return <LoremIpsumCustom />;
+    case '57': return <ScreenRecorder />;
+    case '59': return <MarkdownToPdf />;
+    case '60': return <PrivacyGenerator />;
+    case '25': return <PdfCompressor />;
+    case '53': return <DebtPayoffCalc />;
+    case '69': return <Flashcards />;
+    case '95': return <AcronymCreator />;
+    case '96': return <EbookReader />;
+    case '98': return <PrintWebClipper />;
+    case '99': return <BarcodeReader />;
+    case '100': return <BurnerBudget />;
     default:
       return (
         <div className="h-full flex flex-col items-center justify-center text-center p-12">

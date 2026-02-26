@@ -99,7 +99,7 @@ export function GitHelper() {
 
                         <button
                             onClick={() => copy(c.cmd)}
-                            className="mt-6 w-full py-3 bg-text-main/5 hover:bg-text-main rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-text-main group-hover:text-bg-main flex items-center justify-center gap-2"
+                            className="mt-6 w-full py-3 bg-text-main/5 hover:bg-text-main rounded-xl text-[10px] font-black uppercase tracking-widest transition-all text-text-main hover:text-bg-main flex items-center justify-center gap-2"
                         >
                             {copiedId === c.cmd ? <Check size={14} /> : <Copy size={14} />}
                             {copiedId === c.cmd ? 'Copiado!' : 'Copiar Comando'}
