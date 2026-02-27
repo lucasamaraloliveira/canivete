@@ -12,7 +12,6 @@ import {
   Lock,
   Gamepad2,
   ChevronRight,
-  Github,
   Moon,
   Sun,
   LayoutDashboard,
@@ -95,9 +94,11 @@ import {
   Subtitles,
   Printer,
   Barcode,
-  Code
+  Code,
+  Heart
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { QRCodeSVG } from 'qrcode.react';
 import { TOOLS } from '@/constants/tools';
 import { cn } from '@/lib/utils';
 
@@ -299,6 +300,26 @@ export default function Page() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const [isMobile, setIsMobile] = useState(false);
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
+  const [pixCopied, setPixCopied] = useState(false);
+
+  const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
+
+  const copyPix = () => {
+    navigator.clipboard.writeText(pixKey);
+    setPixCopied(true);
+    setTimeout(() => setPixCopied(false), 2000);
+  };
+
+  useEffect(() => {
+    // Abre o modal de doação discretamente após 2 segundos do carregamento inicial
+    const timer = setTimeout(() => {
+      setIsDonationModalOpen(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
@@ -508,8 +529,12 @@ export default function Page() {
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2 border-l border-border-main pl-4 ml-2">
-              <button className="p-2 hover:bg-text-main/5 rounded-xl transition-colors hidden sm:block">
-                <Github size={20} />
+              <button
+                onClick={() => setIsDonationModalOpen(true)}
+                className="p-2 hover:bg-text-main/5 text-text-main rounded-xl transition-colors hidden sm:flex items-center gap-1 group/donate"
+                title="Apoie o Projeto"
+              >
+                <DollarSign size={20} className="group-hover/donate:scale-110 transition-transform" />
               </button>
               <button
                 onClick={toggleTheme}
@@ -761,6 +786,85 @@ export default function Page() {
         }
         .animate-spin-slow {
           animation: spin-slow 8s linear infinite;
+        }
+      `}</style>
+      {/* Donation Modal */}
+      <AnimatePresence>
+        {isDonationModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDonationModalOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-lg bg-card-main border border-border-main rounded-[48px] shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div className="p-8 sm:p-12 flex flex-col items-center text-center gap-8">
+                <div className="w-20 h-20 bg-text-main text-bg-main rounded-3xl flex items-center justify-center shadow-2xl animate-bounce-slow">
+                  <Heart size={40} className="fill-current" />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-3xl font-black tracking-tight uppercase">Apoie o Projeto</h3>
+                  <p className="text-sm font-medium opacity-60 leading-relaxed uppercase tracking-widest">
+                    Qualquer valor ajuda a manter e evoluir o Canivete Suíço. Obrigado pelo apoio!
+                  </p>
+                </div>
+
+                <div className="w-full space-y-6">
+                  <div className="mx-auto w-48 h-48 bg-white p-4 rounded-3xl shadow-inner flex items-center justify-center">
+                    <QRCodeSVG value={pixKey} size={160} level="H" />
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black opacity-30 uppercase tracking-[2px]">Chave PIX (E-mail/Aleatória)</label>
+                    <div className="flex gap-2">
+                      <div className="flex-1 bg-text-main/5 border border-border-main/10 rounded-2xl px-5 py-4 text-xs font-mono font-bold truncate">
+                        {pixKey}
+                      </div>
+                      <button
+                        onClick={copyPix}
+                        className={cn(
+                          "px-6 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2",
+                          pixCopied ? "bg-green-500 text-white" : "bg-text-main text-bg-main hover:opacity-90 shadow-xl"
+                        )}
+                      >
+                        {pixCopied ? <Check size={14} /> : <Copy size={14} />}
+                        {pixCopied ? 'Copiado' : 'Copiar'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setIsDonationModalOpen(false)}
+                  className="w-full py-5 border-2 border-text-main/10 hover:bg-text-main/5 rounded-[24px] font-black text-[10px] uppercase tracking-widest transition-all"
+                >
+                  Fechar Janela
+                </button>
+              </div>
+
+              <div className="absolute top-6 right-6 opacity-5 pointer-events-none">
+                <DollarSign size={120} />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <style jsx global>{`
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
         }
       `}</style>
     </div>
