@@ -95,7 +95,9 @@ import {
   Printer,
   Barcode,
   Code,
-  Heart
+  Heart,
+  Mail,
+  MessageSquarePlus
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { QRCodeSVG } from 'qrcode.react';
@@ -302,6 +304,9 @@ export default function Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
+  const [toolSuggestion, setToolSuggestion] = useState('');
+  const [isSendingSuggestion, setIsSendingSuggestion] = useState(false);
+  const [suggestionStatus, setSuggestionStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
 
@@ -309,6 +314,36 @@ export default function Page() {
     navigator.clipboard.writeText(pixKey);
     setPixCopied(true);
     setTimeout(() => setPixCopied(false), 2000);
+  };
+
+  const sendSuggestion = async () => {
+    if (!toolSuggestion.trim() || isSendingSuggestion) return;
+
+    setIsSendingSuggestion(true);
+    setSuggestionStatus('idle');
+
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ suggestion: toolSuggestion }),
+      });
+
+      if (response.ok) {
+        setSuggestionStatus('success');
+        setToolSuggestion('');
+        setTimeout(() => setSuggestionStatus('idle'), 5000);
+      } else {
+        setSuggestionStatus('error');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar:', error);
+      setSuggestionStatus('error');
+    } finally {
+      setIsSendingSuggestion(false);
+    }
   };
 
   useEffect(() => {
@@ -788,70 +823,141 @@ export default function Page() {
           animation: spin-slow 8s linear infinite;
         }
       `}</style>
-      {/* Donation Modal */}
+      {/* Donation & Suggestion Modal */}
       <AnimatePresence>
         {isDonationModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsDonationModalOpen(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-md"
+              className="absolute inset-0 bg-black/40 backdrop-blur-xl"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-card-main border border-border-main rounded-[48px] shadow-2xl overflow-hidden flex flex-col"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-[900px] max-h-[90vh] bg-bg-main/80 backdrop-blur-2xl border border-white/10 rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
             >
-              <div className="p-8 sm:p-12 flex flex-col items-center text-center gap-8">
-                <div className="w-20 h-20 bg-text-main text-bg-main rounded-3xl flex items-center justify-center shadow-2xl animate-bounce-slow">
-                  <Heart size={40} className="fill-current" />
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="text-3xl font-black tracking-tight uppercase">Apoie o Projeto</h3>
-                  <p className="text-sm font-medium opacity-60 leading-relaxed uppercase tracking-widest">
-                    Qualquer valor ajuda a manter e evoluir o Canivete Suíço. Obrigado pelo apoio!
-                  </p>
-                </div>
-
-                <div className="w-full space-y-6">
-                  <div className="mx-auto w-48 h-48 bg-white p-4 rounded-3xl shadow-inner flex items-center justify-center">
-                    <QRCodeSVG value={pixKey} size={160} level="H" />
-                  </div>
-
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-black opacity-30 uppercase tracking-[2px]">Chave PIX (E-mail/Aleatória)</label>
-                    <div className="flex gap-2">
-                      <div className="flex-1 bg-text-main/5 border border-border-main/10 rounded-2xl px-5 py-4 text-xs font-mono font-bold truncate">
-                        {pixKey}
-                      </div>
-                      <button
-                        onClick={copyPix}
-                        className={cn(
-                          "px-6 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2",
-                          pixCopied ? "bg-green-500 text-white" : "bg-text-main text-bg-main hover:opacity-90 shadow-xl"
-                        )}
-                      >
-                        {pixCopied ? <Check size={14} /> : <Copy size={14} />}
-                        {pixCopied ? 'Copiado' : 'Copiar'}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
+              {/* Header with Close Button */}
+              <div className="absolute top-6 right-6 z-10">
                 <button
                   onClick={() => setIsDonationModalOpen(false)}
-                  className="w-full py-5 border-2 border-text-main/10 hover:bg-text-main/5 rounded-[24px] font-black text-[10px] uppercase tracking-widest transition-all"
+                  className="p-3 hover:bg-text-main/10 rounded-2xl transition-all text-text-main/50 hover:text-text-main"
                 >
-                  Fechar Janela
+                  <X size={20} />
                 </button>
               </div>
 
-              <div className="absolute top-6 right-6 opacity-5 pointer-events-none">
-                <DollarSign size={120} />
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+
+                  {/* Left Column: Donation */}
+                  <div className="p-8 sm:p-12 border-b md:border-b-0 md:border-r border-white/5 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-red-500/20 text-red-500 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_30px_-5px_rgba(239,68,68,0.4)]">
+                      <Heart size={32} className="fill-current" />
+                    </div>
+
+                    <h3 className="text-2xl font-black mb-3 tracking-tight">Apoie o Projeto</h3>
+                    <p className="text-sm text-text-main/60 leading-relaxed mb-8 max-w-[280px]">
+                      Ajude a manter as ferramentas gratuitas e sem anúncios.
+                    </p>
+
+                    <div className="w-full space-y-6">
+                      <div className="mx-auto w-44 h-44 bg-white p-3 rounded-3xl shadow-[0_20px_40px_-10px_rgba(255,255,255,0.1)] flex items-center justify-center group transition-transform hover:scale-105">
+                        <QRCodeSVG value={pixKey} size={145} level="H" />
+                      </div>
+
+                      <div className="space-y-3 text-left">
+                        <label className="text-[10px] font-bold text-text-main/30 uppercase tracking-[2px] ml-1">Chave PIX</label>
+                        <div className="relative flex items-center gap-2 bg-text-main/5 border border-white/5 rounded-2xl p-1 pr-2 group">
+                          <div className="flex-1 px-4 py-3 text-xs font-mono font-medium truncate opacity-70">
+                            {pixKey}
+                          </div>
+                          <button
+                            onClick={copyPix}
+                            className={cn(
+                              "px-4 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2 shrink-0",
+                              pixCopied ? "bg-green-500 text-white" : "bg-text-main text-bg-main hover:opacity-90 shadow-lg"
+                            )}
+                          >
+                            {pixCopied ? <Check size={14} /> : <Copy size={13} />}
+                            {pixCopied ? 'Copiado' : 'Copiar'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Suggestion */}
+                  <div className="p-8 sm:p-12 flex flex-col bg-text-main/[0.02]">
+                    <div className="w-16 h-16 bg-blue-500/20 text-blue-500 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_30px_-5px_rgba(59,130,246,0.4)]">
+                      <MessageSquarePlus size={32} />
+                    </div>
+
+                    <h3 className="text-2xl font-black mb-3 tracking-tight">Sugira sua Ideia</h3>
+                    <p className="text-sm text-text-main/60 leading-relaxed mb-8 max-w-[280px]">
+                      Qual ferramenta você sente falta? Envie sua sugestão diretamente para o desenvolvedor.
+                    </p>
+
+                    <div className="flex-1 flex flex-col gap-4">
+                      <textarea
+                        placeholder="Descreva a ferramenta aqui..."
+                        value={toolSuggestion}
+                        onChange={(e) => setToolSuggestion(e.target.value)}
+                        className="flex-1 w-full bg-text-main/5 border border-white/5 rounded-[24px] p-5 text-sm font-medium placeholder:opacity-30 focus:ring-2 focus:ring-text-main/10 outline-none resize-none transition-all min-h-[160px]"
+                      />
+
+                      <button
+                        onClick={sendSuggestion}
+                        disabled={!toolSuggestion.trim() || isSendingSuggestion}
+                        className={cn(
+                          "w-full py-4 rounded-[20px] font-black text-[10px] uppercase tracking-[2px] transition-all flex items-center justify-center gap-3 border shadow-xl active:scale-95 sm:mt-2",
+                          suggestionStatus === 'success'
+                            ? "bg-green-500 text-white border-green-400"
+                            : suggestionStatus === 'error'
+                              ? "bg-red-500 text-white border-red-400"
+                              : "bg-text-main text-bg-main hover:opacity-90 border-transparent shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]"
+                        )}
+                      >
+                        {isSendingSuggestion ? (
+                          <>
+                            <RefreshCw size={16} className="animate-spin" />
+                            Processando...
+                          </>
+                        ) : suggestionStatus === 'success' ? (
+                          <>
+                            <Check size={16} />
+                            Enviado com Sucesso!
+                          </>
+                        ) : suggestionStatus === 'error' ? (
+                          <>
+                            <ShieldAlert size={16} />
+                            Houve um Erro
+                          </>
+                        ) : (
+                          <>
+                            <Mail size={16} />
+                            Enviar Sugestão Agora
+                          </>
+                        )}
+                      </button>
+
+                      {suggestionStatus === 'success' && (
+                        <motion.p
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="text-[10px] text-green-500 font-bold text-center mt-2 flex items-center justify-center gap-2"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                          Valeu! Vou analisar sua sugestão logo.
+                        </motion.p>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </motion.div>
           </div>

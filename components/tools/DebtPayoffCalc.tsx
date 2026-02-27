@@ -9,6 +9,21 @@ export function DebtPayoffCalc() {
     const [interestRate, setInterestRate] = useState(12); // Annual %
     const [monthlyPayment, setMonthlyPayment] = useState(500);
 
+    const formatCurrency = (value: number) => {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(value);
+    };
+
+    const handleCurrencyChange = (value: string, setter: (val: number) => void) => {
+        // Remove tudo que não é dígito
+        const numericValue = value.replace(/\D/g, '');
+        // Converte para decimal (dividindo por 100 para centavos)
+        const decimalValue = numericValue ? parseFloat(numericValue) / 100 : 0;
+        setter(decimalValue);
+    };
+
     const results = useMemo(() => {
         const monthlyRate = (interestRate / 100) / 12;
         let currentBalance = balance;
@@ -90,10 +105,12 @@ export function DebtPayoffCalc() {
                                 <label className="text-[10px] font-black opacity-30 uppercase tracking-widest flex items-center gap-2"><Wallet size={12} /> Saldo Devedor</label>
                                 <div className="relative">
                                     <input
-                                        type="number" value={balance} onChange={e => setBalance(parseFloat(e.target.value) || 0)}
-                                        className="w-full bg-text-main/5 border border-border-main/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-text-main/5 transition-all font-black text-2xl"
+                                        type="text"
+                                        value={formatCurrency(balance)}
+                                        onChange={e => handleCurrencyChange(e.target.value, setBalance)}
+                                        className="w-full bg-text-main/5 border border-border-main/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-text-main/5 transition-all font-black text-2xl tabular-nums"
                                     />
-                                    <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black opacity-20 text-xl">R$</span>
+                                    <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black opacity-20 text-xl pointer-events-none">BRL</span>
                                 </div>
                             </div>
 
@@ -113,10 +130,12 @@ export function DebtPayoffCalc() {
                                 <label className="text-[10px] font-black opacity-30 uppercase tracking-widest flex items-center gap-2"><Calendar size={12} /> Pagamento Mensal</label>
                                 <div className="relative">
                                     <input
-                                        type="number" value={monthlyPayment} onChange={e => setMonthlyPayment(parseFloat(e.target.value) || 0)}
-                                        className="w-full bg-text-main/5 border border-border-main/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-text-main/5 transition-all font-black text-2xl text-blue-500"
+                                        type="text"
+                                        value={formatCurrency(monthlyPayment)}
+                                        onChange={e => handleCurrencyChange(e.target.value, setMonthlyPayment)}
+                                        className="w-full bg-text-main/5 border border-border-main/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-text-main/5 transition-all font-black text-2xl text-blue-500 tabular-nums"
                                     />
-                                    <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black opacity-20 text-xl">R$</span>
+                                    <span className="absolute right-6 top-1/2 -translate-y-1/2 font-black opacity-20 text-xl pointer-events-none">BRL</span>
                                 </div>
                             </div>
                         </div>
