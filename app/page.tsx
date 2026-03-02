@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Search,
   Menu,
@@ -105,114 +106,114 @@ import { TOOLS } from '@/constants/tools';
 import { cn } from '@/lib/utils';
 
 // Tool Implementation Components
-import { JsonToZod } from '@/components/tools/JsonToZod';
-import { JwtDecoder } from '@/components/tools/JwtDecoder';
-import { SqlBeautifier } from '@/components/tools/SqlBeautifier';
-import { QrCodeGenerator } from '@/components/tools/QrCodeGenerator';
-import { PasswordStrength } from '@/components/tools/PasswordStrength';
-import { Base64Preview } from '@/components/tools/Base64Preview';
-import { MarkdownPreview } from '@/components/tools/MarkdownPreview';
-import { UnitConverter } from '@/components/tools/UnitConverter';
-import { CsvToHtml } from '@/components/tools/CsvToHtml';
-import { RegexVisualizer } from '@/components/tools/RegexVisualizer';
-import { CronVisualizer } from '@/components/tools/CronVisualizer';
-import { HtmlEntityEncoder } from '@/components/tools/HtmlEntityEncoder';
-import { EnvGenerator } from '@/components/tools/EnvGenerator';
-import { DiffChecker } from '@/components/tools/DiffChecker';
-import { YamlToJson } from '@/components/tools/YamlToJson';
-import { CurlConverter } from '@/components/tools/CurlConverter';
-import { SitemapGenerator } from '@/components/tools/SitemapGenerator';
-import { GitHelper } from '@/components/tools/GitHelper';
-import { SvgToJsx } from '@/components/tools/SvgToJsx';
-import { ApiMocker } from '@/components/tools/ApiMocker';
-import { LogAnonymizer } from '@/components/tools/LogAnonymizer';
-import { BrowserPrettier } from '@/components/tools/BrowserPrettier';
-import { CaseConverter } from '@/components/tools/CaseConverter';
-import { VttToSrt } from '@/components/tools/VttToSrt';
+const JsonToZod = dynamic(() => import('@/components/tools/JsonToZod').then(mod => mod.JsonToZod));
+const JwtDecoder = dynamic(() => import('@/components/tools/JwtDecoder').then(mod => mod.JwtDecoder));
+const SqlBeautifier = dynamic(() => import('@/components/tools/SqlBeautifier').then(mod => mod.SqlBeautifier));
+const QrCodeGenerator = dynamic(() => import('@/components/tools/QrCodeGenerator').then(mod => mod.QrCodeGenerator));
+const PasswordStrength = dynamic(() => import('@/components/tools/PasswordStrength').then(mod => mod.PasswordStrength));
+const Base64Preview = dynamic(() => import('@/components/tools/Base64Preview').then(mod => mod.Base64Preview));
+const MarkdownPreview = dynamic(() => import('@/components/tools/MarkdownPreview').then(mod => mod.MarkdownPreview));
+const UnitConverter = dynamic(() => import('@/components/tools/UnitConverter').then(mod => mod.UnitConverter));
+const CsvToHtml = dynamic(() => import('@/components/tools/CsvToHtml').then(mod => mod.CsvToHtml));
+const RegexVisualizer = dynamic(() => import('@/components/tools/RegexVisualizer').then(mod => mod.RegexVisualizer));
+const CronVisualizer = dynamic(() => import('@/components/tools/CronVisualizer').then(mod => mod.CronVisualizer));
+const HtmlEntityEncoder = dynamic(() => import('@/components/tools/HtmlEntityEncoder').then(mod => mod.HtmlEntityEncoder));
+const EnvGenerator = dynamic(() => import('@/components/tools/EnvGenerator').then(mod => mod.EnvGenerator));
+const DiffChecker = dynamic(() => import('@/components/tools/DiffChecker').then(mod => mod.DiffChecker));
+const YamlToJson = dynamic(() => import('@/components/tools/YamlToJson').then(mod => mod.YamlToJson));
+const CurlConverter = dynamic(() => import('@/components/tools/CurlConverter').then(mod => mod.CurlConverter));
+const SitemapGenerator = dynamic(() => import('@/components/tools/SitemapGenerator').then(mod => mod.SitemapGenerator));
+const GitHelper = dynamic(() => import('@/components/tools/GitHelper').then(mod => mod.GitHelper));
+const SvgToJsx = dynamic(() => import('@/components/tools/SvgToJsx').then(mod => mod.SvgToJsx));
+const ApiMocker = dynamic(() => import('@/components/tools/ApiMocker').then(mod => mod.ApiMocker));
+const LogAnonymizer = dynamic(() => import('@/components/tools/LogAnonymizer').then(mod => mod.LogAnonymizer));
+const BrowserPrettier = dynamic(() => import('@/components/tools/BrowserPrettier').then(mod => mod.BrowserPrettier));
+const CaseConverter = dynamic(() => import('@/components/tools/CaseConverter').then(mod => mod.CaseConverter));
+const VttToSrt = dynamic(() => import('@/components/tools/VttToSrt').then(mod => mod.VttToSrt));
 
 // Design Tools
-import { GlassmorphismGenerator } from '@/components/tools/GlassmorphismGenerator';
-import { GridFlexGenerator } from '@/components/tools/GridFlexGenerator';
-import { WaveGenerator } from '@/components/tools/WaveGenerator';
-import { NeumorphismGenerator } from '@/components/tools/NeumorphismGenerator';
-import { AspectRatioCalculator } from '@/components/tools/AspectRatioCalculator';
-import { CssFilterPlayground } from '@/components/tools/CssFilterPlayground';
-import { PlaceholderGenerator } from '@/components/tools/PlaceholderGenerator';
-import { ColorPaletteExtractor } from '@/components/tools/ColorPaletteExtractor';
-import { FontPairer } from '@/components/tools/FontPairer';
-import { ImageToAscii } from '@/components/tools/ImageToAscii';
-import { PixelArtCanvas } from '@/components/tools/PixelArtCanvas';
-import { FaviconGenerator } from '@/components/tools/FaviconGenerator';
-import { SvgPathEditor } from '@/components/tools/SvgPathEditor';
-import { WebpConverter } from '@/components/tools/WebpConverter';
-import { SpriteSplitter } from '@/components/tools/SpriteSplitter';
-import { VideoTrimmer } from '@/components/tools/VideoTrimmer';
-import { DitherTool } from '@/components/tools/DitherTool';
-import { GradientMeshBuilder } from '@/components/tools/GradientMesh';
-import { AudioWaveformGen } from '@/components/tools/AudioWaveform';
-import { IconFontPreviewer } from '@/components/tools/IconFontPreviewer';
-import { LottiePreviewer } from '@/components/tools/LottiePreviewer';
-import { PomodoroTimer } from '@/components/tools/PomodoroTimer';
-import { WordCounter } from '@/components/tools/WordCounter';
-import { BrailleTranslator } from '@/components/tools/BrailleTranslator';
-import { MorseCodeFlasher } from '@/components/tools/MorseFlasher';
-import { NameRandomizer } from '@/components/tools/NameRandomizer';
-import { TravelChecklist } from '@/components/tools/TravelChecklist';
-import { StandupTimer } from '@/components/tools/StandupTimer';
-import { TtsTester } from '@/components/tools/TtsTester';
-import { SttNotebook } from '@/components/tools/SttNotebook';
-import { LoremIpsumCustom } from '@/components/tools/LoremIpsum';
-import { ScreenRecorder } from '@/components/tools/ScreenRecorder';
-import { MarkdownToPdf } from '@/components/tools/MarkdownToPdf';
-import { PrivacyGenerator } from '@/components/tools/PrivacyGenerator';
-import { PdfCompressor } from '@/components/tools/PdfCompressor';
-import { DebtPayoffCalc } from '@/components/tools/DebtPayoffCalc';
-import { Flashcards } from '@/components/tools/Flashcards';
-import { AcronymCreator } from '@/components/tools/AcronymCreator';
-import { EbookReader } from '@/components/tools/EbookReader';
-import { PrintWebClipper } from '@/components/tools/PrintWebClipper';
-import { BarcodeReader } from '@/components/tools/BarcodeReader';
-import { BurnerBudget } from '@/components/tools/BurnerBudget';
+const GlassmorphismGenerator = dynamic(() => import('@/components/tools/GlassmorphismGenerator').then(mod => mod.GlassmorphismGenerator));
+const GridFlexGenerator = dynamic(() => import('@/components/tools/GridFlexGenerator').then(mod => mod.GridFlexGenerator));
+const WaveGenerator = dynamic(() => import('@/components/tools/WaveGenerator').then(mod => mod.WaveGenerator));
+const NeumorphismGenerator = dynamic(() => import('@/components/tools/NeumorphismGenerator').then(mod => mod.NeumorphismGenerator));
+const AspectRatioCalculator = dynamic(() => import('@/components/tools/AspectRatioCalculator').then(mod => mod.AspectRatioCalculator));
+const CssFilterPlayground = dynamic(() => import('@/components/tools/CssFilterPlayground').then(mod => mod.CssFilterPlayground));
+const PlaceholderGenerator = dynamic(() => import('@/components/tools/PlaceholderGenerator').then(mod => mod.PlaceholderGenerator));
+const ColorPaletteExtractor = dynamic(() => import('@/components/tools/ColorPaletteExtractor').then(mod => mod.ColorPaletteExtractor));
+const FontPairer = dynamic(() => import('@/components/tools/FontPairer').then(mod => mod.FontPairer));
+const ImageToAscii = dynamic(() => import('@/components/tools/ImageToAscii').then(mod => mod.ImageToAscii));
+const PixelArtCanvas = dynamic(() => import('@/components/tools/PixelArtCanvas').then(mod => mod.PixelArtCanvas));
+const FaviconGenerator = dynamic(() => import('@/components/tools/FaviconGenerator').then(mod => mod.FaviconGenerator));
+const SvgPathEditor = dynamic(() => import('@/components/tools/SvgPathEditor').then(mod => mod.SvgPathEditor));
+const WebpConverter = dynamic(() => import('@/components/tools/WebpConverter').then(mod => mod.WebpConverter));
+const SpriteSplitter = dynamic(() => import('@/components/tools/SpriteSplitter').then(mod => mod.SpriteSplitter));
+const VideoTrimmer = dynamic(() => import('@/components/tools/VideoTrimmer').then(mod => mod.VideoTrimmer));
+const DitherTool = dynamic(() => import('@/components/tools/DitherTool').then(mod => mod.DitherTool));
+const GradientMeshBuilder = dynamic(() => import('@/components/tools/GradientMesh').then(mod => mod.GradientMeshBuilder));
+const AudioWaveformGen = dynamic(() => import('@/components/tools/AudioWaveform').then(mod => mod.AudioWaveformGen));
+const IconFontPreviewer = dynamic(() => import('@/components/tools/IconFontPreviewer').then(mod => mod.IconFontPreviewer));
+const LottiePreviewer = dynamic(() => import('@/components/tools/LottiePreviewer').then(mod => mod.LottiePreviewer));
+const PomodoroTimer = dynamic(() => import('@/components/tools/PomodoroTimer').then(mod => mod.PomodoroTimer));
+const WordCounter = dynamic(() => import('@/components/tools/WordCounter').then(mod => mod.WordCounter));
+const BrailleTranslator = dynamic(() => import('@/components/tools/BrailleTranslator').then(mod => mod.BrailleTranslator));
+const MorseCodeFlasher = dynamic(() => import('@/components/tools/MorseFlasher').then(mod => mod.MorseCodeFlasher));
+const NameRandomizer = dynamic(() => import('@/components/tools/NameRandomizer').then(mod => mod.NameRandomizer));
+const TravelChecklist = dynamic(() => import('@/components/tools/TravelChecklist').then(mod => mod.TravelChecklist));
+const StandupTimer = dynamic(() => import('@/components/tools/StandupTimer').then(mod => mod.StandupTimer));
+const TtsTester = dynamic(() => import('@/components/tools/TtsTester').then(mod => mod.TtsTester));
+const SttNotebook = dynamic(() => import('@/components/tools/SttNotebook').then(mod => mod.SttNotebook));
+const LoremIpsumCustom = dynamic(() => import('@/components/tools/LoremIpsum').then(mod => mod.LoremIpsumCustom));
+const ScreenRecorder = dynamic(() => import('@/components/tools/ScreenRecorder').then(mod => mod.ScreenRecorder));
+const MarkdownToPdf = dynamic(() => import('@/components/tools/MarkdownToPdf').then(mod => mod.MarkdownToPdf));
+const PrivacyGenerator = dynamic(() => import('@/components/tools/PrivacyGenerator').then(mod => mod.PrivacyGenerator));
+const PdfCompressor = dynamic(() => import('@/components/tools/PdfCompressor').then(mod => mod.PdfCompressor));
+const DebtPayoffCalc = dynamic(() => import('@/components/tools/DebtPayoffCalc').then(mod => mod.DebtPayoffCalc));
+const Flashcards = dynamic(() => import('@/components/tools/Flashcards').then(mod => mod.Flashcards));
+const AcronymCreator = dynamic(() => import('@/components/tools/AcronymCreator').then(mod => mod.AcronymCreator));
+const EbookReader = dynamic(() => import('@/components/tools/EbookReader').then(mod => mod.EbookReader));
+const PrintWebClipper = dynamic(() => import('@/components/tools/PrintWebClipper').then(mod => mod.PrintWebClipper));
+const BarcodeReader = dynamic(() => import('@/components/tools/BarcodeReader').then(mod => mod.BarcodeReader));
+const BurnerBudget = dynamic(() => import('@/components/tools/BurnerBudget').then(mod => mod.BurnerBudget));
 
 // Security Tools (New)
-import { SecureKeyGen } from '@/components/tools/SecureKeyGen';
-import { AesEncryptor } from '@/components/tools/AesEncryptor';
-import { HashGenerator } from '@/components/tools/HashGenerator';
-import { SteganographyTool } from '@/components/tools/SteganographyTool';
-import { SelfDestructMsg } from '@/components/tools/SelfDestructMsg';
-import { WordPassphrase } from '@/components/tools/WordPassphrase';
-import { TotpAuthenticator } from '@/components/tools/TotpAuthenticator';
-import { SshKeyGen } from '@/components/tools/SshKeyGen';
-import { ExifRemover } from '@/components/tools/ExifRemover';
-import { FileShredder } from '@/components/tools/FileShredder';
-import { CsrDecoder } from '@/components/tools/CsrDecoder';
+const SecureKeyGen = dynamic(() => import('@/components/tools/SecureKeyGen').then(mod => mod.SecureKeyGen));
+const AesEncryptor = dynamic(() => import('@/components/tools/AesEncryptor').then(mod => mod.AesEncryptor));
+const HashGenerator = dynamic(() => import('@/components/tools/HashGenerator').then(mod => mod.HashGenerator));
+const SteganographyTool = dynamic(() => import('@/components/tools/SteganographyTool').then(mod => mod.SteganographyTool));
+const SelfDestructMsg = dynamic(() => import('@/components/tools/SelfDestructMsg').then(mod => mod.SelfDestructMsg));
+const WordPassphrase = dynamic(() => import('@/components/tools/WordPassphrase').then(mod => mod.WordPassphrase));
+const TotpAuthenticator = dynamic(() => import('@/components/tools/TotpAuthenticator').then(mod => mod.TotpAuthenticator));
+const SshKeyGen = dynamic(() => import('@/components/tools/SshKeyGen').then(mod => mod.SshKeyGen));
+const ExifRemover = dynamic(() => import('@/components/tools/ExifRemover').then(mod => mod.ExifRemover));
+const FileShredder = dynamic(() => import('@/components/tools/FileShredder').then(mod => mod.FileShredder));
+const CsrDecoder = dynamic(() => import('@/components/tools/CsrDecoder').then(mod => mod.CsrDecoder));
 
 // Science Tools (New)
-import { BaseConverter } from '@/components/tools/BaseConverter';
-import { PeriodicTable } from '@/components/tools/PeriodicTable';
-import { GravitySimulator } from '@/components/tools/GravitySimulator';
-import { GeneticTranslator } from '@/components/tools/GeneticTranslator';
-import { GraphSandbox } from '@/components/tools/GraphSandbox';
-import { LogicGateSim } from '@/components/tools/LogicGateSim';
-import { FractionVisualizer } from '@/components/tools/FractionVisualizer';
-import { RomanNumeralConv } from '@/components/tools/RomanNumeralConv';
-import { BmiCalculator } from '@/components/tools/BmiCalculator';
-import { ProjectileSimulator } from '@/components/tools/ProjectileSimulator';
-import { AtomVisualizer } from '@/components/tools/AtomVisualizer';
-import { MapDistancer } from '@/components/tools/MapDistancer';
+const BaseConverter = dynamic(() => import('@/components/tools/BaseConverter').then(mod => mod.BaseConverter));
+const PeriodicTable = dynamic(() => import('@/components/tools/PeriodicTable').then(mod => mod.PeriodicTable));
+const GravitySimulator = dynamic(() => import('@/components/tools/GravitySimulator').then(mod => mod.GravitySimulator));
+const GeneticTranslator = dynamic(() => import('@/components/tools/GeneticTranslator').then(mod => mod.GeneticTranslator));
+const GraphSandbox = dynamic(() => import('@/components/tools/GraphSandbox').then(mod => mod.GraphSandbox));
+const LogicGateSim = dynamic(() => import('@/components/tools/LogicGateSim').then(mod => mod.LogicGateSim));
+const FractionVisualizer = dynamic(() => import('@/components/tools/FractionVisualizer').then(mod => mod.FractionVisualizer));
+const RomanNumeralConv = dynamic(() => import('@/components/tools/RomanNumeralConv').then(mod => mod.RomanNumeralConv));
+const BmiCalculator = dynamic(() => import('@/components/tools/BmiCalculator').then(mod => mod.BmiCalculator));
+const ProjectileSimulator = dynamic(() => import('@/components/tools/ProjectileSimulator').then(mod => mod.ProjectileSimulator));
+const AtomVisualizer = dynamic(() => import('@/components/tools/AtomVisualizer').then(mod => mod.AtomVisualizer));
+const MapDistancer = dynamic(() => import('@/components/tools/MapDistancer').then(mod => mod.MapDistancer));
 
 // Diversos Tools (New)
-import { VirtualMetronome } from '@/components/tools/VirtualMetronome';
-import { ReactionTimer } from '@/components/tools/ReactionTimer';
-import { TypingSpeedTest } from '@/components/tools/TypingSpeedTest';
-import { SudokuSolver } from '@/components/tools/SudokuSolver';
-import { KeyboardPiano } from '@/components/tools/KeyboardPiano';
-import { MemeGenExpress } from '@/components/tools/MemeGenExpress';
-import { DiceRollerRPG } from '@/components/tools/DiceRollerRPG';
-import { EightBitFxMaker } from '@/components/tools/EightBitFxMaker';
-import { MazeGenerator } from '@/components/tools/MazeGenerator';
-import { AnagramSolver } from '@/components/tools/AnagramSolver';
-import { RhymeFinder } from '@/components/tools/RhymeFinder';
+const VirtualMetronome = dynamic(() => import('@/components/tools/VirtualMetronome').then(mod => mod.VirtualMetronome));
+const ReactionTimer = dynamic(() => import('@/components/tools/ReactionTimer').then(mod => mod.ReactionTimer));
+const TypingSpeedTest = dynamic(() => import('@/components/tools/TypingSpeedTest').then(mod => mod.TypingSpeedTest));
+const SudokuSolver = dynamic(() => import('@/components/tools/SudokuSolver').then(mod => mod.SudokuSolver));
+const KeyboardPiano = dynamic(() => import('@/components/tools/KeyboardPiano').then(mod => mod.KeyboardPiano));
+const MemeGenExpress = dynamic(() => import('@/components/tools/MemeGenExpress').then(mod => mod.MemeGenExpress));
+const DiceRollerRPG = dynamic(() => import('@/components/tools/DiceRollerRPG').then(mod => mod.DiceRollerRPG));
+const EightBitFxMaker = dynamic(() => import('@/components/tools/EightBitFxMaker').then(mod => mod.EightBitFxMaker));
+const MazeGenerator = dynamic(() => import('@/components/tools/MazeGenerator').then(mod => mod.MazeGenerator));
+const AnagramSolver = dynamic(() => import('@/components/tools/AnagramSolver').then(mod => mod.AnagramSolver));
+const RhymeFinder = dynamic(() => import('@/components/tools/RhymeFinder').then(mod => mod.RhymeFinder));
 
 // Dynamic Icon Component
 const Icon = ({ name, className }: { name: string; className?: string }) => {
@@ -584,7 +585,7 @@ export default function Page() {
                 </div>
                 <div>
                   <h1 className="font-black text-xl leading-tight">Canivete</h1>
-                  <p className="text-[10px] opacity-40 uppercase tracking-[3px] font-bold">Menu</p>
+                  <p className="text-[10px] opacity-70 uppercase tracking-[3px] font-bold">Menu</p>
                 </div>
               </div>
               <button
@@ -610,7 +611,7 @@ export default function Page() {
               </button>
 
               <div className="pt-4 pb-2 px-4">
-                <p className="text-[10px] font-bold text-text-main/40 uppercase tracking-widest">Categorias</p>
+                <p className="text-[10px] font-bold text-text-main/70 uppercase tracking-widest">Categorias</p>
               </div>
 
               {categories.map(cat => (
@@ -635,7 +636,7 @@ export default function Page() {
                 <p className="text-xs font-medium opacity-60 mb-2">Total de Ferramentas</p>
                 <div className="flex items-end gap-2">
                   <span className="text-3xl font-bold">100</span>
-                  <span className="text-sm font-semibold opacity-40 mb-1">/ 100</span>
+                  <span className="text-sm font-semibold opacity-70 mb-1">/ 100</span>
                 </div>
               </div>
             </div>
@@ -728,7 +729,7 @@ export default function Page() {
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
                     {selectedCategory || (isMobile ? "Ferramentas" : "Todas as Ferramentas")}
                   </h2>
-                  <p className="opacity-50 font-medium text-xs sm:text-sm lg:text-base">
+                  <p className="text-text-main/70 font-medium text-xs sm:text-sm lg:text-base">
                     {filteredTools.length} {filteredTools.length === 1 ? 'ferramenta encontrada' : 'ferramentas encontradas'}.
                   </p>
                 </div>
@@ -750,8 +751,8 @@ export default function Page() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-1 sm:mb-2">
-                          <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-40 truncate">{tool.category}</span>
-                          {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-30">#{tool.id}</span>}
+                          <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-70 truncate">{tool.category}</span>
+                          {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-70">#{tool.id}</span>}
                         </div>
                         <h3 className="font-bold text-xs sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-1 sm:line-clamp-2">{tool.name}</h3>
                         <p className="hidden sm:block text-xs lg:text-sm opacity-60 leading-relaxed line-clamp-2">
@@ -788,7 +789,7 @@ export default function Page() {
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[9px] font-bold uppercase tracking-widest opacity-40">{selectedTool?.category}</span>
                         <span className="w-0.5 h-0.5 rounded-full bg-text-main/20" />
-                        <span className="text-[9px] font-mono opacity-30">#{selectedTool?.id}</span>
+                        <span className="text-[9px] font-mono opacity-70">#{selectedTool?.id}</span>
                       </div>
                       <h2 className="text-lg lg:text-2xl font-bold truncate">{selectedTool?.name}</h2>
                     </div>
@@ -924,7 +925,7 @@ export default function Page() {
 
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-text-main/40 uppercase tracking-widest ml-1">Link de Acesso</label>
+                    <label className="text-[10px] font-bold text-text-main/70 uppercase tracking-widest ml-1">Link de Acesso</label>
                     <div className="relative group">
                       <input
                         readOnly
