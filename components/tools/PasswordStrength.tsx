@@ -62,65 +62,64 @@ export function PasswordStrength() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto flex flex-col gap-8 h-full justify-center">
+    <div className="max-w-2xl mx-auto flex flex-col gap-6 sm:gap-8 h-full justify-center">
       <div className="text-center">
         <div className="w-16 h-16 bg-text-main/5 rounded-2xl flex items-center justify-center text-text-main mx-auto mb-4">
           <Shield size={32} />
         </div>
-        <h3 className="text-2xl font-bold mb-2">Validador de Senha</h3>
-        <p className="text-text-main/50">Teste a segurança da sua senha localmente.</p>
+        <h3 className="text-2xl font-black italic tracking-tighter sm:text-3xl mb-1">Validador de Senha</h3>
+        <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-text-main/30">Privacidade local total</p>
       </div>
 
       <div className="flex flex-col gap-4">
-        <div className="relative">
+        <div className="relative group">
           <input
             type="text"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-4 pr-12 font-mono text-lg bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none"
+            className="w-full p-5 pr-12 font-mono text-xl bg-bg-main border border-border-main rounded-[24px] focus:ring-4 focus:ring-text-main/5 outline-none transition-all shadow-inner"
             placeholder="Digite sua senha..."
           />
-          <Lock className="absolute right-4 top-1/2 -translate-y-1/2 text-text-main/20" size={20} />
+          <Lock className="absolute right-5 top-1/2 -translate-y-1/2 text-text-main/20 group-focus-within:text-text-main transition-colors" size={20} />
         </div>
 
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm font-bold">
-            <span className="text-text-main/60 uppercase tracking-wider">Força: {getStrengthLabel()}</span>
-            <span>{strength}%</span>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+            <span className="text-text-main/40">Força: <span className="text-text-main">{getStrengthLabel()}</span></span>
+            <span className="opacity-40">{strength}%</span>
           </div>
-          <div className="h-3 w-full bg-text-main/5 rounded-full overflow-hidden">
+          <div className="h-4 w-full bg-text-main/5 rounded-full overflow-hidden p-1 shadow-inner border border-border-main/5">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${strength}%` }}
-              className={cn("h-full transition-all duration-500", getStrengthColor())}
+              className={cn("h-full rounded-full transition-all duration-700", getStrengthColor())}
             />
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-6 bg-bg-main rounded-3xl border border-border-main">
-          <h4 className="text-sm font-bold mb-4 uppercase tracking-wider text-text-main/40">Sugestões</h4>
-          <div className="space-y-3">
+        <div className="p-6 bg-card-main rounded-[28px] border border-border-main shadow-sm">
+          <h4 className="text-[10px] font-black mb-4 uppercase tracking-[0.2em] text-text-main/40">Requisitos</h4>
+          <div className="space-y-2.5">
             {feedback.length > 0 ? feedback.map((issue, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-red-600 font-medium">
-                <AlertCircle size={16} />
+              <div key={i} className="flex items-center gap-2 text-xs text-red-500/80 font-bold uppercase tracking-wider">
+                <AlertCircle size={14} />
                 {issue}
               </div>
             )) : (
-              <div className="flex items-center gap-2 text-sm text-green-600 font-medium">
-                <CheckCircle2 size={16} />
-                Sua senha atende a todos os requisitos!
+              <div className="flex items-center gap-2 text-xs text-green-500 font-bold uppercase tracking-wider">
+                <CheckCircle2 size={14} />
+                Senha Segura!
               </div>
             )}
           </div>
         </div>
 
-        <div className="p-6 bg-text-main text-bg-main rounded-3xl">
-          <h4 className="text-sm font-bold mb-4 uppercase tracking-wider opacity-40">Dica de Segurança</h4>
-          <p className="text-sm leading-relaxed opacity-80">
-            Evite usar datas de nascimento, nomes de pets ou sequências óbvias como "123456".
-            Uma frase longa com espaços e caracteres especiais é muito mais difícil de quebrar por força bruta.
+        <div className="p-6 bg-text-main text-bg-main rounded-[28px] shadow-xl">
+          <h4 className="text-[10px] font-black mb-3 uppercase tracking-[0.2em] opacity-40">Segurança</h4>
+          <p className="text-xs leading-relaxed font-medium opacity-80">
+            Evite padrões óbvios. Frases longas com caracteres especiais são ideais.
           </p>
         </div>
       </div>

@@ -192,10 +192,10 @@ export function PeriodicTable() {
                 {/* Main Table Container */}
                 <div className="flex-1 overflow-auto custom-scrollbar p-1">
                     <div className="grid grid-cols-18 gap-1.5 min-w-[1300px] relative pb-12">
-                        {/* Position Selected Details in the Gap - Precision Aligned - Compact - Centered */}
-                        <div className="absolute top-0 left-[13.88%] w-[50%] h-[160px] z-20 pointer-events-none">
+                        {/* Details Display - Desktop: Absolute Grid Position, Mobile: Responsive Bottom Sheet */}
+                        <div className="hidden lg:block absolute top-0 left-[13.88%] w-[50%] h-[160px] z-20 pointer-events-none">
                             <AnimatePresence mode="wait">
-                                {selected ? (
+                                {selected && (
                                     <motion.div
                                         key={selected.number}
                                         initial={{ opacity: 0, scale: 0.98 }}
@@ -221,7 +221,7 @@ export function PeriodicTable() {
                                                 </div>
                                                 <button
                                                     onClick={() => setSelected(null)}
-                                                    className="w-8 h-8 flex items-center justify-center bg-text-main/5 hover:bg-red-500 hover:text-white rounded-full transition-all text-text-main/20 border border-border-main active:scale-90 shrink-0"
+                                                    className="w-8 h-8 flex items-center justify-center bg-text-main/5 hover:bg-red-500/10 hover:text-red-500 rounded-full transition-all text-text-main/20 border border-border-main active:scale-90 shrink-0"
                                                 >
                                                     <X size={14} />
                                                 </button>
@@ -240,23 +240,6 @@ export function PeriodicTable() {
                                                     <p className="text-sm font-bold text-text-main truncate">{selected.x} | {selected.y}</p>
                                                 </div>
                                             </div>
-                                            <p className="text-[10px] text-text-main/30 font-medium leading-tight line-clamp-1 italic">
-                                                {selected.summary || "Bloco fundamental de construção da matéria."}
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        className="h-[160px] border border-border-main rounded-[32px] flex items-center justify-center gap-6 group bg-text-main/[0.01]"
-                                    >
-                                        <div className="w-12 h-12 bg-card-main dark:bg-[#0D0D0D] border border-border-main rounded-xl flex items-center justify-center shadow-xl relative z-10 transition-transform duration-500 group-hover:scale-110">
-                                            <Info size={20} className="text-text-main opacity-20" />
-                                        </div>
-                                        <div className="space-y-0.5 text-left">
-                                            <p className="font-black text-xs uppercase tracking-[0.3em] opacity-20 text-text-main">Exploração Atômica</p>
-                                            <p className="text-text-main/10 text-[9px] font-bold">Revele mistérios clicando em um elemento.</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -307,23 +290,66 @@ export function PeriodicTable() {
                 </div>
             </div>
 
+            <AnimatePresence>
+                {selected && (
+                    <div className="lg:hidden fixed inset-x-0 bottom-0 z-[100] p-4 animate-in slide-in-from-bottom duration-300">
+                        <div
+                            className="bg-card-main border border-border-main rounded-[32px] p-6 shadow-2xl backdrop-blur-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mb-6" />
+                            <div className="flex items-center gap-6 mb-6">
+                                <div className={cn(
+                                    "w-20 h-20 rounded-2xl flex flex-col items-center justify-center border-2 shadow-lg",
+                                    categoryStyles[selected.category].bg,
+                                    categoryStyles[selected.category].text,
+                                    categoryStyles[selected.category].border
+                                )}>
+                                    <span className="text-2xl font-black">{selected.symbol}</span>
+                                    <span className="text-[8px] font-bold opacity-60">{selected.number}</span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="text-2xl font-black italic tracking-tighter text-text-main truncate">{selected.name}</h4>
+                                    <p className="text-[9px] font-black uppercase tracking-widest opacity-30 mt-1 truncate">{selected.category}</p>
+                                </div>
+                                <button
+                                    onClick={() => setSelected(null)}
+                                    className="w-10 h-10 bg-text-main/5 rounded-full flex items-center justify-center border border-border-main"
+                                >
+                                    <X size={16} className="opacity-40" />
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 mb-6">
+                                <div className="bg-text-main/5 p-3 rounded-2xl border border-border-main">
+                                    <p className="text-[8px] font-black opacity-30 uppercase tracking-widest mb-1">Peso Atômico</p>
+                                    <p className="text-sm font-bold text-text-main">{selected.weight} u</p>
+                                </div>
+                                <div className="bg-text-main/5 p-3 rounded-2xl border border-border-main">
+                                    <p className="text-[8px] font-black opacity-30 uppercase tracking-widest mb-1">Fase Natural</p>
+                                    <p className="text-sm font-bold text-text-main">{selected.phase || 'Sólido'}</p>
+                                </div>
+                            </div>
+                            <p className="text-xs text-text-main/60 leading-relaxed italic mb-2">
+                                {selected.summary || "Bloco fundamental de construção da matéria."}
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </AnimatePresence>
+
             <style jsx>{`
                 .grid-cols-18 {
                     grid-template-columns: repeat(18, minmax(0, 1fr));
                 }
                 .custom-scrollbar::-webkit-scrollbar {
-                    height: 8px;
-                    width: 8px;
+                    height: 6px;
+                    width: 6px;
                 }
                 .custom-scrollbar::-webkit-scrollbar-track {
                     background: transparent;
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: rgba(128, 128, 128, 0.1);
-                    border-radius: 10px;
-                }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: rgba(128, 128, 128, 0.2);
+                    @apply bg-text-main/10 rounded-full;
                 }
             `}</style>
         </div>

@@ -383,6 +383,7 @@ export default function Page() {
   const [toolSuggestion, setToolSuggestion] = useState('');
   const [isSendingSuggestion, setIsSendingSuggestion] = useState(false);
   const [suggestionStatus, setSuggestionStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [currentUrl, setCurrentUrl] = useState('');
 
   const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
 
@@ -427,6 +428,10 @@ export default function Page() {
     const timer = setTimeout(() => {
       setIsDonationModalOpen(true);
     }, 2000);
+
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(window.location.href);
+    }
 
     return () => clearTimeout(timer);
   }, []);
@@ -518,51 +523,90 @@ export default function Page() {
         )}
       </AnimatePresence>
 
+      {/* Bottom Navigation for Mobile */}
+      {isMobile && !selectedToolId && (
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] w-[90%] max-w-sm"
+        >
+          <div className="bg-card-main/80 backdrop-blur-2xl border border-white/10 rounded-[32px] p-2 shadow-2xl flex items-center justify-around gap-1">
+            <button
+              onClick={() => { setSelectedCategory(null); setSelectedToolId(null); }}
+              className={cn(
+                "flex flex-col items-center gap-1 p-3 rounded-2xl transition-all duration-300 flex-1",
+                !selectedCategory ? "bg-text-main text-bg-main shadow-lg scale-105" : "text-text-main/40"
+              )}
+            >
+              <LayoutDashboard size={20} />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Início</span>
+            </button>
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className={cn(
+                "flex flex-col items-center gap-1 p-3 rounded-2xl transition-all duration-300 flex-1",
+                isSidebarOpen ? "bg-text-main text-bg-main shadow-lg scale-105" : "text-text-main/40"
+              )}
+            >
+              <Grid size={20} />
+              <span className="text-[10px] font-bold uppercase tracking-widest">Categorias</span>
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="flex flex-col items-center gap-1 p-3 rounded-2xl text-text-main/40 flex-1 transition-all active:scale-90"
+            >
+              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              <span className="text-[10px] font-bold uppercase tracking-widest">Tema</span>
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       {/* Floating Sidebar */}
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.aside
-            initial={{ x: -300, opacity: 0 }}
+            initial={{ x: -400, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -300, opacity: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            exit={{ x: -400, opacity: 0 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 250 }}
             className={cn(
-              "fixed bg-card-main border border-border-main shadow-2xl flex flex-col overflow-hidden z-[70]",
+              "fixed bg-card-main border border-border-main shadow-2xl flex flex-col overflow-hidden z-[90]",
               isMobile
-                ? "inset-y-0 left-0 w-80 rounded-r-[32px]"
+                ? "inset-y-0 left-0 w-[85%] rounded-r-[40px]"
                 : "inset-y-3 left-3 w-64 xl:w-72 rounded-[24px] xl:rounded-[32px]"
             )}
           >
-            <div className="p-6 border-b border-border-main flex items-center justify-between">
+            <div className="p-8 border-b border-border-main flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-text-main text-bg-main rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-text-main text-bg-main rounded-[18px] flex items-center justify-center shadow-lg">
                   <Code2 size={24} />
                 </div>
                 <div>
-                  <h1 className="font-bold text-lg leading-tight">Canivete Suíço</h1>
-                  <p className="text-xs opacity-50 uppercase tracking-widest font-semibold">Dev Edition</p>
+                  <h1 className="font-black text-xl leading-tight">Canivete</h1>
+                  <p className="text-[10px] opacity-40 uppercase tracking-[3px] font-bold">Menu</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="p-2 hover:bg-text-main/5 rounded-xl transition-colors lg:hidden"
+                className="p-3 bg-text-main/5 hover:bg-text-main/10 rounded-2xl transition-all active:scale-95"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+            <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 custom-scrollbar">
               <button
                 onClick={() => { setSelectedCategory(null); setSelectedToolId(null); if (isMobile) setIsSidebarOpen(false); }}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200",
+                  "w-full flex items-center gap-4 px-5 py-4 rounded-[24px] transition-all duration-300",
                   !selectedCategory && !selectedToolId
-                    ? "bg-text-main text-bg-main shadow-lg"
+                    ? "bg-text-main text-bg-main shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] scale-[1.02]"
                     : "hover:bg-text-main/5"
                 )}
               >
                 <LayoutDashboard size={20} />
-                <span className="font-medium">Dashboard</span>
+                <span className="font-bold text-sm uppercase tracking-widest">Dashboard</span>
               </button>
 
               <div className="pt-4 pb-2 px-4">
@@ -628,60 +672,68 @@ export default function Page() {
               </AnimatePresence>
             </button>
 
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30" size={18} />
+            <div className="relative flex-1 group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
               <input
                 type="text"
-                placeholder="Buscar ferramenta..."
+                placeholder={isMobile ? "Buscar..." : "Buscar ferramenta..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-bg-main border-none rounded-xl py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-text-main/10 transition-all text-sm"
+                className="w-full bg-bg-main/50 border-none rounded-xl py-2 pl-9 pr-4 focus:ring-2 focus:ring-text-main/10 transition-all text-sm placeholder:text-text-main/30"
               />
             </div>
 
             <div className="flex items-center gap-1 sm:gap-2 border-l border-border-main pl-4 ml-2">
               <button
                 onClick={() => setIsDonationModalOpen(true)}
-                className="p-2 hover:bg-text-main/5 text-text-main rounded-xl transition-colors hidden sm:flex items-center gap-1 group/donate"
+                className={cn(
+                  "p-2 hover:bg-text-main/5 rounded-xl transition-colors flex items-center gap-1 group/donate",
+                  isMobile ? "text-red-500/80" : "hidden sm:flex text-text-main"
+                )}
                 title="Apoie o Projeto"
               >
-                <DollarSign size={20} className="group-hover/donate:scale-110 transition-transform" />
+                <Heart size={20} className="group-hover/donate:scale-110 transition-transform fill-current sm:fill-none" />
               </button>
-              <button
-                onClick={toggleTheme}
-                className="p-2 hover:bg-text-main/5 rounded-xl transition-colors"
-                title="Alternar Tema"
-              >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
+
+              {!isMobile && (
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 hover:bg-text-main/5 rounded-xl transition-colors"
+                  title="Alternar Tema"
+                >
+                  {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                </button>
+              )}
             </div>
           </div>
         </header>
 
         {/* Content Area */}
         <div className={cn(
-          "flex-1 custom-scrollbar p-3 sm:p-6 lg:p-10 pt-20 sm:pt-28 lg:pt-32 transition-all duration-500",
-          selectedToolId ? "overflow-hidden p-2 sm:p-4 lg:p-6 pt-16 sm:pt-24 lg:pt-24" : "overflow-y-auto"
+          "flex-1 custom-scrollbar transition-all duration-500",
+          selectedToolId
+            ? "overflow-hidden p-3 sm:p-4 lg:p-6 pt-16 sm:pt-24 lg:pt-24"
+            : "overflow-y-auto p-4 sm:p-6 lg:p-10 pt-24 sm:pt-28 lg:pt-32 pb-32 sm:pb-10"
         )}>
           <AnimatePresence mode="wait">
             {!selectedToolId ? (
               <motion.div
                 key="dashboard"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                exit={{ opacity: 0, scale: 0.95 }}
                 className="max-w-7xl mx-auto"
               >
                 <div className="mb-6 lg:mb-10">
-                  <h2 className="text-3xl lg:text-4xl font-bold tracking-tight mb-2">
-                    {selectedCategory || "Todas as Ferramentas"}
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
+                    {selectedCategory || (isMobile ? "Ferramentas" : "Todas as Ferramentas")}
                   </h2>
-                  <p className="opacity-50 font-medium text-sm lg:text-base">
-                    {filteredTools.length} ferramentas encontradas.
+                  <p className="opacity-50 font-medium text-xs sm:text-sm lg:text-base">
+                    {filteredTools.length} {filteredTools.length === 1 ? 'ferramenta encontrada' : 'ferramentas encontradas'}.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 lg:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                   {filteredTools.map((tool) => (
                     <motion.button
                       key={tool.id}
@@ -693,21 +745,21 @@ export default function Page() {
                       }}
                       className="group bg-card-main p-5 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm hover:shadow-xl transition-all text-left flex flex-col h-full"
                     >
-                      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-2xl flex items-center justify-center text-text-main mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
-                        <Icon name={tool.icon} className="w-5 h-5 lg:w-6 lg:h-6" />
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-xl sm:rounded-2xl flex items-center justify-center text-text-main mb-3 sm:mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
+                        <Icon name={tool.icon} className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest opacity-40">{tool.category}</span>
-                          <span className="text-[9px] lg:text-[10px] font-mono opacity-30">#{tool.id}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1 sm:mb-2">
+                          <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-40 truncate">{tool.category}</span>
+                          {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-30">#{tool.id}</span>}
                         </div>
-                        <h3 className="font-bold text-base lg:text-lg mb-2">{tool.name}</h3>
-                        <p className="text-xs lg:text-sm opacity-60 leading-relaxed line-clamp-2">
+                        <h3 className="font-bold text-xs sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-1 sm:line-clamp-2">{tool.name}</h3>
+                        <p className="hidden sm:block text-xs lg:text-sm opacity-60 leading-relaxed line-clamp-2">
                           {tool.description}
                         </p>
                       </div>
-                      <div className="mt-4 lg:mt-6 flex items-center font-bold text-xs lg:text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                        Abrir Ferramenta <ChevronRight size={14} className="ml-1" />
+                      <div className="mt-2 sm:mt-4 lg:mt-6 flex items-center font-bold text-[10px] sm:text-xs lg:text-sm opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span>Abrir</span> <ChevronRight size={12} className="ml-1" />
                       </div>
                     </motion.button>
                   ))}
@@ -721,44 +773,44 @@ export default function Page() {
                 exit={{ opacity: 0, scale: 0.98, y: 10 }}
                 className="max-w-[1700px] mx-auto w-full h-full flex flex-col grow"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 lg:mb-8">
+                  <div className="flex items-center gap-3">
                     <button
                       onClick={() => {
                         setSelectedToolId(null);
                         setIsSidebarOpen(true);
                       }}
-                      className="p-2 hover:bg-text-main/5 rounded-xl transition-colors"
+                      className="p-2.5 bg-text-main/5 hover:bg-text-main/10 rounded-xl transition-colors shrink-0"
                     >
-                      <X size={24} />
+                      <X size={20} />
                     </button>
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">{selectedTool?.category}</span>
-                        <span className="w-1 h-1 rounded-full bg-text-main/20" />
-                        <span className="text-[10px] font-mono opacity-30">#{selectedTool?.id}</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[9px] font-bold uppercase tracking-widest opacity-40">{selectedTool?.category}</span>
+                        <span className="w-0.5 h-0.5 rounded-full bg-text-main/20" />
+                        <span className="text-[9px] font-mono opacity-30">#{selectedTool?.id}</span>
                       </div>
-                      <h2 className="text-xl lg:text-2xl font-bold">{selectedTool?.name}</h2>
+                      <h2 className="text-lg lg:text-2xl font-bold truncate">{selectedTool?.name}</h2>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
                     <button
                       onClick={() => setIsAboutOpen(true)}
-                      className="flex-1 sm:flex-none px-4 py-2 bg-text-main/5 hover:bg-text-main/10 rounded-xl text-xs lg:text-sm font-bold transition-colors flex items-center justify-center gap-2"
+                      className="flex-1 sm:flex-none px-3 py-2 bg-text-main/5 hover:bg-text-main/10 rounded-xl text-[11px] lg:text-sm font-bold transition-colors flex items-center justify-center gap-2"
                     >
-                      <Info size={16} /> Sobre
+                      <Info size={14} /> {isMobile ? "Sobre" : "Ver Detalhes"}
                     </button>
                     <button
-                      onClick={() => setIsShareOpen(true)} // Changed to open share modal
-                      className="flex-1 sm:flex-none px-4 py-2 bg-text-main text-bg-main rounded-xl text-xs lg:text-sm font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                      onClick={() => setIsShareOpen(true)}
+                      className="flex-1 sm:flex-none px-3 py-2 bg-text-main text-bg-main rounded-xl text-[11px] lg:text-sm font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                     >
-                      <ExternalLink size={16} /> Compartilhar
+                      <ExternalLink size={14} /> {isMobile ? "Enviar" : "Compartilhar"}
                     </button>
                   </div>
                 </div>
 
-                <div className="flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[40px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
-                  <div className="flex-1 p-4 lg:p-10 overflow-y-auto custom-scrollbar">
+                <div className="flex-1 min-h-0 bg-card-main rounded-[32px] lg:rounded-[40px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
+                  <div className="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto custom-scrollbar">
                     <ToolRenderer toolId={selectedToolId} />
                   </div>
                 </div>
@@ -780,45 +832,54 @@ export default function Page() {
               className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100]"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-lg bg-card-main border border-border-main rounded-[40px] shadow-2xl z-[110] overflow-hidden"
+              initial={{ opacity: 0, scale: isMobile ? 1 : 0.9, y: isMobile ? '100%' : 20 }}
+              animate={{ opacity: 1, scale: 1, y: isMobile ? 0 : 0 }}
+              exit={{ opacity: 0, scale: isMobile ? 1 : 0.9, y: isMobile ? '100%' : 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className={cn(
+                "fixed bg-card-main border border-border-main shadow-2xl z-[110] overflow-hidden",
+                isMobile
+                  ? "inset-x-0 bottom-0 rounded-t-[40px] max-h-[90vh]"
+                  : "inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-lg rounded-[40px]"
+              )}
             >
+              {isMobile && (
+                <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mt-4 mb-2" />
+              )}
               <div className="p-8 lg:p-10 text-center">
-                <div className="w-20 h-20 bg-text-main text-bg-main rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                  <Icon name={selectedTool?.icon || 'Code2'} className="w-10 h-10" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main text-bg-main rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                  <Icon name={selectedTool?.icon || 'Code2'} className="w-8 h-8 sm:w-10 sm:h-10" />
                 </div>
-                <div className="mb-8">
+                <div className="mb-6 lg:mb-8">
                   <p className="text-[10px] font-bold text-text-main/40 uppercase tracking-[4px] mb-2">{selectedTool?.category}</p>
-                  <h3 className="text-3xl font-black mb-4">{selectedTool?.name}</h3>
-                  <p className="text-text-main/60 leading-relaxed">
+                  <h3 className="text-2xl sm:text-3xl font-black mb-3">{selectedTool?.name}</h3>
+                  <p className="text-sm sm:text-base text-text-main/60 leading-relaxed px-2">
                     {selectedTool?.description}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-text-main/5 p-4 rounded-2xl text-left border border-border-main/5">
-                    <p className="text-[10px] font-bold opacity-30 uppercase mb-1">Status</p>
-                    <p className="text-sm font-bold text-green-500 flex items-center gap-1.5">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
+                  <div className="bg-text-main/5 p-3 sm:p-4 rounded-2xl text-left border border-border-main/5">
+                    <p className="text-[9px] font-bold opacity-30 uppercase mb-0.5 sm:mb-1">Status</p>
+                    <p className="text-xs sm:text-sm font-bold text-green-500 flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                       Funcional
                     </p>
                   </div>
-                  <div className="bg-text-main/5 p-4 rounded-2xl text-left border border-border-main/5">
-                    <p className="text-[10px] font-bold opacity-30 uppercase mb-1">Versão</p>
-                    <p className="text-sm font-bold opacity-80">v1.0.4</p>
+                  <div className="bg-text-main/5 p-3 sm:p-4 rounded-2xl text-left border border-border-main/5">
+                    <p className="text-[9px] font-bold opacity-30 uppercase mb-0.5 sm:mb-1">Versão</p>
+                    <p className="text-xs sm:text-sm font-bold opacity-80">v1.0.4</p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <button
                     onClick={() => setIsAboutOpen(false)}
-                    className="w-full py-4 bg-text-main text-bg-main rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all"
+                    className="w-full py-4 bg-text-main text-bg-main rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all active:scale-[0.98]"
                   >
-                    Fechar
+                    Entendido
                   </button>
-                  <p className="text-[10px] font-medium opacity-20 uppercase tracking-widest">Canivete Suíço Dev Edition 2026</p>
+                  <p className="text-[9px] font-medium opacity-20 uppercase tracking-widest">Canivete Suíço 2026</p>
                 </div>
               </div>
             </motion.div>
@@ -838,18 +899,27 @@ export default function Page() {
               className="fixed inset-0 bg-black/60 backdrop-blur-md z-[100]"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-lg bg-card-main border border-border-main rounded-[40px] shadow-2xl z-[110] overflow-hidden"
+              initial={{ opacity: 0, scale: isMobile ? 1 : 0.9, y: isMobile ? '100%' : 20 }}
+              animate={{ opacity: 1, scale: 1, y: isMobile ? 0 : 0 }}
+              exit={{ opacity: 0, scale: isMobile ? 1 : 0.9, y: isMobile ? '100%' : 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className={cn(
+                "fixed bg-card-main border border-border-main shadow-2xl z-[110] overflow-hidden",
+                isMobile
+                  ? "inset-x-0 bottom-0 rounded-t-[40px] max-h-[90vh]"
+                  : "inset-x-4 top-1/2 -translate-y-1/2 mx-auto max-w-lg rounded-[40px]"
+              )}
             >
+              {isMobile && (
+                <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mt-4 mb-2" />
+              )}
               <div className="p-8 lg:p-10">
-                <div className="text-center mb-10">
-                  <div className="w-20 h-20 bg-text-main/5 text-text-main rounded-3xl flex items-center justify-center mx-auto mb-6">
-                    <ExternalLink size={36} />
+                <div className="text-center mb-8 sm:mb-10">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main/5 text-text-main rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <ExternalLink size={isMobile ? 28 : 36} />
                   </div>
-                  <h3 className="text-3xl font-black mb-2 text-text-main">Compartilhar</h3>
-                  <p className="text-text-main/50">Envie esta ferramenta para seu time de dev.</p>
+                  <h3 className="text-2xl sm:text-3xl font-black mb-2 text-text-main">Compartilhar</h3>
+                  <p className="text-sm sm:text-base text-text-main/50">Envie esta ferramenta para seu time.</p>
                 </div>
 
                 <div className="space-y-6">
@@ -858,29 +928,29 @@ export default function Page() {
                     <div className="relative group">
                       <input
                         readOnly
-                        value={window.location.href}
-                        className="w-full bg-text-main/5 border border-border-main rounded-2xl py-4 pl-4 pr-16 text-sm font-mono text-text-main/80 focus:ring-2 focus:ring-text-main/10 outline-none"
+                        value={currentUrl}
+                        className="w-full bg-text-main/5 border border-border-main rounded-2xl py-3.5 sm:py-4 pl-4 pr-16 text-xs sm:text-sm font-mono text-text-main/80 focus:ring-2 focus:ring-text-main/10 outline-none"
                       />
                       <button
                         onClick={copyShareLink}
-                        className="absolute right-2 top-2 bottom-2 px-4 bg-text-main text-bg-main rounded-xl font-bold text-xs hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+                        className="absolute right-2 top-2 bottom-2 px-3 sm:px-4 bg-text-main text-bg-main rounded-xl font-bold text-[10px] sm:text-xs hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 sm:gap-2"
                       >
-                        {shareStatus === 'copied' ? <Check size={14} /> : <Copy size={14} />}
+                        {shareStatus === 'copied' ? <Check size={14} /> : <Copy size={13} />}
                         {shareStatus === 'copied' ? 'Copiado' : 'Copiar'}
                       </button>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <button
                       onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Checkout this tool: ${selectedTool?.name} - ${window.location.href}`)}`)}
-                      className="py-4 bg-green-500/10 hover:bg-green-500/20 text-green-600 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2"
+                      className="py-3.5 sm:py-4 bg-green-500/10 hover:bg-green-500/20 text-green-600 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2"
                     >
                       WhatsApp
                     </button>
                     <button
                       onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Checkout this tool: ${selectedTool?.name}`)}&url=${encodeURIComponent(window.location.href)}`)}
-                      className="py-4 bg-blue-400/10 hover:bg-blue-400/20 text-blue-500 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2"
+                      className="py-3.5 sm:py-4 bg-blue-400/10 hover:bg-blue-400/20 text-blue-500 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2"
                     >
                       Twitter
                     </button>
@@ -888,9 +958,9 @@ export default function Page() {
 
                   <button
                     onClick={() => setIsShareOpen(false)}
-                    className="w-full py-4 text-text-main/40 font-bold hover:text-text-main transition-colors"
+                    className="w-full py-4 text-text-main/40 font-bold hover:text-text-main transition-colors text-sm"
                   >
-                    Talvez depois
+                    Fechar
                   </button>
                 </div>
               </div>
@@ -920,54 +990,64 @@ export default function Page() {
               className="absolute inset-0 bg-black/40 backdrop-blur-xl"
             />
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-[900px] max-h-[90vh] bg-bg-main/80 backdrop-blur-2xl border border-white/10 rounded-[40px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden"
+              initial={{ opacity: 0, scale: isMobile ? 1 : 0.95, y: isMobile ? '100%' : 20 }}
+              animate={{ opacity: 1, scale: 1, y: isMobile ? 0 : 0 }}
+              exit={{ opacity: 0, scale: isMobile ? 1 : 0.95, y: isMobile ? '100%' : 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className={cn(
+                "relative w-full bg-bg-main/80 backdrop-blur-2xl border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden",
+                isMobile
+                  ? "inset-x-0 bottom-0 rounded-t-[40px] max-h-[95vh]"
+                  : "max-w-[900px] max-h-[90vh] rounded-[40px]"
+              )}
             >
+              {isMobile && (
+                <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+              )}
+
               {/* Header with Close Button */}
-              <div className="absolute top-6 right-6 z-10">
+              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
                 <button
                   onClick={() => setIsDonationModalOpen(false)}
-                  className="p-3 hover:bg-text-main/10 rounded-2xl transition-all text-text-main/50 hover:text-text-main"
+                  className="p-2 sm:p-3 hover:bg-text-main/10 rounded-2xl transition-all text-text-main/50 hover:text-text-main"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               <div className="flex-1 overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 h-auto md:h-full">
 
                   {/* Left Column: Donation */}
-                  <div className="p-8 sm:p-12 border-b md:border-b-0 md:border-r border-white/5 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-red-500/20 text-red-500 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_30px_-5px_rgba(239,68,68,0.4)]">
-                      <Heart size={32} className="fill-current" />
+                  <div className="p-6 sm:p-12 border-b md:border-b-0 md:border-r border-white/5 flex flex-col items-center text-center">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-500/20 text-red-500 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_30px_-5px_rgba(239,68,68,0.4)]">
+                      <Heart size={isMobile ? 24 : 32} className="fill-current" />
                     </div>
 
-                    <h3 className="text-2xl font-black mb-3 tracking-tight">Apoie o Projeto</h3>
-                    <p className="text-sm text-text-main/60 leading-relaxed mb-8 max-w-[280px]">
+                    <h3 className="text-xl sm:text-2xl font-black mb-2 sm:mb-3 tracking-tight">Apoie o Projeto</h3>
+                    <p className="text-xs sm:text-sm text-text-main/60 leading-relaxed mb-6 sm:mb-8 max-w-[280px]">
                       Ajude a manter as ferramentas gratuitas e sem anúncios.
                     </p>
 
-                    <div className="w-full space-y-6">
-                      <div className="mx-auto w-44 h-44 bg-white p-3 rounded-3xl shadow-[0_20px_40px_-10px_rgba(255,255,255,0.1)] flex items-center justify-center group transition-transform hover:scale-105">
-                        <QRCodeSVG value={pixKey} size={145} level="H" />
+                    <div className="w-full space-y-4 sm:y-6">
+                      <div className="mx-auto w-36 h-36 sm:w-44 sm:h-44 bg-white p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl shadow-lg flex items-center justify-center group transition-transform hover:scale-105">
+                        <QRCodeSVG value={pixKey} size={isMobile ? 120 : 145} level="H" />
                       </div>
 
-                      <div className="space-y-3 text-left">
-                        <label className="text-[10px] font-bold text-text-main/30 uppercase tracking-[2px] ml-1">Chave PIX</label>
-                        <div className="relative flex items-center gap-2 bg-text-main/5 border border-white/5 rounded-2xl p-1 pr-2 group">
-                          <div className="flex-1 px-4 py-3 text-xs font-mono font-medium truncate opacity-70">
+                      <div className="space-y-2 sm:space-y-3 text-left">
+                        <label className="text-[9px] sm:text-[10px] font-bold text-text-main/30 uppercase tracking-[2px] ml-1">Chave PIX</label>
+                        <div className="relative flex items-center gap-2 bg-text-main/5 border border-white/5 rounded-2xl p-1 pr-2">
+                          <div className="flex-1 px-3 sm:px-4 py-3 text-[10px] sm:text-xs font-mono font-medium truncate opacity-70">
                             {pixKey}
                           </div>
                           <button
                             onClick={copyPix}
                             className={cn(
-                              "px-4 py-2.5 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center gap-2 shrink-0",
+                              "px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-[9px] sm:text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center gap-1.5 sm:gap-2 shrink-0",
                               pixCopied ? "bg-green-500 text-white" : "bg-text-main text-bg-main hover:opacity-90 shadow-lg"
                             )}
                           >
-                            {pixCopied ? <Check size={14} /> : <Copy size={13} />}
+                            {pixCopied ? <Check size={12} /> : <Copy size={12} />}
                             {pixCopied ? 'Copiado' : 'Copiar'}
                           </button>
                         </div>
@@ -976,14 +1056,14 @@ export default function Page() {
                   </div>
 
                   {/* Right Column: Suggestion */}
-                  <div className="p-8 sm:p-12 flex flex-col bg-text-main/[0.02]">
-                    <div className="w-16 h-16 bg-blue-500/20 text-blue-500 rounded-3xl flex items-center justify-center mb-6 shadow-[0_0_30px_-5px_rgba(59,130,246,0.4)]">
-                      <MessageSquarePlus size={32} />
+                  <div className="p-6 sm:p-12 flex flex-col bg-text-main/[0.02]">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500/20 text-blue-500 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-4 sm:mb-6 shadow-[0_0_30px_-5px_rgba(59,130,246,0.4)]">
+                      <MessageSquarePlus size={isMobile ? 24 : 32} />
                     </div>
 
-                    <h3 className="text-2xl font-black mb-3 tracking-tight">Sugira sua Ideia</h3>
-                    <p className="text-sm text-text-main/60 leading-relaxed mb-8 max-w-[280px]">
-                      Qual ferramenta você sente falta? Envie sua sugestão diretamente para o desenvolvedor.
+                    <h3 className="text-xl sm:text-2xl font-black mb-2 sm:mb-3 tracking-tight">Sugira sua Ideia</h3>
+                    <p className="text-xs sm:text-sm text-text-main/60 leading-relaxed mb-6 sm:mb-8 max-w-[280px]">
+                      Qual ferramenta você sente falta? Envie sua sugestão diretamente.
                     </p>
 
                     <div className="flex-1 flex flex-col gap-4">
@@ -991,7 +1071,7 @@ export default function Page() {
                         placeholder="Descreva a ferramenta aqui..."
                         value={toolSuggestion}
                         onChange={(e) => setToolSuggestion(e.target.value)}
-                        className="flex-1 w-full bg-text-main/5 border border-white/5 rounded-[24px] p-5 text-sm font-medium placeholder:opacity-30 focus:ring-2 focus:ring-text-main/10 outline-none resize-none transition-all min-h-[160px]"
+                        className="w-full bg-text-main/5 border border-white/5 rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 text-sm font-medium placeholder:opacity-30 focus:ring-2 focus:ring-text-main/10 outline-none resize-none transition-all min-h-[120px] sm:min-h-[160px]"
                       />
 
                       <button

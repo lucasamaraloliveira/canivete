@@ -132,20 +132,26 @@ export function UnitConverter() {
         <p className="text-text-main/50">Conversão instantânea de medidas offline.</p>
       </div>
 
-      <div className="flex gap-2 p-1 bg-text-main/5 rounded-2xl w-full">
+      <div className="flex gap-1.5 p-1.5 bg-text-main/5 rounded-[24px] w-full overflow-x-auto scrollbar-hide">
         {Object.keys(UNITS).map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat as any)}
-            className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all capitalize ${category === cat ? "bg-card-main shadow-sm text-text-main" : "text-text-main/50"}`}
+            className={cn(
+              "flex-1 min-w-[100px] py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all",
+              category === cat
+                ? "bg-card-main shadow-lg text-text-main scale-[1.02]"
+                : "text-text-main/40 hover:text-text-main/60"
+            )}
           >
             {cat}
           </button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] items-center gap-4">
-        <div className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] items-stretch md:items-center gap-4 sm:gap-6">
+        <div className="flex flex-col gap-3 group">
+          <label className="text-[10px] font-black uppercase tracking-widest text-text-main/30 ml-1">De</label>
           <input
             type="text"
             inputMode="decimal"
@@ -156,7 +162,7 @@ export function UnitConverter() {
                 setValue(val === '' ? 0 : Number(val));
               }
             }}
-            className="w-full p-4 text-2xl font-bold bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none"
+            className="w-full p-5 text-3xl font-black bg-bg-main border border-border-main rounded-[24px] focus:ring-4 focus:ring-text-main/5 outline-none transition-all"
           />
           <CustomSelect
             value={fromUnit}
@@ -165,14 +171,15 @@ export function UnitConverter() {
           />
         </div>
 
-        <div className="flex justify-center">
-          <div className="w-12 h-12 bg-text-main text-bg-main rounded-full flex items-center justify-center shadow-lg">
+        <div className="flex justify-center md:pt-8">
+          <div className="w-12 h-12 bg-text-main text-bg-main rounded-2xl flex items-center justify-center shadow-xl rotate-90 md:rotate-0 transition-transform active:scale-95">
             <ArrowRightLeft size={20} />
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="w-full p-4 text-2xl font-bold bg-text-main text-bg-main border border-border-main rounded-2xl">
+        <div className="flex flex-col gap-3 group">
+          <label className="text-[10px] font-black uppercase tracking-widest text-text-main/30 ml-1">Para</label>
+          <div className="w-full p-5 text-3xl font-black bg-text-main text-bg-main border border-border-main rounded-[24px] shadow-inner">
             {result.toLocaleString(undefined, { maximumFractionDigits: 4 })}
           </div>
           <CustomSelect

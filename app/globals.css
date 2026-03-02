@@ -18,6 +18,14 @@
   }
 }
 
+@utility glass {
+  @apply bg-card-main/70 backdrop-blur-xl border border-white/10;
+}
+
+@utility glass-dark {
+  @apply bg-black/40 backdrop-blur-2xl border border-white/5;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;

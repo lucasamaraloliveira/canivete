@@ -70,16 +70,16 @@ export function RegexVisualizer() {
 
     return (
         <div className="flex flex-col gap-6 h-full max-h-full overflow-hidden">
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 shrink-0">
-                <div className="flex flex-col gap-3">
-                    <label className="text-[10px] font-bold text-text-main/40 uppercase tracking-widest ml-1">Expressão Regular</label>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 shrink-0">
+                <div className="flex flex-col gap-2 sm:gap-3">
+                    <label className="text-[10px] sm:text-xs font-black text-text-main/40 uppercase tracking-widest ml-1">Expressão Regular</label>
                     <div className="flex gap-2">
                         <div className="relative flex-1">
                             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-main/30 font-mono">/</span>
                             <input
                                 value={regex}
                                 onChange={(e) => setRegex(e.target.value)}
-                                className="w-full py-3.5 pl-8 pr-4 font-mono text-sm bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none"
+                                className="w-full py-4 pl-8 pr-8 font-mono text-sm bg-bg-main border border-border-main rounded-[20px] focus:ring-4 focus:ring-text-main/5 outline-none transition-all"
                                 placeholder="expressão..."
                             />
                             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-main/30 font-mono">/</span>
@@ -87,18 +87,18 @@ export function RegexVisualizer() {
                         <input
                             value={flags}
                             onChange={(e) => setFlags(e.target.value)}
-                            className="w-20 py-3.5 px-4 font-mono text-sm bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none text-center"
+                            className="w-20 py-4 px-4 font-mono text-sm bg-bg-main border border-border-main rounded-[20px] focus:ring-4 focus:ring-text-main/5 outline-none text-center"
                             placeholder="gim"
                         />
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-3">
-                    <label className="text-[10px] font-bold text-text-main/40 uppercase tracking-widest ml-1">Texto de Teste</label>
+                <div className="flex flex-col gap-2 sm:gap-3">
+                    <label className="text-[10px] sm:text-xs font-black text-text-main/40 uppercase tracking-widest ml-1">Texto de Teste</label>
                     <textarea
                         value={testText}
                         onChange={(e) => setTestText(e.target.value)}
-                        className="w-full h-[110px] p-4 font-mono text-xs bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none resize-none"
+                        className="w-full h-24 lg:h-[110px] p-4 font-mono text-xs bg-bg-main border border-border-main rounded-[20px] focus:ring-4 focus:ring-text-main/5 outline-none resize-none transition-all"
                         placeholder="Insira o texto para testar..."
                     />
                 </div>
@@ -110,14 +110,14 @@ export function RegexVisualizer() {
                     <span className="text-[10px] font-bold uppercase tracking-widest">Visualização de Matches ({matches.length})</span>
                 </div>
 
-                <div className="flex-1 grid grid-cols-1 xl:grid-cols-2 gap-6 min-h-0 overflow-hidden">
-                    <div className="bg-card-main border border-border-main rounded-[32px] p-6 lg:p-8 overflow-auto font-mono text-sm leading-relaxed whitespace-pre-wrap shadow-inner relative group custom-scrollbar">
+                <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-0 overflow-hidden">
+                    <div className="bg-card-main border border-border-main rounded-[28px] p-5 sm:p-8 overflow-auto font-mono text-sm leading-relaxed whitespace-pre-wrap shadow-inner relative group custom-scrollbar">
                         {highlightedText}
                     </div>
 
-                    <div className="bg-bg-main border border-border-main rounded-[32px] overflow-hidden flex flex-col">
-                        <div className="p-3 border-b border-border-main bg-text-main/5 px-6">
-                            <span className="text-[10px] font-bold uppercase tracking-widest opacity-40">Grupos de Captura</span>
+                    <div className="bg-bg-main border border-border-main rounded-[28px] overflow-hidden flex flex-col min-h-[200px] lg:min-h-0">
+                        <div className="p-3 border-b border-border-main bg-text-main/5 px-6 shrink-0">
+                            <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Grupos de Captura</span>
                         </div>
                         <div className="flex-1 overflow-auto p-4 space-y-3 custom-scrollbar">
                             {matches.length > 0 ? matches.map((m, i) => (
