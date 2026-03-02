@@ -17,12 +17,28 @@ export function BurnerBudget() {
     const [amount, setAmount] = useState('');
     const [type, setType] = useState<'income' | 'expense'>('expense');
 
+    const formatCurrency = (value: string) => {
+        const numericValue = value.replace(/\D/g, '');
+        const amount = Number(numericValue) / 100;
+        return amount.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        });
+    };
+
+    const parseCurrency = (value: string) => {
+        return Number(value.replace(/\D/g, '')) / 100;
+    };
+
     const addTransaction = () => {
         if (!desc || !amount) return;
+        const numericAmount = parseCurrency(amount);
+        if (numericAmount <= 0) return;
+
         const newTx: Transaction = {
             id: Math.random().toString(36).substr(2, 9),
             description: desc,
-            amount: parseFloat(amount),
+            amount: numericAmount,
             type: type
         };
         setTransactions([newTx, ...transactions]);
@@ -108,10 +124,10 @@ export function BurnerBudget() {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black opacity-30 uppercase tracking-widest">Valor (R$)</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     value={amount}
-                                    onChange={e => setAmount(e.target.value)}
-                                    placeholder="0,00"
+                                    onChange={e => setAmount(formatCurrency(e.target.value))}
+                                    placeholder="R$ 0,00"
                                     className="w-full bg-text-main/5 border border-border-main/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-text-main/5 transition-all font-mono font-black text-2xl"
                                 />
                             </div>

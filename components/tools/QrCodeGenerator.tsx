@@ -131,15 +131,15 @@ export function QrCodeGenerator() {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-8 bg-bg-main rounded-[32px] p-8 border border-border-main">
-        <div className="bg-white p-6 rounded-3xl shadow-2xl border border-border-main">
+        <div className="bg-white p-4 rounded-3xl shadow-2xl border border-border-main flex items-center justify-center">
           <QRCodeSVG
             id="qr-code-svg"
             value={value}
-            size={Math.min(size, 220)}
+            size={Math.min(size, 300)}
             level={level}
             fgColor={fgColor}
             bgColor={bgColor}
-            includeMargin={true}
+            includeMargin={false}
           />
         </div>
 
@@ -166,18 +166,18 @@ export function QrCodeGenerator() {
             className="absolute inset-0 bg-bg-main/60 backdrop-blur-md"
             onClick={() => setShowShareModal(false)}
           />
-          <div className="bg-card-main border border-border-main rounded-[40px] p-8 sm:p-12 w-full max-w-lg relative shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col items-center text-center gap-8">
-            <div className="w-16 h-16 bg-text-main/5 rounded-2xl flex items-center justify-center">
-              <Share2 size={32} className="opacity-20 translate-x-0.5" />
+          <div className="bg-bg-main/80 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 sm:p-12 w-full max-w-lg relative shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-300 flex flex-col items-center text-center gap-8">
+            <div className="w-16 h-16 bg-blue-500/20 text-blue-500 rounded-3xl flex items-center justify-center shadow-[0_0_30px_-5px_rgba(59,130,246,0.4)]">
+              <Share2 size={32} />
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-2xl font-black uppercase italic tracking-tighter">Pronto para Compartilhar</h3>
+              <h3 className="text-2xl font-black tracking-tight">Pronto para Compartilhar</h3>
               <p className="text-[10px] font-bold opacity-30 uppercase tracking-[3px]">Sua imagem foi gerada com sucesso</p>
             </div>
 
             {tempQrImage && (
-              <div className="bg-white p-4 rounded-[32px] shadow-inner border border-border-main/10 ring-8 ring-text-main/5 flex items-center justify-center w-64 h-64 sm:w-72 sm:h-72">
+              <div className="mx-auto w-56 h-56 sm:w-64 sm:h-64 bg-white p-6 rounded-[40px] shadow-[0_20px_40px_-10px_rgba(255,255,255,0.1)] flex items-center justify-center group transition-transform hover:scale-105 border border-white/10">
                 <img src={tempQrImage} alt="QR Code Preview" className="w-full h-full object-contain" />
               </div>
             )}

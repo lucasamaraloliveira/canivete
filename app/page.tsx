@@ -608,7 +608,10 @@ export default function Page() {
                       key={tool.id}
                       whileHover={{ y: -4, scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedToolId(tool.id)}
+                      onClick={() => {
+                        setSelectedToolId(tool.id);
+                        setIsSidebarOpen(false);
+                      }}
                       className="group bg-card-main p-5 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm hover:shadow-xl transition-all text-left flex flex-col h-full"
                     >
                       <div className="w-10 h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-2xl flex items-center justify-center text-text-main mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
@@ -642,7 +645,10 @@ export default function Page() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={() => setSelectedToolId(null)}
+                      onClick={() => {
+                        setSelectedToolId(null);
+                        setIsSidebarOpen(true);
+                      }}
                       className="p-2 hover:bg-text-main/5 rounded-xl transition-colors"
                     >
                       <X size={24} />

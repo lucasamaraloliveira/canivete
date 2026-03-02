@@ -61,7 +61,7 @@ export function PrintWebClipper() {
                             value={htmlInput}
                             onChange={(e) => setHtmlInput(e.target.value)}
                             placeholder="Inspecione o elemento no site desejado, clique com botão direito 'Copy outerHTML' e cole aqui..."
-                            className="flex-1 bg-transparent p-12 text-sm font-mono leading-relaxed placeholder:opacity-10 outline-none resize-none custom-scrollbar"
+                            className="flex-1 bg-transparent p-12 text-sm font-mono leading-relaxed placeholder:text-text-main/40 outline-none resize-none custom-scrollbar"
                         />
                         <div className="p-8 pt-0">
                             <button
