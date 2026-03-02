@@ -201,6 +201,19 @@ import { ProjectileSimulator } from '@/components/tools/ProjectileSimulator';
 import { AtomVisualizer } from '@/components/tools/AtomVisualizer';
 import { MapDistancer } from '@/components/tools/MapDistancer';
 
+// Diversos Tools (New)
+import { VirtualMetronome } from '@/components/tools/VirtualMetronome';
+import { ReactionTimer } from '@/components/tools/ReactionTimer';
+import { TypingSpeedTest } from '@/components/tools/TypingSpeedTest';
+import { SudokuSolver } from '@/components/tools/SudokuSolver';
+import { KeyboardPiano } from '@/components/tools/KeyboardPiano';
+import { MemeGenExpress } from '@/components/tools/MemeGenExpress';
+import { DiceRollerRPG } from '@/components/tools/DiceRollerRPG';
+import { EightBitFxMaker } from '@/components/tools/EightBitFxMaker';
+import { MazeGenerator } from '@/components/tools/MazeGenerator';
+import { AnagramSolver } from '@/components/tools/AnagramSolver';
+import { RhymeFinder } from '@/components/tools/RhymeFinder';
+
 // Dynamic Icon Component
 const Icon = ({ name, className }: { name: string; className?: string }) => {
   const icons: Record<string, any> = {
@@ -324,6 +337,19 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '98': return <PrintWebClipper />;
     case '99': return <BarcodeReader />;
     case '100': return <BurnerBudget />;
+
+    // Diversos
+    case '58': return <VirtualMetronome />;
+    case '73': return <ReactionTimer />;
+    case '75': return <TypingSpeedTest />;
+    case '86': return <SudokuSolver />;
+    case '87': return <KeyboardPiano />;
+    case '88': return <MemeGenExpress />;
+    case '89': return <DiceRollerRPG />;
+    case '90': return <EightBitFxMaker />;
+    case '92': return <MazeGenerator />;
+    case '93': return <AnagramSolver />;
+    case '94': return <RhymeFinder />;
     default:
       return (
         <div className="h-full flex flex-col items-center justify-center text-center p-12">
