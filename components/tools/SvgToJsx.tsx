@@ -101,14 +101,16 @@ export function SvgToJsx() {
                             </button>
                         )}
                     </div>
-                    <div className="flex-1 relative group">
-                        <div className="absolute inset-0 bg-[#0D0D0D] rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide">
-                            <CodeBlock
-                                code={jsx || '// O componente JSX aparecerá aqui...'}
-                                language="jsx"
-                            />
+                    <div className="flex-1 relative group bg-[#0D0D0D] rounded-[40px] border border-border-main/5 shadow-2xl overflow-hidden">
+                        <div className="absolute inset-0 overflow-auto custom-scrollbar">
+                            <div className="min-w-max min-h-full p-6">
+                                <CodeBlock
+                                    code={jsx || '// O componente JSX aparecerá aqui...'}
+                                    language="jsx"
+                                />
+                            </div>
                         </div>
-                        <div className="absolute top-8 right-8 opacity-5">
+                        <div className="absolute top-8 right-8 opacity-5 pointer-events-none select-none group-hover:opacity-10 transition-opacity">
                             <Code size={120} />
                         </div>
                     </div>

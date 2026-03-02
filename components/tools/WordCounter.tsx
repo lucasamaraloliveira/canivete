@@ -34,8 +34,8 @@ export function WordCounter() {
     };
 
     return (
-        <div className="flex flex-col gap-8 h-full">
-            <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-8 h-full pb-60">
+            <div className="flex items-center justify-between pt-10 mb-6">
                 <div>
                     <h3 className="text-xl font-bold mb-1">Word & Character Counter</h3>
                     <p className="text-sm opacity-50 font-medium">Análise detalhada de densidade e métricas de texto.</p>
@@ -52,12 +52,12 @@ export function WordCounter() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1 min-h-0">
                 <div className="lg:col-span-2 flex flex-col gap-4">
-                    <div className="relative flex-1 group">
+                    <div className="relative flex-1 bg-text-main/5 border border-border-main rounded-[40px] shadow-inner overflow-hidden group focus-within:ring-4 focus-within:ring-text-main/5 transition-all">
                         <textarea
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                             placeholder="Cole seu texto aqui para iniciar a análise..."
-                            className="w-full h-full bg-text-main/5 border border-border-main p-8 rounded-[40px] shadow-inner outline-none focus:ring-4 focus:ring-text-main/5 transition-all resize-none text-lg leading-relaxed placeholder:opacity-20 custom-scrollbar"
+                            className="w-full h-full bg-transparent p-8 outline-none resize-none text-lg leading-relaxed placeholder:opacity-20 custom-scrollbar"
                         />
                         <div className="absolute top-6 right-6 flex gap-2">
                             <button
@@ -74,7 +74,7 @@ export function WordCounter() {
                 <div className="flex flex-col gap-6">
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Estatísticas em Tempo Real</label>
 
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 gap-5">
                         {[
                             { label: 'Palavras', value: stats.words, icon: <AlignLeft size={16} />, color: 'bg-blue-500' },
                             { label: 'Caracteres', value: stats.charsWithSpaces, icon: <Hash size={16} />, color: 'bg-green-500' },
@@ -98,7 +98,7 @@ export function WordCounter() {
                         ))}
                     </div>
 
-                    <div className="p-8 bg-text-main/5 rounded-[40px] border border-border-main/10">
+                    <div className="p-8 bg-text-main/5 rounded-[40px] border border-border-main/10 mt-12 mb-24">
                         <p className="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-3">Insights</p>
                         <p className="text-xs font-medium opacity-50 leading-relaxed uppercase tracking-wider">
                             O tempo de leitura é baseado na média de 200 palavras por minuto. Ideal para roteiros e copy de anúncios.

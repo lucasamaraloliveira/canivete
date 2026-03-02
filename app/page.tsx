@@ -659,7 +659,10 @@ export default function Page() {
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pt-20 sm:pt-28 lg:pt-32">
+        <div className={cn(
+          "flex-1 custom-scrollbar p-3 sm:p-6 lg:p-10 pt-20 sm:pt-28 lg:pt-32 transition-all duration-500",
+          selectedToolId ? "overflow-hidden p-2 sm:p-4 lg:p-6 pt-16 sm:pt-24 lg:pt-24" : "overflow-y-auto"
+        )}>
           <AnimatePresence mode="wait">
             {!selectedToolId ? (
               <motion.div
@@ -713,10 +716,10 @@ export default function Page() {
             ) : (
               <motion.div
                 key="tool-view"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="max-w-[1400px] mx-auto h-full flex flex-col"
+                initial={{ opacity: 0, scale: 0.98, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98, y: 10 }}
+                className="max-w-[1700px] mx-auto w-full h-full flex flex-col grow"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                   <div className="flex items-center gap-4">
@@ -754,8 +757,8 @@ export default function Page() {
                   </div>
                 </div>
 
-                <div className="flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[32px] border border-border-main shadow-2xl flex flex-col overflow-hidden">
-                  <div className="flex-1 p-4 lg:p-8 overflow-y-auto custom-scrollbar">
+                <div className="flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[40px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
+                  <div className="flex-1 p-4 lg:p-10 overflow-y-auto custom-scrollbar">
                     <ToolRenderer toolId={selectedToolId} />
                   </div>
                 </div>

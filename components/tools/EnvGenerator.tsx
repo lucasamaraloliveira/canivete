@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Settings, Plus, Trash2, Download, Copy, Check, Lock, Globe, Database, Key } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { CodeBlock } from '../CodeBlock';
 
 interface EnvVar {
@@ -78,14 +79,17 @@ export function EnvGenerator() {
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-auto pr-2 space-y-4 custom-scrollbar">
-                    {vars.map((v) => (
-                        <div key={v.id} className="bg-card-main border border-border-main p-4 rounded-3xl shadow-sm relative group animate-in fade-in slide-in-from-left-4">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 pt-2 space-y-6 custom-scrollbar">
+                    {vars.map((v, index) => (
+                        <div key={v.id} className={cn(
+                            "bg-card-main border border-border-main p-6 rounded-[32px] shadow-sm relative group animate-in fade-in slide-in-from-left-4",
+                            index === 0 && "mt-2"
+                        )}>
                             <button
                                 onClick={() => removeVar(v.id)}
-                                className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                                className="absolute -top-3 -right-3 w-10 h-10 bg-red-500 text-white rounded-2xl flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 transition-all hover:scale-110 active:scale-90 z-10 border-4 border-bg-main"
                             >
-                                <Trash2 size={14} />
+                                <Trash2 size={16} />
                             </button>
 
                             <div className="grid grid-cols-1 gap-4">

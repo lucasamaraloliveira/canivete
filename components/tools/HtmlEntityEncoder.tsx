@@ -52,11 +52,13 @@ export function HtmlEntityEncoder() {
                         {copied ? 'Copiado!' : 'Copiar'}
                     </button>
                 </div>
-                <div className="flex-1 relative group">
-                    <div className="absolute inset-0 bg-[#0D0D0D] rounded-[32px] overflow-auto shadow-xl scrollbar-hide">
-                        <CodeBlock code={encoded || '// As entidades aparecerão aqui...'} language="html" />
+                <div className="flex-1 relative group bg-[#0D0D0D] rounded-[40px] border border-border-main/5 shadow-inner overflow-hidden">
+                    <div className="absolute inset-0 overflow-auto custom-scrollbar">
+                        <div className="min-w-max min-h-full p-4">
+                            <CodeBlock code={encoded || '// As entidades aparecerão aqui...'} language="html" />
+                        </div>
                     </div>
-                    <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <div className="absolute top-8 right-8 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none select-none">
                         <FileCode size={120} />
                     </div>
                 </div>

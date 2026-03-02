@@ -50,9 +50,9 @@ export function PrintWebClipper() {
     };
 
     return (
-        <div className="flex flex-col gap-8 h-full">
+        <div className="flex flex-col gap-8 h-full pb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 min-h-0">
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 mb-12">
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider flex items-center gap-2">
                         <Scissors size={16} /> Código-Fonte (HTML)
                     </label>
@@ -103,7 +103,7 @@ export function PrintWebClipper() {
                         )}
                     </div>
 
-                    <div className="bg-text-main/5 border border-border-main/10 p-8 rounded-[40px] flex gap-4">
+                    <div className="bg-text-main/5 border border-border-main/10 p-8 rounded-[40px] flex gap-4 mb-12 mt-4">
                         <div className="w-10 h-10 bg-text-main text-bg-main rounded-2xl flex items-center justify-center shrink-0">
                             <Layout size={20} />
                         </div>

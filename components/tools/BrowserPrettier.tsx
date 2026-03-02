@@ -111,11 +111,15 @@ export function BrowserPrettier() {
                             </button>
                         )}
                     </div>
-                    <div className="flex-1 relative group overflow-hidden bg-[#0D0D0D] rounded-[32px] shadow-2xl border border-border-main/5 scrollbar-hide">
-                        <CodeBlock
-                            code={output || '// Sua obra prima formatada aparecerá aqui...'}
-                            language={lang === 'js' ? 'javascript' : lang}
-                        />
+                    <div className="flex-1 relative group bg-[#0D0D0D] rounded-[32px] shadow-2xl border border-border-main/5 overflow-hidden">
+                        <div className="absolute inset-0 overflow-auto custom-scrollbar">
+                            <div className="min-w-max min-h-full p-4">
+                                <CodeBlock
+                                    code={output || '// Sua obra prima formatada aparecerá aqui...'}
+                                    language={lang === 'js' ? 'javascript' : lang}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

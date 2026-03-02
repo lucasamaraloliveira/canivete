@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Wind, Download, Plus, Trash2, RefreshCw, Layers, Copy, Check, MousePointer2, Sliders } from 'lucide-react';
+import { CodeBlock } from '../CodeBlock';
 import { cn } from '@/lib/utils';
 
 interface MeshPoint {
@@ -63,7 +64,7 @@ export function GradientMeshBuilder() {
     };
 
     return (
-        <div className="flex flex-col gap-8 h-full">
+        <div className="flex flex-col gap-8 h-full pb-10">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 flex flex-col gap-6">
                     <div className="flex items-center justify-between">
@@ -100,11 +101,15 @@ export function GradientMeshBuilder() {
                         ))}
                     </div>
 
-                    <div className="bg-[#0D0D0D] border border-border-main p-6 rounded-[32px] shadow-inner font-mono text-xs relative overflow-hidden group">
-                        <pre className="text-text-main/70 whitespace-pre-wrap">{generateCss()}</pre>
+                    <div className="flex-1 relative bg-[#0D0D0D] border border-border-main rounded-[32px] shadow-2xl overflow-hidden group min-h-[160px] mb-4">
+                        <div className="absolute inset-0 overflow-auto custom-scrollbar">
+                            <div className="min-w-max min-h-full p-6">
+                                <CodeBlock code={generateCss()} language="css" />
+                            </div>
+                        </div>
                         <button
                             onClick={copyCss}
-                            className="absolute top-4 right-4 p-3 bg-text-main text-bg-main rounded-[18px] shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 font-bold"
+                            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white rounded-[18px] shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 font-bold z-10 opacity-0 group-hover:opacity-100"
                         >
                             {copied ? <Check size={16} /> : <Copy size={16} />}
                             {copied ? 'Copiado' : 'Copiar CSS'}

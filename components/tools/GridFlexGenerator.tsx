@@ -209,40 +209,44 @@ export function GridFlexGenerator() {
 
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Preview Dinâmico</label>
-                <div className="flex-1 bg-text-main/5 border border-border-main border-dashed border-2 rounded-[40px] p-6 relative flex flex-col items-center justify-center overflow-auto custom-scrollbar shadow-inner bg-grid-pattern overflow-x-hidden">
-                    <div
-                        style={mode === 'grid' ? {
-                            display: 'grid',
-                            gridTemplateColumns: `repeat(${cols}, 1fr)`,
-                            gridTemplateRows: `repeat(${rows}, 1fr)`,
-                            gap: `${gap}px`,
-                            justifyItems: justify,
-                            alignItems: align,
-                            width: '100%',
-                            minHeight: '400px'
-                        } : {
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            gap: `${gap}px`,
-                            justifyContent: justify,
-                            alignItems: align,
-                            width: '100%',
-                            minHeight: '400px'
-                        }}
-                        className="bg-card-main/30 backdrop-blur-sm p-8 rounded-[32px] border border-border-main/10 shadow-lg animate-in fade-in duration-500"
-                    >
-                        {Array.from({ length: mode === 'grid' ? cols * rows : itemCount }).map((_, i) => (
-                            <div
-                                key={i}
-                                className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main text-bg-main rounded-2xl flex items-center justify-center font-black shadow-xl animate-in zoom-in-50 duration-300"
-                                style={{
-                                    transitionDelay: `${i * 30}ms`,
-                                    background: `hsl(${(i * 45) % 360}, 70%, 50%)`
-                                }}
-                            >
-                                {i + 1}
-                            </div>
-                        ))}
+                <div className="flex-1 relative bg-text-main/5 border border-border-main border-dashed border-2 rounded-[40px] overflow-hidden shadow-inner bg-grid-pattern group">
+                    <div className="absolute inset-0 overflow-auto custom-scrollbar p-6">
+                        <div
+                            style={mode === 'grid' ? {
+                                display: 'grid',
+                                gridTemplateColumns: `repeat(${cols}, 1fr)`,
+                                gridTemplateRows: `repeat(${rows}, 1fr)`,
+                                gap: `${gap}px`,
+                                justifyItems: justify,
+                                alignItems: align,
+                                width: cols > 6 ? `${cols * 100}px` : '100%',
+                                minWidth: '100%',
+                                minHeight: '100%'
+                            } : {
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: `${gap}px`,
+                                justifyContent: justify,
+                                alignItems: align,
+                                width: itemCount > 8 ? 'max-content' : '100%',
+                                minWidth: '100%',
+                                minHeight: '100%'
+                            }}
+                            className="bg-card-main/30 backdrop-blur-sm p-8 rounded-[32px] border border-border-main/10 shadow-lg animate-in fade-in duration-500"
+                        >
+                            {Array.from({ length: mode === 'grid' ? cols * rows : itemCount }).map((_, i) => (
+                                <div
+                                    key={i}
+                                    className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main text-bg-main rounded-2xl flex items-center justify-center font-black shadow-xl animate-in zoom-in-50 duration-300"
+                                    style={{
+                                        transitionDelay: `${i * 30}ms`,
+                                        background: `hsl(${(i * 45) % 360}, 70%, 50%)`
+                                    }}
+                                >
+                                    {i + 1}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -47,7 +47,7 @@ export function TravelChecklist() {
     const progress = items.length > 0 ? (items.filter(i => i.completed).length / items.length) * 100 : 0;
 
     return (
-        <div className="flex flex-col gap-8 h-full">
+        <div className="flex flex-col gap-8 h-full pb-32">
             <div className="flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-black uppercase tracking-tight">Checklist de Viagem</h2>
@@ -107,8 +107,8 @@ export function TravelChecklist() {
                         </div>
                     </div>
 
-                    <div className="flex-1 bg-card-main border border-border-main rounded-[48px] overflow-hidden shadow-inner flex flex-col">
-                        <div className="flex-1 overflow-auto p-10 custom-scrollbar space-y-4">
+                    <div className="flex-1 relative bg-card-main border border-border-main rounded-[48px] overflow-hidden shadow-inner min-h-[550px]">
+                        <div className="absolute inset-0 overflow-y-auto p-10 custom-scrollbar space-y-4">
                             {DEFAULT_CATEGORIES.map(cat => {
                                 const catItems = items.filter(i => i.category === cat.name);
                                 if (catItems.length === 0) return null;

@@ -127,14 +127,17 @@ export function SitemapGenerator() {
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">URLs do Sitemap</label>
                 </div>
 
-                <div className="flex-1 overflow-auto pr-2 space-y-4">
+                <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 pt-2 space-y-6 custom-scrollbar">
                     {urls.map((u: SitemapURL, i: number) => (
-                        <div key={i} className="bg-card-main border border-border-main p-4 rounded-3xl shadow-sm relative group">
+                        <div key={i} className={cn(
+                            "bg-card-main border border-border-main p-6 rounded-[32px] shadow-sm relative group animate-in fade-in slide-in-from-left-4",
+                            i === 0 && "mt-2"
+                        )}>
                             <button
                                 onClick={() => removeUrl(i)}
-                                className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
+                                className="absolute -top-3 -right-3 w-10 h-10 bg-red-500 text-white rounded-2xl flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 transition-all hover:scale-110 active:scale-90 z-10 border-4 border-bg-main"
                             >
-                                <Trash2 size={14} />
+                                <Trash2 size={16} />
                             </button>
 
                             <div className="flex flex-col gap-3">

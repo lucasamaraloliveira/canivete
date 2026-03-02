@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BookOpen, Sun, Moon, ChevronLeft, ChevronRight, FileText, Layers, RefreshCw, X } from 'lucide-react';
+import { BookOpen, Sun, Moon, ChevronLeft, ChevronRight, FileText, Layers, RefreshCw, X, Maximize, Minimize } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ePub, { Rendition } from 'epubjs';
 
@@ -11,10 +11,26 @@ export function EbookReader() {
     const [fontSize, setFontSize] = useState(100); // 100% for epub
     const [lineHeight, setLineHeight] = useState(1.6);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const viewerRef = useRef<HTMLDivElement>(null);
     const bookRef = useRef<any>(null);
     const renditionRef = useRef<Rendition | null>(null);
+    const fullScreenRef = useRef<HTMLDivElement>(null);
+
+    const toggleFullScreen = () => {
+        if (!document.fullscreenElement) {
+            fullScreenRef.current?.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    };
+
+    useEffect(() => {
+        const handleFSChange = () => setIsFullscreen(!!document.fullscreenElement);
+        document.addEventListener('fullscreenchange', handleFSChange);
+        return () => document.removeEventListener('fullscreenchange', handleFSChange);
+    }, []);
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -119,7 +135,7 @@ export function EbookReader() {
                     </div>
                 </div>
             ) : (
-                <div className="flex flex-col gap-6 h-full animate-in fade-in slide-in-from-bottom-5 duration-700">
+                <div ref={fullScreenRef} className={cn("flex flex-col gap-6 h-full animate-in fade-in slide-in-from-bottom-5 duration-700", isFullscreen ? "bg-bg-main p-8" : "bg-transparent")}>
                     <header className="flex items-center justify-between bg-card-main/30 backdrop-blur-md p-4 rounded-3xl border border-border-main/5">
                         <div className="flex items-center gap-4">
                             <button onClick={reset} className="p-2 hover:bg-text-main/10 rounded-xl transition-all">
@@ -138,6 +154,16 @@ export function EbookReader() {
                                     <button onClick={nextChapter} className="p-2 hover:bg-text-main/10 rounded-lg"><ChevronRight size={16} /></button>
                                 </div>
                             )}
+
+                            <div className="flex bg-text-main/5 p-1 rounded-2xl border border-border-main/5">
+                                <button
+                                    onClick={toggleFullScreen}
+                                    className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-text-main/10 transition-all text-text-main/60 hover:text-text-main"
+                                    title={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+                                >
+                                    {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
+                                </button>
+                            </div>
 
                             <div className="flex bg-text-main/5 p-1 rounded-2xl border border-border-main/5">
                                 {[
