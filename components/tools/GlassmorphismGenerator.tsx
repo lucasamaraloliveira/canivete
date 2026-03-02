@@ -115,7 +115,7 @@ box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);`;
 
                 <div className="flex flex-col gap-4">
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Código CSS</label>
-                    <div className="h-48 bg-[#1e1e1e] rounded-[32px] overflow-auto custom-scrollbar shadow-inner relative group">
+                    <div className="h-48 bg-[#0D0D0D] rounded-[32px] overflow-auto custom-scrollbar shadow-inner relative group">
                         <CodeBlock code={cssCode} language="css" className="w-full" />
                         <button
                             onClick={copyCode}

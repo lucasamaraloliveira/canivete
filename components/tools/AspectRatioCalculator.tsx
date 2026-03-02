@@ -88,17 +88,35 @@ export function AspectRatioCalculator() {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-bold uppercase tracking-widest opacity-30">Largura (px)</label>
-                                <input
-                                    type="number" value={w} onChange={(e) => handleWidthChange(parseInt(e.target.value) || 0)}
-                                    className="w-full p-4 bg-text-main/5 border border-border-main rounded-2xl font-bold text-lg outline-none focus:ring-4 focus:ring-text-main/5"
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        value={w}
+                                        onChange={(e) => {
+                                            const val = e.target.value.replace(/\D/g, '');
+                                            handleWidthChange(val === '' ? 0 : parseInt(val));
+                                        }}
+                                        className="w-full p-4 pr-12 bg-text-main/5 border border-border-main rounded-2xl font-bold text-lg outline-none focus:ring-4 focus:ring-text-main/5 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-20 pointer-events-none">PX</span>
+                                </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-bold uppercase tracking-widest opacity-30">Altura (px)</label>
-                                <input
-                                    type="number" value={h} onChange={(e) => handleHeightChange(parseInt(e.target.value) || 0)}
-                                    className="w-full p-4 bg-text-main/5 border border-border-main rounded-2xl font-bold text-lg outline-none focus:ring-4 focus:ring-text-main/5"
-                                />
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        value={h}
+                                        onChange={(e) => {
+                                            const val = e.target.value.replace(/\D/g, '');
+                                            handleHeightChange(val === '' ? 0 : parseInt(val));
+                                        }}
+                                        className="w-full p-4 pr-12 bg-text-main/5 border border-border-main rounded-2xl font-bold text-lg outline-none focus:ring-4 focus:ring-text-main/5 transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-20 pointer-events-none">PX</span>
+                                </div>
                             </div>
                         </div>
 
@@ -149,7 +167,7 @@ export function AspectRatioCalculator() {
 
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Preview de Proporção</label>
-                <div className="flex-1 min-h-[400px] bg-bg-main border border-border-main border-dashed border-2 rounded-[40px] shadow-inner relative flex items-center justify-center p-8 overflow-hidden">
+                <div className="flex-1 min-h-[400px] bg-[#0D0D0D] border border-border-main border-dashed border-2 rounded-[40px] shadow-inner relative flex items-center justify-center p-8 overflow-hidden">
                     <div
                         style={{
                             aspectRatio: `${ratioW} / ${ratioH}`,
@@ -158,7 +176,7 @@ export function AspectRatioCalculator() {
                             maxHeight: '100%',
                             maxWidth: '100%'
                         }}
-                        className="bg-text-main/5 border border-text-main shadow-2xl rounded-2xl flex flex-col items-center justify-center transition-all duration-500 animate-in zoom-in-95"
+                        className="bg-text-main/10 border border-text-main shadow-2xl rounded-2xl flex flex-col items-center justify-center transition-all duration-500 animate-in zoom-in-95"
                     >
                         <div className="text-center p-6 grayscale">
                             <div className="flex items-center justify-center gap-2 mb-2 opacity-20">

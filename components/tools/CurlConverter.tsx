@@ -111,7 +111,7 @@ export function CurlConverter() {
                             {copied ? 'Copiado!' : 'Copiar Código'}
                         </button>
                     </div>
-                    <div className="flex-1 bg-text-main rounded-[32px] overflow-auto shadow-2xl border border-border-main/10 scrollbar-hide">
+                    <div className="flex-1 bg-[#0D0D0D] rounded-[32px] overflow-auto shadow-2xl border border-border-main/10 scrollbar-hide">
                         <CodeBlock code={output} language="javascript" />
                     </div>
                 </div>

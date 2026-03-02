@@ -53,7 +53,7 @@ export function HtmlEntityEncoder() {
                     </button>
                 </div>
                 <div className="flex-1 relative group">
-                    <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto shadow-xl scrollbar-hide">
+                    <div className="absolute inset-0 bg-[#0D0D0D] rounded-[32px] overflow-auto shadow-xl scrollbar-hide">
                         <CodeBlock code={encoded || '// As entidades aparecerão aqui...'} language="html" />
                     </div>
                     <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">

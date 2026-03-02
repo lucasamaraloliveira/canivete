@@ -130,7 +130,7 @@ export function ColorPaletteExtractor() {
 
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Aplicação Visual (Preview)</label>
-                <div className="flex-1 bg-gradient-to-br from-text-main/5 to-text-main/10 rounded-[40px] p-8 flex flex-col gap-6 items-center justify-center relative overflow-hidden shadow-2xl transition-all duration-700">
+                <div className="flex-1 bg-[#0D0D0D] rounded-[40px] p-8 flex flex-col gap-6 items-center justify-center relative overflow-hidden shadow-2xl transition-all duration-700">
                     <div className="absolute inset-0 bg-grid-pattern opacity-10" />
 
                     {colors.length > 0 ? (

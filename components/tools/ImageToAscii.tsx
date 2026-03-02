@@ -170,7 +170,7 @@ export function ImageToAscii() {
 
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Preview Arte ASCII</label>
-                <div className="flex-1 bg-gradient-to-br from-text-main/5 to-text-main/10 border border-border-main border-dashed border-2 rounded-[40px] p-6 lg:p-8 relative flex flex-col items-center justify-center overflow-auto custom-scrollbar shadow-inner">
+                <div className="flex-1 bg-[#0D0D0D] border border-border-main border-dashed border-2 rounded-[40px] p-6 lg:p-8 relative flex flex-col items-center justify-center overflow-auto custom-scrollbar shadow-inner">
                     <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none rotate-12">
                         <Type size={320} />
                     </div>

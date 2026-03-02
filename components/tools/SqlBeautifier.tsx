@@ -59,7 +59,7 @@ export function SqlBeautifier() {
           )}
         </div>
         <div className="flex-1 relative">
-          <div className="absolute inset-0 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+          <div className="absolute inset-0 bg-[#0D0D0D] rounded-2xl overflow-auto border border-border-main scrollbar-hide">
             <CodeBlock
               code={formatted || '-- O SQL formatado aparecerá aqui...'}
               language="sql"

@@ -79,7 +79,7 @@ export function AudioWaveformGen() {
                         </div>
                     </div>
 
-                    <div className="relative bg-card-main border border-border-main rounded-[48px] shadow-2xl overflow-hidden min-h-[300px] flex items-center justify-center p-12 group">
+                    <div className="relative bg-[#0D0D0D] border border-border-main rounded-[48px] shadow-2xl overflow-hidden min-h-[300px] flex items-center justify-center p-12 group">
                         {!audioBuffer ? (
                             <label className="flex flex-col items-center gap-6 cursor-pointer hover:scale-105 transition-all">
                                 <div className="w-20 h-20 bg-text-main text-bg-main rounded-[28px] flex items-center justify-center shadow-2xl">

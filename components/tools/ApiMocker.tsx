@@ -198,7 +198,7 @@ export function ApiMocker() {
                         {copied ? 'Copiado' : 'Copiar JSON'}
                     </button>
                 </div>
-                <div className="h-[500px] xl:h-[600px] bg-text-main rounded-[24px] sm:rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
+                <div className="h-[500px] xl:h-[600px] bg-[#0D0D0D] rounded-[24px] sm:rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
                     <CodeBlock code={mockOutput} language="json" />
                     <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                         <FileJson size={80} />

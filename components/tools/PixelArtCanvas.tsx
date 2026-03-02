@@ -158,7 +158,7 @@ export function PixelArtCanvas() {
                     onMouseLeave={() => setIsMouseDown(false)}
                 >
                     <div
-                        className="bg-card-main shadow-2xl rounded-sm overflow-hidden"
+                        className="bg-[#0D0D0D] shadow-2xl rounded-sm overflow-hidden"
                         style={{
                             display: 'grid',
                             gridTemplateColumns: `repeat(${gridSize}, 1fr)`,

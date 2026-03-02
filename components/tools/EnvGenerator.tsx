@@ -149,7 +149,7 @@ export function EnvGenerator() {
                         </button>
                     </div>
                 </div>
-                <div className="flex-1 bg-text-main rounded-[40px] overflow-auto shadow-2xl relative scrollbar-hide">
+                <div className="flex-1 bg-[#0D0D0D] rounded-[40px] overflow-auto shadow-2xl relative scrollbar-hide">
                     <CodeBlock
                         code={generateContent() || '# Seu arquivo .env aparecerá aqui...'}
                         language="properties"

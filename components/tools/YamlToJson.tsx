@@ -101,7 +101,7 @@ export function YamlToJson() {
                         )}
                     </div>
                     <div className="flex-1 relative">
-                        <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto border border-border-main shadow-xl scrollbar-hide">
+                        <div className="absolute inset-0 bg-[#0D0D0D] rounded-[32px] overflow-auto border border-border-main shadow-xl scrollbar-hide">
                             <CodeBlock
                                 code={output || (error ? '' : 'O resultado aparecerá aqui...')}
                                 language={direction === 'yaml2json' ? 'json' : 'yaml'}

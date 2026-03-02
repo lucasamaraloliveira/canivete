@@ -59,7 +59,7 @@ export function IconFontPreviewer() {
                         </div>
                     </div>
 
-                    <div className="flex-1 bg-card-main border border-border-main rounded-[48px] shadow-inner overflow-hidden min-h-[500px] flex flex-col">
+                    <div className="flex-1 bg-[#0D0D0D] border border-border-main rounded-[48px] shadow-inner overflow-hidden min-h-[500px] flex flex-col">
                         <div className="flex-1 overflow-auto custom-scrollbar p-10">
                             {!fontLoaded ? (
                                 <div className="h-full flex flex-col items-center justify-center gap-8 group">

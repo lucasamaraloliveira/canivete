@@ -84,7 +84,7 @@ export function VttToSrt() {
                         </div>
                     </div>
                     <div className="flex-1 relative group">
-                        <div className="absolute inset-0 bg-text-main rounded-[32px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide">
+                        <div className="absolute inset-0 bg-[#0D0D0D] rounded-[32px] overflow-auto shadow-2xl border border-border-main/5 scrollbar-hide">
                             <CodeBlock
                                 code={srtContent || '// O resultado da conversão aparecerá aqui...'}
                                 language="log"

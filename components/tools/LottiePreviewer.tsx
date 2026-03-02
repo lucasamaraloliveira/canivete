@@ -22,7 +22,7 @@ export function LottiePreviewer() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoop, setIsLoop] = useState(true);
     const [speed, setSpeed] = useState(1);
-    const [bgColor, setBgColor] = useState('#ffffff');
+    const [bgColor, setBgColor] = useState('#0D0D0D');
     const [progress, setProgress] = useState(0);
     const [fileName, setFileName] = useState('');
     const [colors, setColors] = useState<LottieColor[]>([]);
@@ -165,8 +165,8 @@ export function LottiePreviewer() {
                     </div>
 
                     <div
-                        className="relative bg-card-main border border-border-main rounded-[48px] shadow-2xl overflow-hidden min-h-[450px] flex items-center justify-center group"
-                        style={{ backgroundColor: bgColor }}
+                        className="relative bg-[#0D0D0D] border border-border-main rounded-[48px] shadow-2xl overflow-hidden min-h-[450px] flex items-center justify-center group"
+                        style={{ backgroundColor: lottieData ? bgColor : undefined }}
                     >
                         {!lottieData ? (
                             <label className="flex flex-col items-center gap-6 cursor-pointer hover:scale-105 transition-all">

@@ -147,9 +147,15 @@ export function UnitConverter() {
       <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,1fr] items-center gap-4">
         <div className="flex flex-col gap-3">
           <input
-            type="number"
-            value={value}
-            onChange={(e) => setValue(Number(e.target.value))}
+            type="text"
+            inputMode="decimal"
+            value={value.toString().replace('.', ',')}
+            onChange={(e) => {
+              const val = e.target.value.replace(',', '.');
+              if (val === '' || !isNaN(Number(val))) {
+                setValue(val === '' ? 0 : Number(val));
+              }
+            }}
             className="w-full p-4 text-2xl font-bold bg-bg-main border border-border-main rounded-2xl focus:ring-2 focus:ring-text-main/10 outline-none"
           />
           <CustomSelect

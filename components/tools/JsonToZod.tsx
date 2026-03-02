@@ -75,7 +75,7 @@ export function JsonToZod() {
           )}
         </div>
         <div className="flex-1 relative">
-          <div className="absolute inset-0 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+          <div className="absolute inset-0 bg-[#0D0D0D] rounded-2xl overflow-auto border border-border-main scrollbar-hide">
             {error ? (
               <div className="p-4 text-red-400 font-mono text-sm">Erro: {error}</div>
             ) : (

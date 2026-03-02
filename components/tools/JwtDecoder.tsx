@@ -55,7 +55,7 @@ export function JwtDecoder() {
             <Shield size={18} />
             <span className="text-sm font-bold uppercase tracking-wider">Header</span>
           </div>
-          <div className="flex-1 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+          <div className="flex-1 bg-[#0D0D0D] rounded-2xl overflow-auto border border-border-main scrollbar-hide">
             <CodeBlock
               code={header ? JSON.stringify(header, null, 2) : '// Header aparecerá aqui'}
               language="json"
@@ -68,7 +68,7 @@ export function JwtDecoder() {
             <User size={18} />
             <span className="text-sm font-bold uppercase tracking-wider">Payload</span>
           </div>
-          <div className="flex-1 bg-text-main rounded-2xl overflow-auto border border-border-main scrollbar-hide">
+          <div className="flex-1 bg-[#0D0D0D] rounded-2xl overflow-auto border border-border-main scrollbar-hide">
             <CodeBlock
               code={decoded ? JSON.stringify(decoded, null, 2) : '// Payload aparecerá aqui'}
               language="json"

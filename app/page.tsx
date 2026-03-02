@@ -174,6 +174,33 @@ import { PrintWebClipper } from '@/components/tools/PrintWebClipper';
 import { BarcodeReader } from '@/components/tools/BarcodeReader';
 import { BurnerBudget } from '@/components/tools/BurnerBudget';
 
+// Security Tools (New)
+import { SecureKeyGen } from '@/components/tools/SecureKeyGen';
+import { AesEncryptor } from '@/components/tools/AesEncryptor';
+import { HashGenerator } from '@/components/tools/HashGenerator';
+import { SteganographyTool } from '@/components/tools/SteganographyTool';
+import { SelfDestructMsg } from '@/components/tools/SelfDestructMsg';
+import { WordPassphrase } from '@/components/tools/WordPassphrase';
+import { TotpAuthenticator } from '@/components/tools/TotpAuthenticator';
+import { SshKeyGen } from '@/components/tools/SshKeyGen';
+import { ExifRemover } from '@/components/tools/ExifRemover';
+import { FileShredder } from '@/components/tools/FileShredder';
+import { CsrDecoder } from '@/components/tools/CsrDecoder';
+
+// Science Tools (New)
+import { BaseConverter } from '@/components/tools/BaseConverter';
+import { PeriodicTable } from '@/components/tools/PeriodicTable';
+import { GravitySimulator } from '@/components/tools/GravitySimulator';
+import { GeneticTranslator } from '@/components/tools/GeneticTranslator';
+import { GraphSandbox } from '@/components/tools/GraphSandbox';
+import { LogicGateSim } from '@/components/tools/LogicGateSim';
+import { FractionVisualizer } from '@/components/tools/FractionVisualizer';
+import { RomanNumeralConv } from '@/components/tools/RomanNumeralConv';
+import { BmiCalculator } from '@/components/tools/BmiCalculator';
+import { ProjectileSimulator } from '@/components/tools/ProjectileSimulator';
+import { AtomVisualizer } from '@/components/tools/AtomVisualizer';
+import { MapDistancer } from '@/components/tools/MapDistancer';
+
 // Dynamic Icon Component
 const Icon = ({ name, className }: { name: string; className?: string }) => {
   const icons: Record<string, any> = {
@@ -228,8 +255,31 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '56': return <CaseConverter />;
     case '97': return <VttToSrt />;
     case '45': return <PasswordStrength />;
+    case '46': return <SecureKeyGen />;
     case '49': return <UnitConverter />;
     case '50': return <QrCodeGenerator />;
+    case '54': return <BaseConverter />;
+    case '61': return <PeriodicTable />;
+    case '62': return <GravitySimulator />;
+    case '63': return <GeneticTranslator />;
+    case '64': return <GraphSandbox />;
+    case '65': return <LogicGateSim />;
+    case '66': return <FractionVisualizer />;
+    case '67': return <RomanNumeralConv />;
+    case '70': return <BmiCalculator />;
+    case '71': return <ProjectileSimulator />;
+    case '72': return <AtomVisualizer />;
+    case '74': return <MapDistancer />;
+    case '76': return <AesEncryptor />;
+    case '77': return <HashGenerator />;
+    case '78': return <SteganographyTool />;
+    case '79': return <SelfDestructMsg />;
+    case '80': return <WordPassphrase />;
+    case '81': return <TotpAuthenticator />;
+    case '82': return <SshKeyGen />;
+    case '83': return <ExifRemover />;
+    case '84': return <FileShredder />;
+    case '85': return <CsrDecoder />;
 
     // Design
     case '12': return <GridFlexGenerator />;
@@ -640,7 +690,7 @@ export default function Page() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="max-w-6xl mx-auto h-full flex flex-col"
+                className="max-w-[1400px] mx-auto h-full flex flex-col"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 lg:mb-8">
                   <div className="flex items-center gap-4">

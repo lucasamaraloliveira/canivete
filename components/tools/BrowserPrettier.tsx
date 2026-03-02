@@ -111,7 +111,7 @@ export function BrowserPrettier() {
                             </button>
                         )}
                     </div>
-                    <div className="flex-1 relative group overflow-hidden bg-text-main rounded-[32px] shadow-2xl border border-border-main/5 scrollbar-hide">
+                    <div className="flex-1 relative group overflow-hidden bg-[#0D0D0D] rounded-[32px] shadow-2xl border border-border-main/5 scrollbar-hide">
                         <CodeBlock
                             code={output || '// Sua obra prima formatada aparecerá aqui...'}
                             language={lang === 'js' ? 'javascript' : lang}

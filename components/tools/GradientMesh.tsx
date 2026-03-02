@@ -100,7 +100,7 @@ export function GradientMeshBuilder() {
                         ))}
                     </div>
 
-                    <div className="bg-card-main border border-border-main p-6 rounded-[32px] shadow-inner font-mono text-xs relative overflow-hidden group">
+                    <div className="bg-[#0D0D0D] border border-border-main p-6 rounded-[32px] shadow-inner font-mono text-xs relative overflow-hidden group">
                         <pre className="text-text-main/70 whitespace-pre-wrap">{generateCss()}</pre>
                         <button
                             onClick={copyCss}

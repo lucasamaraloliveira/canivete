@@ -90,7 +90,7 @@ export function SpriteSplitter() {
                         </div>
                     </div>
 
-                    <div className="relative bg-card-main border border-border-main border-dashed border-2 rounded-[40px] shadow-inner overflow-hidden min-h-[400px] flex items-center justify-center group/canvas">
+                    <div className="relative bg-[#0D0D0D] border border-border-main border-dashed border-2 rounded-[40px] shadow-inner overflow-hidden min-h-[400px] flex items-center justify-center group/canvas">
                         {!image ? (
                             <label className="flex flex-col items-center gap-4 cursor-pointer hover:scale-105 transition-all">
                                 <div className="w-16 h-16 bg-text-main text-bg-main rounded-2xl flex items-center justify-center shadow-xl">
@@ -204,7 +204,7 @@ export function SpriteSplitter() {
                     <span className="text-[10px] font-black opacity-20 uppercase">{tiles.length} ITENS</span>
                 </div>
 
-                <div className="flex-1 bg-card-main border border-border-main rounded-[48px] overflow-hidden shadow-inner flex flex-col">
+                <div className="flex-1 bg-[#0D0D0D] border border-border-main rounded-[48px] overflow-hidden shadow-inner flex flex-col">
                     <div className="flex-1 overflow-auto custom-scrollbar p-10">
                         {tiles.length > 0 ? (
                             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4">

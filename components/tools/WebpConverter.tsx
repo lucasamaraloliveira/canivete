@@ -187,7 +187,7 @@ export function WebpConverter() {
                     <FileImage size={18} />
                     <span className="text-sm font-bold uppercase tracking-wider">Fila de Conversão</span>
                 </div>
-                <div className="flex-1 bg-card-main border border-border-main rounded-[40px] overflow-hidden shadow-inner flex flex-col">
+                <div className="flex-1 bg-[#0D0D0D] border border-border-main rounded-[40px] overflow-hidden shadow-inner flex flex-col">
                     <div className="flex-1 overflow-auto custom-scrollbar p-6">
                         {files.length > 0 ? (
                             <div className="grid grid-cols-1 gap-3">

@@ -78,11 +78,35 @@ export function PlaceholderGenerator() {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold uppercase tracking-widest opacity-30">Largura (px)</label>
-                            <input type="number" value={width} onChange={(e) => setWidth(parseInt(e.target.value) || 0)} className="w-full p-3 bg-text-main/5 border border-border-main rounded-xl font-bold outline-none" />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={width}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/\D/g, '');
+                                        setWidth(val === '' ? 0 : parseInt(val));
+                                    }}
+                                    className="w-full p-3 pr-10 bg-text-main/5 border border-border-main rounded-xl font-bold outline-none focus:ring-2 focus:ring-text-main/10 transition-all"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-20 pointer-events-none">PX</span>
+                            </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold uppercase tracking-widest opacity-30">Altura (px)</label>
-                            <input type="number" value={height} onChange={(e) => setHeight(parseInt(e.target.value) || 0)} className="w-full p-3 bg-text-main/5 border border-border-main rounded-xl font-bold outline-none" />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={height}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/\D/g, '');
+                                        setHeight(val === '' ? 0 : parseInt(val));
+                                    }}
+                                    className="w-full p-3 pr-10 bg-text-main/5 border border-border-main rounded-xl font-bold outline-none focus:ring-2 focus:ring-text-main/10 transition-all"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black opacity-20 pointer-events-none">PX</span>
+                            </div>
                         </div>
                     </div>
 
@@ -136,7 +160,7 @@ export function PlaceholderGenerator() {
 
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Preview da Imagem</label>
-                <div className="flex-1 min-h-[400px] bg-bg-main border border-border-main border-dashed border-2 rounded-[40px] shadow-inner relative flex items-center justify-center p-8 overflow-hidden bg-grid-pattern">
+                <div className="flex-1 min-h-[400px] bg-[#0D0D0D] border border-border-main border-dashed border-2 rounded-[40px] shadow-inner relative flex items-center justify-center p-8 overflow-hidden bg-grid-pattern">
                     <div className="max-w-full max-h-full shadow-2xl rounded-lg overflow-hidden animate-in zoom-in-95 duration-500">
                         <canvas ref={canvasRef} className="max-w-full h-auto block" />
                     </div>

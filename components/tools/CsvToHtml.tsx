@@ -104,7 +104,7 @@ export function CsvToHtml() {
               </button>
             )}
           </div>
-          <div className="h-64 bg-[#1e1e1e] rounded-2xl overflow-auto custom-scrollbar shadow-inner grid">
+          <div className="h-64 bg-[#0D0D0D] rounded-2xl overflow-auto custom-scrollbar shadow-inner grid">
             <CodeBlock
               code={generateHtml() || '// O código HTML aparecerá aqui...'}
               language="html"

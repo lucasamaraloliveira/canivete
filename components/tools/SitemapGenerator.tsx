@@ -198,7 +198,7 @@ export function SitemapGenerator() {
                         </button>
                     </div>
                 </div>
-                <div className="flex-1 bg-text-main rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
+                <div className="flex-1 bg-[#0D0D0D] rounded-[40px] overflow-auto shadow-2xl border border-border-main/5 relative scrollbar-hide">
                     <CodeBlock code={generateSitemap()} language="xml" />
                     <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                         <Map size={100} />
