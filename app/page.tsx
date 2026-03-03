@@ -334,8 +334,8 @@ export default function Page() {
                 <div className="bg-text-main/5 rounded-2xl p-4">
                   <p className="text-xs font-medium opacity-85 mb-2">Total de Ferramentas</p>
                   <div className="flex items-end gap-2">
-                    <span className="text-3xl font-bold">100</span>
-                    <span className="text-sm font-semibold opacity-90 mb-1">/ 100</span>
+                    <span className="text-3xl font-bold">{TOOLS.length}</span>
+                    <span className="text-sm font-semibold opacity-90 mb-1">/ {TOOLS.length}</span>
                   </div>
                 </div>
               </div>

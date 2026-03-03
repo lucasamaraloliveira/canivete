@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from 'path';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -7,9 +8,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react"],
-    cacheComponents: true,
   },
-  bundlePagesRouterDependencies: true,
 };
 
 export default nextConfig;

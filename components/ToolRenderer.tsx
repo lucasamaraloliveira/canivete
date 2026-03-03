@@ -74,6 +74,12 @@ const EbookReader = dynamic(() => import('@/components/tools/EbookReader').then(
 const PrintWebClipper = dynamic(() => import('@/components/tools/PrintWebClipper').then(mod => mod.PrintWebClipper));
 const BarcodeReader = dynamic(() => import('@/components/tools/BarcodeReader').then(mod => mod.BarcodeReader));
 const BurnerBudget = dynamic(() => import('@/components/tools/BurnerBudget').then(mod => mod.BurnerBudget));
+const PdfMerger = dynamic(() => import('@/components/tools/PdfMerger').then(mod => mod.PdfMerger));
+const PdfSplitter = dynamic(() => import('@/components/tools/PdfSplitter').then(mod => mod.PdfSplitter));
+const ImageToPdf = dynamic(() => import('@/components/tools/ImageToPdf').then(mod => mod.ImageToPdf));
+const PdfToImage = dynamic(() => import('@/components/tools/PdfToImage').then(mod => mod.PdfToImage));
+const PdfUnlocker = dynamic(() => import('@/components/tools/PdfUnlocker').then(mod => mod.PdfUnlocker));
+const PdfProtector = dynamic(() => import('@/components/tools/PdfProtector').then(mod => mod.PdfProtector));
 
 // Security Tools (New)
 const SecureKeyGen = dynamic(() => import('@/components/tools/SecureKeyGen').then(mod => mod.SecureKeyGen));
@@ -177,6 +183,8 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '83': return <ExifRemover />;
     case '84': return <FileShredder />;
     case '85': return <CsrDecoder />;
+    case '105': return <PdfUnlocker />;
+    case '106': return <PdfProtector />;
 
     // Design
     case '12': return <GridFlexGenerator />;
@@ -221,6 +229,10 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '98': return <PrintWebClipper />;
     case '99': return <BarcodeReader />;
     case '100': return <BurnerBudget />;
+    case '101': return <PdfMerger />;
+    case '102': return <PdfSplitter />;
+    case '103': return <ImageToPdf />;
+    case '104': return <PdfToImage />;
 
     // Diversos
     case '58': return <VirtualMetronome />;
