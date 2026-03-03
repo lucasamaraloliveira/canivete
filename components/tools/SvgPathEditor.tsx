@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useDeferredValue } from 'react';
 import { MousePointer2, Copy, Check, RefreshCw, PenTool, Type, Move, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
@@ -97,16 +97,22 @@ export function SvgPathEditor() {
         }).join(' ');
     };
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const rectRef = React.useRef<DOMRect | null>(null);
+
     const handleMouseDown = (e: React.MouseEvent, type: 'point' | 'cp', idx: number, cpIdx?: 1 | 2) => {
         e.preventDefault();
+        if (containerRef.current) {
+            rectRef.current = containerRef.current.getBoundingClientRect();
+        }
         if (type === 'point') setActivePoint(idx);
         else setActiveCp({ pIdx: idx, cp: cpIdx! });
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (activePoint === null && activeCp === null) return;
+        if ((activePoint === null && activeCp === null) || !rectRef.current) return;
 
-        const rect = e.currentTarget.getBoundingClientRect();
+        const rect = rectRef.current;
 
         // Mapeia coordenadas do mouse (pixels da tela) para o sistema de coordenadas do SVG (viewBox 0 0 300 300)
         const x = Math.round((e.clientX - rect.left) * (300 / rect.width));
@@ -126,11 +132,14 @@ export function SvgPathEditor() {
     const handleMouseUp = () => {
         setActivePoint(null);
         setActiveCp(null);
+        rectRef.current = null;
     };
 
     const svgCode = `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
   <path d="${generatePath()}" fill="none" stroke="black" stroke-width="2" />
 </svg>`;
+
+    const deferredSvgCode = useDeferredValue(svgCode);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full min-h-0 pb-32">
@@ -290,7 +299,7 @@ export function SvgPathEditor() {
                 <div className="flex flex-col gap-4">
                     <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Código SVG</label>
                     <div className="h-48 bg-[#0D0D0D] rounded-[32px] overflow-auto custom-scrollbar shadow-inner relative group">
-                        <CodeBlock code={svgCode} language="xml" className="w-full" />
+                        <CodeBlock code={deferredSvgCode} language="xml" className="w-full" />
                         <button
                             onClick={() => {
                                 navigator.clipboard.writeText(svgCode);
@@ -308,6 +317,7 @@ export function SvgPathEditor() {
             <div className="flex flex-col gap-6">
                 <label className="text-sm font-bold text-text-main/60 uppercase tracking-wider">Canvas de Manipulação</label>
                 <div
+                    ref={containerRef}
                     className="flex-1 bg-bg-main border border-border-main border-dashed border-2 rounded-[40px] shadow-inner relative overflow-hidden group/canvas"
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}

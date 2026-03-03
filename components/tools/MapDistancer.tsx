@@ -7,19 +7,34 @@ export function MapDistancer() {
     const [p2, setP2] = useState({ x: 300, y: 300 });
     const [activePoint, setActivePoint] = useState<1 | 2 | null>(null);
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const rectRef = React.useRef<DOMRect | null>(null);
+
     const distance = Math.sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2);
 
     // Scale: 1px = 1km (for simulation)
     const realDist = distance;
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!activePoint) return;
-        const rect = e.currentTarget.getBoundingClientRect();
+        if (!activePoint || !rectRef.current) return;
+        const rect = rectRef.current;
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
         if (activePoint === 1) setP1({ x, y });
         else setP2({ x, y });
+    };
+
+    const handleMouseDown = (point: 1 | 2) => {
+        if (containerRef.current) {
+            rectRef.current = containerRef.current.getBoundingClientRect();
+        }
+        setActivePoint(point);
+    };
+
+    const handleMouseUp = () => {
+        setActivePoint(null);
+        rectRef.current = null;
     };
 
     return (
@@ -34,10 +49,11 @@ export function MapDistancer() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div
+                    ref={containerRef}
                     className="lg:col-span-2 aspect-[4/3] bg-bg-main rounded-[40px] border border-border-main shadow-2xl relative overflow-hidden cursor-crosshair group"
                     onMouseMove={handleMouseMove}
-                    onMouseUp={() => setActivePoint(null)}
-                    onMouseLeave={() => setActivePoint(null)}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
                 >
                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
@@ -52,7 +68,7 @@ export function MapDistancer() {
 
                     {/* Point 1 */}
                     <div
-                        onMouseDown={() => setActivePoint(1)}
+                        onMouseDown={() => handleMouseDown(1)}
                         className={cn(
                             "absolute w-10 h-10 -ml-5 -mt-5 rounded-full flex items-center justify-center transition-transform active:scale-90",
                             activePoint === 1 ? "z-20" : "z-10"
@@ -65,7 +81,7 @@ export function MapDistancer() {
 
                     {/* Point 2 */}
                     <div
-                        onMouseDown={() => setActivePoint(2)}
+                        onMouseDown={() => handleMouseDown(2)}
                         className={cn(
                             "absolute w-10 h-10 -ml-5 -mt-5 rounded-full flex items-center justify-center transition-transform active:scale-90",
                             activePoint === 2 ? "z-20" : "z-10"
