@@ -370,27 +370,25 @@ export default function Page() {
           isSidebarOpen && !isMobile ? "lg:pl-72 xl:pl-80" : "pl-0"
         )}>
           <header className={cn(
-            "fixed top-3 notebook-safe-header right-3 z-40 transition-all duration-500",
+            "fixed top-3 notebook-safe-header right-3 z-40 transition-all duration-500 flex items-center gap-3",
             isSidebarOpen && !isMobile ? "left-[284px] xl:left-[320px]" : isMobile ? "left-3" : "left-20"
           )}>
-            <div className="bg-card-main/80 backdrop-blur-xl border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 notebook-nav-compact shadow-xl flex items-center justify-between gap-4">
-              <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                aria-label={isSidebarOpen ? "Fechar barra lateral" : "Abrir barra lateral"}
-                className="p-3 hover:bg-text-main/5 rounded-2xl notebook-btn-compact transition-colors flex items-center justify-center shrink-0"
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={isSidebarOpen ? 'close' : 'menu'}
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-                  </motion.div>
-                </AnimatePresence>
-              </button>
+            <AnimatePresence>
+              {!isSidebarOpen && (
+                <motion.button
+                  initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.8 }}
+                  onClick={() => setIsSidebarOpen(true)}
+                  aria-label="Abrir barra lateral"
+                  className="p-3 bg-card-main/80 backdrop-blur-xl border border-border-main rounded-2xl shadow-xl hover:bg-text-main/5 transition-all flex items-center justify-center shrink-0 active:scale-95"
+                >
+                  <Menu size={20} />
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            <div className="flex-1 bg-card-main/80 backdrop-blur-xl border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 notebook-nav-compact shadow-xl flex items-center justify-between gap-4">
 
               <div className="relative flex-1 group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
