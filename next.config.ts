@@ -7,8 +7,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["lucide-react"],
-    ppr: true,
-    optimizeCss: true,
+    cacheComponents: true,
   },
   bundlePagesRouterDependencies: true,
 };

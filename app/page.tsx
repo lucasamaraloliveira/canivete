@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import {
   Search, Menu, X, Code2, ChevronRight, Moon, Sun, LayoutDashboard, Settings,
   Info, ExternalLink, Check, Copy, RotateCcw, Heart, Mail, MessageSquarePlus,
@@ -265,8 +266,20 @@ export default function Page() {
             >
               <div className="p-8 border-b border-border-main flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-text-main text-bg-main rounded-[18px] flex items-center justify-center shadow-lg">
-                    <Code2 size={24} />
+                  <div className={cn(
+                    "w-12 h-12 rounded-[20px] flex items-center justify-center shadow-lg transition-colors duration-300",
+                    theme === 'light' ? "bg-black text-white" : "bg-white text-black"
+                  )}>
+                    <Image
+                      src="/favicon.svg"
+                      alt="Canivete Logo"
+                      width={40}
+                      height={40}
+                      className={cn(
+                        "w-10 h-10",
+                        theme === 'light' ? "invert-0" : "invert"
+                      )}
+                    />
                   </div>
                   <div>
                     <h1 className="font-black text-xl leading-tight">Canivete</h1>
