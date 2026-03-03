@@ -80,6 +80,9 @@ const ImageToPdf = dynamic(() => import('@/components/tools/ImageToPdf').then(mo
 const PdfToImage = dynamic(() => import('@/components/tools/PdfToImage').then(mod => mod.PdfToImage));
 const PdfUnlocker = dynamic(() => import('@/components/tools/PdfUnlocker').then(mod => mod.PdfUnlocker));
 const PdfProtector = dynamic(() => import('@/components/tools/PdfProtector').then(mod => mod.PdfProtector));
+const PdfToWord = dynamic(() => import('@/components/tools/PdfToWord').then(mod => mod.PdfToWord));
+const WordToPdf = dynamic(() => import('@/components/tools/WordToPdf').then(mod => mod.WordToPdf));
+const ImageConverter = dynamic(() => import('@/components/tools/ImageConverter').then(mod => mod.ImageConverter));
 
 // Security Tools (New)
 const SecureKeyGen = dynamic(() => import('@/components/tools/SecureKeyGen').then(mod => mod.SecureKeyGen));
@@ -185,6 +188,9 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '85': return <CsrDecoder />;
     case '105': return <PdfUnlocker />;
     case '106': return <PdfProtector />;
+    case '107': return <PdfToWord />;
+    case '108': return <WordToPdf />;
+    case '109': return <ImageConverter />;
 
     // Design
     case '12': return <GridFlexGenerator />;

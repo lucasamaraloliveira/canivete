@@ -16,7 +16,7 @@ export const TOOLS: Tool[] = [
   { id: '07', name: 'Codificador de Entidades HTML', description: 'Converte caracteres especiais em entidades HTML.', category: 'Dev', icon: 'FileCode' },
   { id: '08', name: 'Gerador de Arquivo .env', description: 'Interface visual para criar arquivos .env baseados em templates.', category: 'Dev', icon: 'Settings' },
   { id: '09', name: 'Comparador de Diferenças', description: 'Compara blocos de código/texto e destaca diferenças.', category: 'Dev', icon: 'FileDiff' },
-  { id: '10', name: 'Visualizador Base64', description: 'Converte Base64 para visualização de imagem instantânea.', category: 'Dev', icon: 'Image' },
+  { id: '10', name: 'Conversor Base64 Imagem', description: 'Transforma imagens em strings Base64 e vice-versa instantaneamente.', category: 'Dev', icon: 'Image' },
   { id: '11', name: 'Conversor de cURL para JS', description: 'Converte comandos cURL em código JavaScript pronto.', category: 'Dev', icon: 'Terminal' },
   { id: '12', name: 'Gerador de Layout CSS', description: 'Interface visual para montar layouts Grid/Flexbox e exportar CSS.', category: 'Design', icon: 'Layout' },
   { id: '13', name: 'Gerador de Sitemap XML', description: 'Gera XML de sitemap a partir de uma lista de URLs.', category: 'Dev', icon: 'Map' },
@@ -113,4 +113,7 @@ export const TOOLS: Tool[] = [
   { id: '104', name: 'PDF para Imagem', description: 'Converte cada página do seu PDF em um JPG.', category: 'Produtividade', icon: 'ImageIcon' },
   { id: '105', name: 'Desbloquear PDF', description: 'Remove senhas e restrições de PDF localmente.', category: 'Segurança', icon: 'LockKeyholeOpen' },
   { id: '106', name: 'Proteger PDF', description: 'Adiciona criptografia e senhas aos seus PDFs.', category: 'Segurança', icon: 'LockKeyhole' },
+  { id: '107', name: 'PDF para Word', description: 'Converte documentos PDF em arquivos Word editáveis (.docx).', category: 'Produtividade', icon: 'FileText' },
+  { id: '108', name: 'Word para PDF', description: 'Transforma arquivos Word (.docx) em documentos PDF.', category: 'Produtividade', icon: 'FileType' },
+  { id: '109', name: 'Conversor de Imagem', description: 'Converte imagens entre formatos PNG, JPG, BMP e WEBP instantaneamente.', category: 'Design', icon: 'ImagePlus' },
 ];

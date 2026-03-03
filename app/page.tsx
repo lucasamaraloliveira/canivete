@@ -6,7 +6,7 @@ import Image from 'next/image';
 import {
   Search, Menu, X, Code2, ChevronRight, Moon, Sun, LayoutDashboard, Settings,
   Info, ExternalLink, Check, Copy, RotateCcw, Heart, Mail, MessageSquarePlus,
-  Grid, ShieldAlert, RefreshCw
+  Grid, ShieldAlert, RefreshCw, Bell, Sparkles, Compass, MousePointer2
 } from 'lucide-react';
 
 
@@ -77,6 +77,12 @@ export default function Page() {
   const [isSendingSuggestion, setIsSendingSuggestion] = useState(false);
   const [suggestionStatus, setSuggestionStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [currentUrl, setCurrentUrl] = useState('');
+  const [showUpdateNotification, setShowUpdateNotification] = useState(false);
+  const [lastInsertedTool, setLastInsertedTool] = useState<any>(null);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(false);
+  const [tourStep, setTourStep] = useState(0);
 
   const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
 
@@ -119,10 +125,26 @@ export default function Page() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsDonationModalOpen(true);
-    }, 2000);
+    }, 15000); // Atrasado para não conflitar com a notificação de nova ferramenta
 
     if (typeof window !== 'undefined') {
       setCurrentUrl(window.location.href);
+
+      // Lógica de Notificação de Nova Ferramenta
+      const lastTool = TOOLS[TOOLS.length - 1];
+      const acknowledgedToolId = localStorage.getItem('last_seen_tool');
+
+      if (lastTool && lastTool.id !== acknowledgedToolId) {
+        setLastInsertedTool(lastTool);
+        setHasUnreadNotifications(true);
+        // Pequeno atraso para o usuário notar a entrada
+        setTimeout(() => setShowUpdateNotification(true), 2000);
+      }
+      // Lógica de Tour Guiado
+      const tourCompleted = localStorage.getItem('has_completed_tour');
+      if (!tourCompleted) {
+        setTimeout(() => setIsTourOpen(true), 3000);
+      }
     }
 
     return () => clearTimeout(timer);
@@ -391,6 +413,88 @@ export default function Page() {
                   title="Apoie o Projeto"
                 >
                   <Heart size={20} className="group-hover/donate:scale-110 transition-transform fill-current sm:fill-none" />
+                </button>
+
+                <div className="relative">
+                  <button
+                    onClick={() => {
+                      setIsNotificationsOpen(!isNotificationsOpen);
+                      setHasUnreadNotifications(false);
+                      if (lastInsertedTool) localStorage.setItem('last_seen_tool', lastInsertedTool.id);
+                    }}
+                    className="p-2 hover:bg-text-main/5 rounded-xl notebook-btn-compact transition-colors relative"
+                    title="Notificações"
+                  >
+                    <Bell size={20} className={cn(isNotificationsOpen && "text-blue-500")} />
+                    {hasUnreadNotifications && (
+                      <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-bg-main animate-pulse" />
+                    )}
+                  </button>
+
+                  <AnimatePresence>
+                    {isNotificationsOpen && (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          onClick={() => setIsNotificationsOpen(false)}
+                          className="fixed inset-0 z-[-1]"
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute right-0 mt-4 w-[320px] bg-card-main border border-border-main rounded-[28px] shadow-2xl overflow-hidden z-50 p-2"
+                        >
+                          <div className="p-4 border-b border-border-main/5 flex items-center justify-between">
+                            <h4 className="text-[10px] font-black uppercase tracking-[3px] opacity-40">Novidades</h4>
+                            <Sparkles size={14} className="text-yellow-500" />
+                          </div>
+                          <div className="max-h-[380px] overflow-y-auto custom-scrollbar">
+                            {TOOLS.slice(-5).reverse().map((tool, idx) => (
+                              <button
+                                key={tool.id}
+                                onClick={() => {
+                                  setSelectedToolId(tool.id);
+                                  setIsNotificationsOpen(false);
+                                  setIsSidebarOpen(false);
+                                }}
+                                className="w-full p-4 hover:bg-text-main/5 rounded-2xl transition-all text-left flex gap-3 group border-b border-border-main/5 last:border-0"
+                              >
+                                <div className="w-10 h-10 bg-text-main/5 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
+                                  <Icon name={tool.icon} className="w-5 h-5" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-2 mb-0.5">
+                                    <h5 className="font-bold text-xs truncate">{tool.name}</h5>
+                                    {idx === 0 && <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />}
+                                  </div>
+                                  <p className="text-[10px] opacity-40 line-clamp-1 italic">{tool.description}</p>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                          <div className="p-2 pt-0">
+                            <div className="bg-text-main/5 p-3 rounded-2xl text-center text-[9px] font-bold opacity-30 uppercase tracking-widest">
+                              Canivete Suíço v1.0.4
+                            </div>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setTourStep(0);
+                    setIsTourOpen(true);
+                  }}
+                  className="p-2 hover:bg-text-main/5 rounded-xl notebook-btn-compact transition-colors"
+                  title="Tutorial Guiado"
+                >
+                  <Compass size={20} className={cn(isTourOpen && "text-blue-500 animate-spin-slow")} />
                 </button>
 
                 {!isMobile && (
@@ -686,7 +790,140 @@ export default function Page() {
         </AnimatePresence>
 
 
+        <AnimatePresence>
+          {showUpdateNotification && lastInsertedTool && (
+            <motion.div
+              initial={{ x: 400, opacity: 0, scale: 0.9 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={{ x: 400, opacity: 0, scale: 0.9 }}
+              className="fixed bottom-6 right-6 z-[120] w-[320px] sm:w-[380px]"
+            >
+              <div className="bg-text-main text-bg-main p-1 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden">
+                <div className="bg-bg-main text-text-main m-0.5 rounded-[30px] p-5 relative">
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('last_seen_tool', lastInsertedTool.id);
+                      setShowUpdateNotification(false);
+                    }}
+                    className="absolute top-4 right-4 p-1.5 hover:bg-text-main/5 rounded-full transition-colors"
+                  >
+                    <X size={16} />
+                  </button>
+
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="bg-green-500/10 text-green-500 px-3 py-1 rounded-full flex items-center gap-1.5">
+                      <Sparkles size={12} className="fill-current" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">Nova Ferramenta</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="w-14 h-14 bg-text-main text-bg-main rounded-[20px] flex items-center justify-center shrink-0 shadow-lg">
+                      <Icon name={lastInsertedTool.icon} className="w-7 h-7" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-black text-sm uppercase tracking-tight mb-1 truncate">{lastInsertedTool.name}</h4>
+                      <p className="text-[10px] font-medium opacity-60 leading-relaxed line-clamp-2 italic mb-3">
+                        {lastInsertedTool.description}
+                      </p>
+                      <button
+                        onClick={() => {
+                          setSelectedToolId(lastInsertedTool.id);
+                          localStorage.setItem('last_seen_tool', lastInsertedTool.id);
+                          setShowUpdateNotification(false);
+                          setIsSidebarOpen(false);
+                        }}
+                        className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[2px] hover:translate-x-1 transition-transform"
+                      >
+                        Experimentar Agora <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {isTourOpen && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/60 backdrop-blur-md"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="relative w-full max-w-md bg-card-main border border-border-main rounded-[40px] shadow-2xl overflow-hidden p-8 sm:p-10"
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 bg-text-main text-bg-main rounded-2xl flex items-center justify-center mb-6 shadow-xl">
+                    {tourStep === 0 && <Compass size={32} className="animate-spin-slow" />}
+                    {tourStep === 1 && <Grid size={32} />}
+                    {tourStep === 2 && <Search size={32} />}
+                    {tourStep === 3 && <Sparkles size={32} />}
+                  </div>
+
+                  <div className="mb-8">
+                    <p className="text-[10px] font-black text-text-main/40 uppercase tracking-[4px] mb-2">Tutorial {tourStep + 1}/4</p>
+                    <h3 className="text-2xl font-black mb-3 italic tracking-tighter uppercase">
+                      {[
+                        "Bem-vindo ao Canivete!",
+                        "Categorias Inteligentes",
+                        "Busca Instantânea",
+                        "Sempre Atualizado"
+                      ][tourStep]}
+                    </h3>
+                    <p className="text-sm font-medium opacity-70 leading-relaxed italic">
+                      {[
+                        "O seu conjunto definitivo de ferramentas 100% locais e privadas. Vamos mostrar o básico em segundos.",
+                        "Explore ferramentas organizadas por categorias na lateral para facilitar seu fluxo de trabalho.",
+                        "Encontre qualquer ferramenta instantaneamente digitando o nome ou funcionalidade na barra superior.",
+                        "Novas utilidades são adicionadas semanalmente. Fique de olho no sino de notificações!"
+                      ][tourStep]}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2 w-full mb-6">
+                    {[0, 1, 2, 3].map((s) => (
+                      <div key={s} className={cn("h-1 flex-1 rounded-full transition-all duration-300", s === tourStep ? "bg-text-main" : "bg-text-main/10")} />
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3 w-full">
+                    <button
+                      onClick={() => {
+                        localStorage.setItem('has_completed_tour', 'true');
+                        setIsTourOpen(false);
+                      }}
+                      className="flex-1 py-4 text-xs font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity"
+                    >
+                      Pular
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (tourStep < 3) setTourStep(tourStep + 1);
+                        else {
+                          localStorage.setItem('has_completed_tour', 'true');
+                          setIsTourOpen(false);
+                        }
+                      }}
+                      className="flex-[2] py-4 bg-text-main text-bg-main rounded-2xl font-black uppercase tracking-widest shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    >
+                      {tourStep < 3 ? "Próximo" : "Começar Agora"}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
       </div>
-    </LazyMotion>
+    </LazyMotion >
   );
 }

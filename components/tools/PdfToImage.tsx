@@ -27,8 +27,8 @@ export function PdfToImage() {
         try {
             // We use a CDN to load PDF.js as we don't have it installed
             if (!(window as any).pdfjsLib) {
-                await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
-                (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                await loadScript('https://unpkg.com/pdfjs-dist@5.5.207/legacy/build/pdf.min.js');
+                (window as any).pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@5.5.207/legacy/build/pdf.worker.min.js';
             }
 
             const pdfjsLib = (window as any).pdfjsLib;
