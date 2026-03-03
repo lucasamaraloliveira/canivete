@@ -264,7 +264,7 @@ export default function Page() {
                   : "inset-y-3 left-3 w-64 xl:w-72 rounded-[24px] xl:rounded-[32px]"
               )}
             >
-              <div className="p-8 border-b border-border-main flex items-center justify-between">
+              <div className="p-8 notebook-sidebar-p border-b border-border-main flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className={cn(
                     "w-12 h-12 rounded-[20px] flex items-center justify-center shadow-lg transition-colors duration-300",
@@ -348,14 +348,14 @@ export default function Page() {
           isSidebarOpen && !isMobile ? "lg:pl-72 xl:pl-80" : "pl-0"
         )}>
           <header className={cn(
-            "fixed top-3 right-3 z-40 transition-all duration-500",
+            "fixed top-3 notebook-safe-header right-3 z-40 transition-all duration-500",
             isSidebarOpen && !isMobile ? "left-[284px] xl:left-[320px]" : isMobile ? "left-3" : "left-20"
           )}>
-            <div className="bg-card-main/80 backdrop-blur-xl border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 shadow-xl flex items-center justify-between gap-4">
+            <div className="bg-card-main/80 backdrop-blur-xl border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 notebook-nav-compact shadow-xl flex items-center justify-between gap-4">
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                 aria-label={isSidebarOpen ? "Fechar barra lateral" : "Abrir barra lateral"}
-                className="p-3 hover:bg-text-main/5 rounded-2xl transition-colors flex items-center justify-center shrink-0"
+                className="p-3 hover:bg-text-main/5 rounded-2xl notebook-btn-compact transition-colors flex items-center justify-center shrink-0"
               >
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -377,7 +377,7 @@ export default function Page() {
                   placeholder={isMobile ? "Buscar..." : "Buscar ferramenta..."}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-bg-main/50 border-none rounded-xl py-2 pl-9 pr-4 focus:ring-2 focus:ring-text-main/10 transition-all text-sm placeholder:text-text-main/80"
+                  className="w-full bg-bg-main/50 border-none rounded-xl py-2 pl-9 pr-4 notebook-input-compact focus:ring-2 focus:ring-text-main/10 transition-all text-sm placeholder:text-text-main/80"
                 />
               </div>
 
@@ -385,7 +385,7 @@ export default function Page() {
                 <button
                   onClick={() => setIsDonationModalOpen(true)}
                   className={cn(
-                    "p-2 hover:bg-text-main/5 rounded-xl transition-colors flex items-center gap-1 group/donate",
+                    "p-2 hover:bg-text-main/5 rounded-xl notebook-btn-compact transition-colors flex items-center gap-1 group/donate",
                     isMobile ? "text-red-500/80" : "hidden sm:flex text-text-main"
                   )}
                   title="Apoie o Projeto"
@@ -396,7 +396,7 @@ export default function Page() {
                 {!isMobile && (
                   <button
                     onClick={toggleTheme}
-                    className="p-2 hover:bg-text-main/5 rounded-xl transition-colors"
+                    className="p-2 hover:bg-text-main/5 rounded-xl notebook-btn-compact transition-colors"
                     title="Alternar Tema"
                   >
                     {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
@@ -409,8 +409,8 @@ export default function Page() {
           <div className={cn(
             "flex-1 custom-scrollbar transition-all duration-500",
             selectedToolId
-              ? "overflow-hidden p-3 sm:p-4 lg:p-6 pt-16 sm:pt-24 lg:pt-24"
-              : "overflow-y-auto p-4 sm:p-6 lg:p-10 pt-24 sm:pt-28 lg:pt-32 pb-32 sm:pb-10"
+              ? "overflow-hidden p-3 sm:p-4 lg:p-6 pt-16 sm:pt-24 lg:pt-24 notebook-safe-pt"
+              : "overflow-y-auto p-4 sm:p-6 lg:p-10 pt-24 sm:pt-28 lg:pt-32 pb-32 sm:pb-10 notebook-safe-pt"
           )}>
             <AnimatePresence mode="wait">
               {!selectedToolId ? (
@@ -421,7 +421,7 @@ export default function Page() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="max-w-7xl mx-auto"
                 >
-                  <div className="mb-6 lg:mb-10">
+                  <div className="mb-6 lg:mb-10 notebook-title-mb">
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
                       {selectedCategory || (isMobile ? "Ferramentas" : "Todas as Ferramentas")}
                     </h2>
@@ -430,7 +430,7 @@ export default function Page() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 notebook-card-gap">
                     {filteredTools.map((tool) => (
                       <ToolCard
                         key={tool.id}
@@ -452,7 +452,7 @@ export default function Page() {
                   exit={{ opacity: 0, scale: 0.98, y: 10 }}
                   className="max-w-[1700px] mx-auto w-full h-full flex flex-col grow"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 lg:mb-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 lg:mb-6 notebook-title-mb">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => {
@@ -470,7 +470,7 @@ export default function Page() {
                           <span className="w-0.5 h-0.5 rounded-full bg-text-main/20" />
                           <span className="text-[9px] font-mono opacity-90">#{selectedTool?.id}</span>
                         </div>
-                        <h2 className="text-lg lg:text-2xl font-bold truncate">{selectedTool?.name}</h2>
+                        <h2 className="text-lg lg:text-xl font-bold truncate">{selectedTool?.name}</h2>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -489,8 +489,8 @@ export default function Page() {
                     </div>
                   </div>
 
-                  <div className="flex-1 min-h-0 bg-card-main rounded-[32px] lg:rounded-[40px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
-                    <div className="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto custom-scrollbar">
+                  <div className="flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[32px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
+                    <div className="flex-1 p-4 sm:p-6 lg:p-8 notebook-tool-p overflow-y-auto custom-scrollbar">
                       <ToolRenderer toolId={selectedToolId} />
                     </div>
                   </div>
@@ -523,11 +523,11 @@ export default function Page() {
                 )}
               >
                 {isMobile && <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mt-4 mb-2" />}
-                <div className="p-8 lg:p-10 text-center">
+                <div className="p-8 lg:p-10 notebook-tool-p text-center">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main text-bg-main rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                     <Icon name={selectedTool?.icon || 'Code2'} className="w-8 h-8 sm:w-10 sm:h-10" />
                   </div>
-                  <div className="mb-6 lg:mb-8">
+                  <div className="mb-6 lg:mb-8 notebook-title-mb">
                     <p className="text-[10px] font-bold text-text-main/80 uppercase tracking-[4px] mb-2">{selectedTool?.category}</p>
                     <h3 className="text-2xl sm:text-3xl font-black mb-3">{selectedTool?.name}</h3>
                     <p className="text-sm sm:text-base text-text-main/90 leading-relaxed px-2">
