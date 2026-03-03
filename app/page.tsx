@@ -11,7 +11,7 @@ import {
 
 
 import { LazyMotion, domAnimation, motion, AnimatePresence } from 'motion/react';
-import { QRCodeSVG } from 'qrcode.react';
+const QRCodeSVG = dynamic(() => import('qrcode.react').then(mod => mod.QRCodeSVG), { ssr: false });
 import { TOOLS } from '@/constants/tools';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/Icon';
@@ -35,6 +35,33 @@ const getCategoryIcon = (category: string): string => {
     default: return 'Box';
   }
 };
+
+const ToolCard = React.memo(({ tool, isMobile, onClick }: { tool: any, isMobile: boolean, onClick: () => void }) => (
+  <motion.button
+    whileHover={{ y: -4, scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    onClick={onClick}
+    className="group bg-card-main p-5 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm hover:shadow-xl transition-all duration-200 text-left flex flex-col h-full"
+  >
+    <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-xl sm:rounded-2xl flex items-center justify-center text-text-main mb-3 sm:mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
+      <Icon name={tool.icon} className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center justify-between mb-1 sm:mb-2">
+        <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
+        {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-90">#{tool.id}</span>}
+      </div>
+      <h3 className="font-bold text-xs sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-1 sm:line-clamp-2">{tool.name}</h3>
+      <p className="hidden sm:block text-xs lg:text-sm opacity-90 leading-relaxed line-clamp-2">
+        {tool.description}
+      </p>
+    </div>
+    <div className="mt-2 sm:mt-4 lg:mt-6 flex items-center font-bold text-[10px] sm:text-xs lg:text-sm opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+      <span>Abrir</span> <ChevronRight size={12} className="ml-1" />
+    </div>
+  </motion.button>
+));
+ToolCard.displayName = 'ToolCard';
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -392,33 +419,15 @@ export default function Page() {
 
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
                     {filteredTools.map((tool) => (
-                      <motion.button
+                      <ToolCard
                         key={tool.id}
-                        whileHover={{ y: -4, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        tool={tool}
+                        isMobile={isMobile}
                         onClick={() => {
                           setSelectedToolId(tool.id);
                           setIsSidebarOpen(false);
                         }}
-                        className="group bg-card-main p-5 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 hover:scale-[1.02] active:scale-[0.98] duration-200 text-left flex flex-col h-full"
-                      >
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-xl sm:rounded-2xl flex items-center justify-center text-text-main mb-3 sm:mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
-                          <Icon name={tool.icon} className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-1 sm:mb-2">
-                            <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
-                            {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-90">#{tool.id}</span>}
-                          </div>
-                          <h3 className="font-bold text-xs sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-1 sm:line-clamp-2">{tool.name}</h3>
-                          <p className="hidden sm:block text-xs lg:text-sm opacity-90 leading-relaxed line-clamp-2">
-                            {tool.description}
-                          </p>
-                        </div>
-                        <div className="mt-2 sm:mt-4 lg:mt-6 flex items-center font-bold text-[10px] sm:text-xs lg:text-sm opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span>Abrir</span> <ChevronRight size={12} className="ml-1" />
-                        </div>
-                      </motion.button>
+                      />
                     ))}
                   </div>
                 </motion.div>
@@ -663,22 +672,7 @@ export default function Page() {
           )}
         </AnimatePresence>
 
-        <style jsx global>{`
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 3s ease-in-out infinite;
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 8s linear infinite;
-        }
-      `}</style>
+
       </div>
     </LazyMotion>
   );
