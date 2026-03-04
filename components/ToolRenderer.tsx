@@ -59,6 +59,18 @@ const RandomNumberGenerator = dynamic(() => import('@/components/tools/RandomNum
 const PasswordGenerator = dynamic(() => import('@/components/tools/PasswordGenerator').then(mod => mod.PasswordGenerator));
 const DocumentGenerator = dynamic(() => import('@/components/tools/DocumentGenerator').then(mod => mod.DocumentGenerator));
 const ResumeGenerator = dynamic(() => import('@/components/tools/ResumeGenerator').then(mod => mod.ResumeGenerator));
+const SpellChecker = dynamic(() => import('@/components/tools/SpellChecker').then(mod => mod.SpellChecker));
+const CpfValidator = dynamic(() => import('@/components/tools/CpfValidator').then(mod => mod.CpfValidator));
+const CnpjValidator = dynamic(() => import('@/components/tools/CnpjValidator').then(mod => mod.CnpjValidator));
+const RgValidator = dynamic(() => import('@/components/tools/RgValidator').then(mod => mod.RgValidator));
+const PisValidator = dynamic(() => import('@/components/tools/PisValidator').then(mod => mod.PisValidator));
+const CnhValidator = dynamic(() => import('@/components/tools/CnhValidator').then(mod => mod.CnhValidator));
+const VoterTitleValidator = dynamic(() => import('@/components/tools/VoterTitleValidator').then(mod => mod.VoterTitleValidator));
+const RenavamValidator = dynamic(() => import('@/components/tools/RenavamValidator').then(mod => mod.RenavamValidator));
+const CertidacaoValidator = dynamic(() => import('@/components/tools/CertidacaoValidator').then(mod => mod.CertidacaoValidator));
+const BankAccountValidator = dynamic(() => import('@/components/tools/BankAccountValidator').then(mod => mod.BankAccountValidator));
+const AreaCalculator = dynamic(() => import('@/components/tools/AreaCalculator').then(mod => mod.AreaCalculator));
+const DateTools = dynamic(() => import('@/components/tools/DateTools').then(mod => mod.DateTools));
 
 // Design Tools
 const GlassmorphismGenerator = dynamic(() => import('@/components/tools/GlassmorphismGenerator').then(mod => mod.GlassmorphismGenerator));
@@ -246,6 +258,18 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '133': return <PasswordGenerator />;
     case '134': return <DocumentGenerator />;
     case '135': return <ResumeGenerator />;
+    case '136': return <SpellChecker />;
+    case '137': return <CpfValidator />;
+    case '138': return <CnpjValidator />;
+    case '139': return <RgValidator />;
+    case '140': return <PisValidator />;
+    case '141': return <CnhValidator />;
+    case '142': return <VoterTitleValidator />;
+    case '143': return <RenavamValidator />;
+    case '144': return <CertidacaoValidator />;
+    case '145': return <BankAccountValidator />;
+    case '146': return <AreaCalculator />;
+    case '147': return <DateTools />;
     case '999': return <SupportersWall />;
 
     // Design

@@ -13,7 +13,8 @@ import {
     CreditCard, Scale, ArrowUpRight, Circle, MapPin, Keyboard, Fingerprint,
     EyeOff, Bomb, Shield, Smartphone, ImageOff, FileCheck, Laugh, Dice5,
     VolumeX, Grid3X3, BookOpen, Subtitles, Printer, Barcode, Code, Heart,
-    Mail, MessageSquarePlus, Trash2, Briefcase, Wrench, Files, LockKeyhole, LockKeyholeOpen
+    Mail, MessageSquarePlus, Trash2, Briefcase, Wrench, Files, LockKeyhole, LockKeyholeOpen,
+    Languages, Car, ClipboardCheck, Banknote, UserPlus, Building2, Ghost, Command, ScrollText, Crown, Building
 } from 'lucide-react';
 
 const iconsMap: Record<string, any> = {
@@ -29,6 +30,7 @@ const iconsMap: Record<string, any> = {
     Dice5, VolumeX, Grid3X3, BookOpen, Subtitles, Printer, Barcode, Code, Trash2,
     Briefcase, Wrench, Heart, Mail, MessageSquarePlus, X, Menu, Sun, Moon,
     ChevronRight, RotateCcw, Info, ExternalLink, Check, Copy, Files, LockKeyhole, LockKeyholeOpen,
+    Languages, Car, ClipboardCheck, Banknote, UserPlus, Building2, Ghost, Command, ScrollText, Crown, Building,
     Image: ImageIcon, Layout: LayoutDashboard
 };
 
