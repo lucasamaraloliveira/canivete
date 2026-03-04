@@ -11,11 +11,22 @@ export function SelfDestructMsg() {
 
     const [timeLeft, setTimeLeft] = useState(60);
 
+    const [isExpired, setIsExpired] = useState(false);
+
     // Checks URL hash on mount to see if someone clicked a link
     useEffect(() => {
         const hash = window.location.hash;
         if (hash.startsWith('#/sdm/')) {
             const data = hash.substring(6);
+
+            // Check if this specific hash was already "burned" in this browser
+            const burnedHashes = JSON.parse(localStorage.getItem('canivete_burned_sdm') || '[]');
+            if (burnedHashes.includes(data)) {
+                setIsExpired(true);
+                setIsViewMode(true);
+                return;
+            }
+
             try {
                 const decoded = atob(data);
                 setViewedData(decoded);
@@ -28,15 +39,29 @@ export function SelfDestructMsg() {
 
     // Timer effect for auto-destruction
     useEffect(() => {
-        if (isViewMode && viewedData && timeLeft > 0) {
+        if (isViewMode && viewedData && timeLeft > 0 && !isExpired) {
             const timer = setInterval(() => {
                 setTimeLeft(prev => prev - 1);
             }, 1000);
             return () => clearInterval(timer);
-        } else if (isViewMode && viewedData && timeLeft === 0) {
-            clearAndSelfDestruct();
+        } else if (isViewMode && viewedData && timeLeft === 0 && !isExpired) {
+            burnCurrentHash();
         }
-    }, [isViewMode, viewedData, timeLeft]);
+    }, [isViewMode, viewedData, timeLeft, isExpired]);
+
+    const burnCurrentHash = () => {
+        const hash = window.location.hash;
+        if (hash.startsWith('#/sdm/')) {
+            const data = hash.substring(6);
+            const burnedHashes = JSON.parse(localStorage.getItem('canivete_burned_sdm') || '[]');
+            if (!burnedHashes.includes(data)) {
+                burnedHashes.push(data);
+                localStorage.setItem('canivete_burned_sdm', JSON.stringify(burnedHashes));
+            }
+        }
+        setIsExpired(true);
+        window.location.hash = '';
+    };
 
     const createLink = () => {
         if (!message) return;
@@ -53,13 +78,35 @@ export function SelfDestructMsg() {
     };
 
     const clearAndSelfDestruct = () => {
-        window.location.hash = '';
+        burnCurrentHash();
         setViewedData(null);
         setIsViewMode(false);
         setMessage('');
         setGeneratedLink('');
         setTimeLeft(60);
+        setIsExpired(false);
     };
+
+    if (isViewMode && isExpired) {
+        return (
+            <div className="max-w-2xl mx-auto flex flex-col gap-8 py-10 lg:py-16 items-center text-center animate-in fade-in duration-700">
+                <div className="w-24 h-24 bg-red-500/10 text-red-500 rounded-[40px] flex items-center justify-center mb-4">
+                    <Trash2 size={48} />
+                </div>
+                <h2 className="text-4xl font-black text-red-500">Link Indisponível</h2>
+                <p className="text-text-main/60 max-w-sm">Esta mensagem foi auto-destruída e não pode mais ser acessada neste dispositivo.</p>
+                <button
+                    onClick={() => {
+                        window.location.hash = '';
+                        window.location.reload();
+                    }}
+                    className="mt-6 px-8 py-4 bg-text-main text-bg-main rounded-2xl font-bold"
+                >
+                    Voltar ao Início
+                </button>
+            </div>
+        );
+    }
 
     if (isViewMode && viewedData) {
         return (
