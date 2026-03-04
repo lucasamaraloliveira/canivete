@@ -76,7 +76,7 @@ export function Tour({ isOpen, step, onNext, onClose }: TourProps) {
                                     Pular
                                 </button>
                                 <button
-                                    onClick={onNext}
+                                    onClick={step === steps.length - 1 ? onClose : onNext}
                                     className="flex-3 py-4 bg-text-main text-bg-main rounded-2xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
                                 >
                                     {step === steps.length - 1 ? (

@@ -224,9 +224,13 @@ export default function Page() {
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
-      setIsMobile(mobile);
-      if (mobile) setIsSidebarOpen(false);
-      else setIsSidebarOpen(true);
+      setIsMobile(prev => {
+        if (prev !== mobile) {
+          setIsSidebarOpen(!mobile);
+          return mobile;
+        }
+        return prev;
+      });
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);

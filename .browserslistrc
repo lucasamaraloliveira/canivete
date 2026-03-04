@@ -1,9 +1,11 @@
-last 2 versions
-> 0.5%
+last 1 chrome versions
+last 1 firefox versions
+last 1 safari versions
+last 1 edge versions
+chrome >= 100
+firefox >= 100
+safari >= 15.6
+edge >= 100
 not dead
-not op_mini all
 not IE 11
-chrome >= 93
-firefox >= 92
-safari >= 15.4
-edge >= 93
+not op_mini all
