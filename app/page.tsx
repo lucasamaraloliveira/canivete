@@ -69,9 +69,9 @@ export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true); // Default to true for mobile-first performance
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
   const [toolSuggestion, setToolSuggestion] = useState('');
@@ -189,7 +189,7 @@ export default function Page() {
     return `${payload}${finalCrc}`;
   }, [pixKey]);
 
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(8);
 
   useEffect(() => {
     // Carregar o restante das ferramentas quando o navegador estiver ocioso
@@ -244,13 +244,11 @@ export default function Page() {
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
-      setIsMobile(prev => {
-        if (prev !== mobile) {
-          setIsSidebarOpen(!mobile);
-          return mobile;
-        }
-        return prev;
-      });
+      setIsMobile(mobile);
+      // Se não for mobile, abre o sidebar por padrão
+      if (!mobile) {
+        setIsSidebarOpen(true);
+      }
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -340,7 +338,7 @@ export default function Page() {
             animate={{ y: 0 }}
             className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] w-[90%] max-w-sm"
           >
-            <div className="bg-card-main/80 backdrop-blur-2xl border border-white/10 rounded-[32px] p-2 shadow-2xl flex items-center justify-around gap-1">
+            <div className="bg-card-main/80 backdrop-blur-xl border border-white/10 rounded-[32px] p-2 shadow-2xl flex items-center justify-around gap-1">
               <button
                 onClick={() => { setSelectedCategory(null); setSelectedToolId(null); }}
                 aria-label="Ir para o Início"
@@ -400,7 +398,6 @@ export default function Page() {
                       alt="Canivete Logo"
                       width={40}
                       height={40}
-                      priority
                       className={cn(
                         "w-10 h-10",
                         theme === 'light' ? "invert-0" : "invert"
@@ -486,7 +483,7 @@ export default function Page() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 bg-card-main/80 backdrop-blur-xl border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 notebook-nav-compact shadow-xl flex items-center justify-between gap-4">
+            <div className="flex-1 bg-card-main/80 backdrop-blur-lg border border-border-main rounded-[24px] lg:rounded-[28px] p-2 pr-4 lg:p-3 lg:pr-6 notebook-nav-compact shadow-xl flex items-center justify-between gap-4">
 
               <div className="relative flex-1 group">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 opacity-30 group-focus-within:opacity-100 transition-opacity" size={16} />
