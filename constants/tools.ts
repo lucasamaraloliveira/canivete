@@ -2,7 +2,7 @@ export interface Tool {
   id: string;
   name: string;
   description: string;
-  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos';
+  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos' | 'Comunidade';
   icon: string;
 }
 
@@ -116,4 +116,8 @@ export const TOOLS: Tool[] = [
   { id: '107', name: 'PDF para Word', description: 'Converte documentos PDF em arquivos Word editáveis (.docx).', category: 'Produtividade', icon: 'FileText' },
   { id: '108', name: 'Word para PDF', description: 'Transforma arquivos Word (.docx) em documentos PDF.', category: 'Produtividade', icon: 'FileType' },
   { id: '109', name: 'Conversor de Imagem', description: 'Converte imagens entre formatos PNG, JPG, BMP e WEBP instantaneamente.', category: 'Design', icon: 'ImagePlus' },
+  { id: '110', name: 'REST Client (Postman)', description: 'Cliente HTTP completo para testar APIs com headers, body e coleções.', category: 'Dev', icon: 'Globe' },
+  { id: '111', name: 'QA Test Suite', description: 'Crie planos de teste, execute validações e exporte relatórios de qualidade.', category: 'Dev', icon: 'ListChecks' },
+  { id: '112', name: 'Bug Reporter', description: 'Gere relatórios de bugs estruturados e profissionais para Jira ou Slack.', category: 'Dev', icon: 'Bug' },
+  { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete possível.', category: 'Comunidade', icon: 'Crown' },
 ];

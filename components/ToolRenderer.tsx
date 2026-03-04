@@ -30,6 +30,10 @@ const LogAnonymizer = dynamic(() => import('@/components/tools/LogAnonymizer').t
 const BrowserPrettier = dynamic(() => import('@/components/tools/BrowserPrettier').then(mod => mod.BrowserPrettier));
 const CaseConverter = dynamic(() => import('@/components/tools/CaseConverter').then(mod => mod.CaseConverter));
 const VttToSrt = dynamic(() => import('@/components/tools/VttToSrt').then(mod => mod.VttToSrt));
+const RestClient = dynamic(() => import('@/components/tools/RestClient').then(mod => mod.RestClient));
+const TestPlanManager = dynamic(() => import('@/components/tools/TestPlanManager').then(mod => mod.TestPlanManager));
+const BugReporter = dynamic(() => import('@/components/tools/BugReporter').then(mod => mod.BugReporter));
+const SupportersWall = dynamic(() => import('@/components/tools/SupportersWall').then(mod => mod.SupportersWall));
 
 // Design Tools
 const GlassmorphismGenerator = dynamic(() => import('@/components/tools/GlassmorphismGenerator').then(mod => mod.GlassmorphismGenerator));
@@ -191,6 +195,10 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '107': return <PdfToWord />;
     case '108': return <WordToPdf />;
     case '109': return <ImageConverter />;
+    case '110': return <RestClient />;
+    case '111': return <TestPlanManager />;
+    case '112': return <BugReporter />;
+    case '999': return <SupportersWall />;
 
     // Design
     case '12': return <GridFlexGenerator />;

@@ -7,7 +7,7 @@ import {
   Search, Menu, X, Code2, ChevronRight, Moon, Sun, LayoutDashboard, Settings,
   Info, ExternalLink, Check, Copy, RotateCcw, Heart, Mail, MessageSquarePlus,
   Grid, ShieldAlert, RefreshCw, Bell, Sparkles, Compass, MousePointer2, Plus,
-  ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, ChevronRight as ChevronRightIcon
+  ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, Maximize, ChevronRight as ChevronRightIcon
 } from 'lucide-react';
 
 import { LazyMotion, domAnimation, motion, AnimatePresence } from 'motion/react';
@@ -84,6 +84,7 @@ export default function Page() {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const [isTourOpen, setIsTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
 
@@ -638,6 +639,7 @@ export default function Page() {
                         onClick={() => {
                           setSelectedToolId(null);
                           setIsSidebarOpen(true);
+                          setIsFullscreen(false);
                         }}
                         aria-label="Voltar para a lista de ferramentas"
                         className="p-2.5 bg-text-main/5 hover:bg-text-main/10 rounded-xl transition-colors shrink-0"
@@ -655,6 +657,13 @@ export default function Page() {
                     </div>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
                       <button
+                        onClick={() => setIsFullscreen(!isFullscreen)}
+                        className="flex-1 sm:flex-none p-2.5 bg-text-main/5 hover:bg-text-main/10 rounded-xl transition-colors flex items-center justify-center"
+                        title={isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}
+                      >
+                        {isFullscreen ? <Maximize size={18} className="rotate-180" /> : <Maximize size={18} />}
+                      </button>
+                      <button
                         onClick={() => setIsAboutOpen(true)}
                         className="flex-1 sm:flex-none px-3 py-2 bg-text-main/5 hover:bg-text-main/10 rounded-xl text-[11px] lg:text-sm font-bold transition-colors flex items-center justify-center gap-2"
                       >
@@ -669,10 +678,22 @@ export default function Page() {
                     </div>
                   </div>
 
-                  <div className="flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[32px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm">
+                  <div className={cn(
+                    "flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[32px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm transition-all duration-500",
+                    isFullscreen && "fixed inset-2 z-[100] rounded-[32px] sm:rounded-[40px] shadow-[0_0_100px_rgba(0,0,0,0.5)]"
+                  )}>
                     <div className="flex-1 p-4 sm:p-6 lg:p-8 notebook-tool-p overflow-y-auto custom-scrollbar">
                       <ToolRenderer toolId={selectedToolId} />
                     </div>
+                    {isFullscreen && (
+                      <button
+                        onClick={() => setIsFullscreen(false)}
+                        className="absolute top-6 right-6 p-4 bg-text-main text-bg-main rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all z-[101]"
+                        title="Sair da Tela Cheia"
+                      >
+                        <X size={24} />
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               )}
