@@ -154,5 +154,5 @@ export const TOOLS: Tool[] = [
   { id: '145', name: 'Validador Bancário', description: 'Valide a estrutura de Agências e Contas de diversos bancos.', category: 'Segurança', icon: 'ShieldCheck' },
   { id: '146', name: 'Calculadora Áreas', description: 'Calcule a área de diversas formas: Círculo, Quadrado, Triângulo, Elipse e mais.', category: 'Diversos', icon: 'Calculator' },
   { id: '147', name: 'Calculadora Datas', description: 'Calcule a diferença entre datas ou adicione/subtraia dias com facilidade.', category: 'Diversos', icon: 'Calendar' },
-  { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete Possible.', category: 'Comunidade', icon: 'Crown' },
+  { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete Possível.', category: 'Comunidade', icon: 'Crown' },
 ];

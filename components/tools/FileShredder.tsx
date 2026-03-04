@@ -60,7 +60,7 @@ export function FileShredder() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto flex flex-col gap-8 h-full justify-center">
+        <div className="max-w-2xl mx-auto flex flex-col gap-8 py-10 lg:py-16">
             <div className="text-center">
                 <div className="w-16 h-16 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Trash2 size={32} />

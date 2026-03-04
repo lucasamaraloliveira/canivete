@@ -7,7 +7,7 @@ import {
   Search, Menu, X, Code2, ChevronRight, Moon, Sun, LayoutDashboard, Settings,
   Info, ExternalLink, Check, Copy, RotateCcw, Heart, Mail, MessageSquarePlus,
   Grid, ShieldAlert, RefreshCw, Bell, Sparkles, Compass, MousePointer2, Plus,
-  ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, Maximize, ChevronRight as ChevronRightIcon
+  ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, Maximize, Lock, ChevronRight as ChevronRightIcon
 } from 'lucide-react';
 
 import { LazyMotion, domAnimation, motion, AnimatePresence } from 'motion/react';
@@ -38,40 +38,45 @@ const getCategoryIcon = (category: string): string => {
   }
 };
 
-const ToolCard = React.memo(({ tool, isMobile, onClick }: { tool: any, isMobile: boolean, onClick: () => void }) => (
-  <motion.button
-    whileHover={{ y: -4, scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    onClick={onClick}
-    className="group bg-card-main p-5 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm hover:shadow-xl transition-all duration-200 text-left flex flex-col h-full"
-  >
-    <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-text-main/5 rounded-xl sm:rounded-2xl flex items-center justify-center text-text-main mb-3 sm:mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
-      <Icon name={tool.icon} className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
-    </div>
-    <div className="flex-1 min-w-0">
-      <div className="flex items-center justify-between mb-1 sm:mb-2">
-        <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
-        {!isMobile && <span className="text-[9px] lg:text-[10px] font-mono opacity-90">#{tool.id}</span>}
+const ToolCard = React.memo(({ tool, isMobile, onClick }: { tool: any, isMobile: boolean, onClick: () => void }) => {
+  return (
+    <motion.button
+      whileHover={{ y: -4, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={cn(
+        "group bg-card-main p-4 lg:p-5 rounded-[20px] lg:rounded-[28px] border border-border-main shadow-sm transition-all duration-200 text-left flex flex-col relative overflow-hidden h-[160px] lg:h-[185px]",
+        "hover:shadow-xl cursor-pointer"
+      )}
+    >
+      <div className="w-10 h-10 lg:w-14 lg:h-14 bg-text-main/5 rounded-xl lg:rounded-2xl flex items-center justify-center text-text-main mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
+        <Icon name={tool.icon} className="w-5 h-5 lg:w-7 lg:h-7" />
       </div>
-      <h3 className="font-bold text-xs sm:text-base lg:text-lg mb-1 sm:mb-2 line-clamp-1 sm:line-clamp-2">{tool.name}</h3>
-      <p className="hidden sm:block text-xs lg:text-sm opacity-90 leading-relaxed line-clamp-2">
-        {tool.description}
-      </p>
-    </div>
-    <div className="mt-2 sm:mt-4 lg:mt-6 flex items-center font-bold text-[10px] sm:text-xs lg:text-sm opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-      <span>Abrir</span> <ChevronRight size={12} className="ml-1" />
-    </div>
-  </motion.button>
-));
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-[7px] lg:text-[10px] font-black uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
+          {!isMobile && <span className="text-[8px] lg:text-[10px] font-mono opacity-60">#{tool.id}</span>}
+        </div>
+        <h3 className="font-bold text-xs sm:text-sm lg:text-lg mb-2 line-clamp-1">{tool.name}</h3>
+        <p className="hidden sm:block text-[10px] lg:text-sm opacity-70 leading-relaxed line-clamp-2">
+          {tool.description}
+        </p>
+      </div>
+      <div className="mt-3 lg:mt-4 flex items-center font-bold text-[9px] lg:text-[10px] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+        <span>Abrir</span> <ChevronRight size={10} className="ml-1" />
+      </div>
+    </motion.button>
+  );
+});
 ToolCard.displayName = 'ToolCard';
 
 export default function Page() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
-  const [isMobile, setIsMobile] = useState(true); // Default to true for mobile-first performance
+  const [isMobile, setIsMobile] = useState(false); // Default to false to avoid CLS on desktop
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [pixCopied, setPixCopied] = useState(false);
   const [toolSuggestion, setToolSuggestion] = useState('');
@@ -93,6 +98,18 @@ export default function Page() {
     setPixCopied(true);
     setTimeout(() => setPixCopied(false), 2000);
   };
+
+  useEffect(() => {
+    const checkHash = () => {
+      if (window.location.hash.startsWith('#/sdm/')) {
+        setSelectedToolId('79');
+        setIsSidebarOpen(false);
+      }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
 
   const sendSuggestion = async () => {
     if (!toolSuggestion.trim() || isSendingSuggestion) return;
@@ -189,7 +206,7 @@ export default function Page() {
     return `${payload}${finalCrc}`;
   }, [pixKey]);
 
-  const [visibleCount, setVisibleCount] = useState(8);
+  const [visibleCount, setVisibleCount] = useState(isMobile ? 8 : 15);
 
   useEffect(() => {
     // Carregar o restante das ferramentas quando o navegador estiver ocioso
@@ -237,6 +254,7 @@ export default function Page() {
     return () => clearTimeout(timer);
   }, []);
 
+
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
@@ -245,8 +263,10 @@ export default function Page() {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      // Se não for mobile, abre o sidebar por padrão
-      if (!mobile) {
+      // Se for mobile, fecha o sidebar por padrão para evitar overlay no carregamento
+      if (mobile) {
+        setIsSidebarOpen(false);
+      } else {
         setIsSidebarOpen(true);
       }
     };
@@ -394,7 +414,7 @@ export default function Page() {
                     theme === 'light' ? "bg-black text-white" : "bg-white text-black"
                   )}>
                     <Image
-                      src="/favicon.svg"
+                      src="/apple-touch-icon.png"
                       alt="Canivete Logo"
                       width={40}
                       height={40}
@@ -453,15 +473,18 @@ export default function Page() {
                 ))}
               </nav>
 
-              <div className="p-4 border-t border-border-main">
-                <div className="bg-text-main/5 rounded-2xl p-4">
-                  <p className="text-xs font-medium opacity-85 mb-2">Total de Ferramentas</p>
-                  <div className="flex items-end gap-2">
-                    <span className="text-3xl font-bold">{TOOLS.length}</span>
-                    <span className="text-sm font-semibold opacity-90 mb-1">/ {TOOLS.length}</span>
+              <div className="p-6 border-t border-border-main/5">
+                <div className="bg-text-main/5 rounded-2xl p-4 flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black uppercase tracking-[2px] opacity-40">Total de</span>
+                    <span className="text-lg font-black leading-tight">Ferramentas</span>
+                  </div>
+                  <div className="bg-text-main text-bg-main px-3 py-1.5 rounded-xl font-black text-sm shadow-lg">
+                    {TOOLS.length}
                   </div>
                 </div>
               </div>
+
             </motion.aside>
           )}
         </AnimatePresence>
@@ -616,7 +639,7 @@ export default function Page() {
                   initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="max-w-7xl mx-auto"
+                  className="max-w-[1600px] mx-auto"
                 >
                   <div className="mb-6 lg:mb-10 notebook-title-mb">
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
@@ -633,7 +656,7 @@ export default function Page() {
                   </div>
 
                   <div
-                    className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 notebook-card-gap"
+                    className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 lg:gap-6 min-h-[500px] items-stretch"
                     style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 200px' } as any}
                   >
                     {filteredTools.slice(0, searchQuery ? undefined : visibleCount).map((tool) => (

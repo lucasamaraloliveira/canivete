@@ -9,6 +9,8 @@ export function SelfDestructMsg() {
     const [viewedData, setViewedData] = useState<string | null>(null);
     const [isViewMode, setIsViewMode] = useState(false);
 
+    const [timeLeft, setTimeLeft] = useState(60);
+
     // Checks URL hash on mount to see if someone clicked a link
     useEffect(() => {
         const hash = window.location.hash;
@@ -24,12 +26,22 @@ export function SelfDestructMsg() {
         }
     }, []);
 
+    // Timer effect for auto-destruction
+    useEffect(() => {
+        if (isViewMode && viewedData && timeLeft > 0) {
+            const timer = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        } else if (isViewMode && viewedData && timeLeft === 0) {
+            clearAndSelfDestruct();
+        }
+    }, [isViewMode, viewedData, timeLeft]);
+
     const createLink = () => {
         if (!message) return;
-        // Simple implementation: just base64 for now, but in a real app we'd encrypt it
-        // with a key that is ALSO in the hash (so it's not even in the server logs)
         const encoded = btoa(message);
-        const origin = window.location.origin;
+        const origin = "https://canivete.vercel.app";
         const link = `${origin}/#/sdm/${encoded}`;
         setGeneratedLink(link);
     };
@@ -46,19 +58,30 @@ export function SelfDestructMsg() {
         setIsViewMode(false);
         setMessage('');
         setGeneratedLink('');
+        setTimeLeft(60);
     };
 
     if (isViewMode && viewedData) {
         return (
-            <div className="max-w-2xl mx-auto flex flex-col gap-8 h-full justify-center items-center text-center">
-                <div className="w-20 h-20 bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center animate-pulse mb-4">
+            <div className="max-w-2xl mx-auto flex flex-col gap-8 py-10 lg:py-16 items-center text-center">
+                <div className="w-20 h-20 bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center animate-pulse mb-4 relative">
                     <Bomb size={40} />
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold text-xs">
+                        {timeLeft}
+                    </div>
                 </div>
                 <h2 className="text-3xl font-black">Mensagem Secreta Recebida</h2>
-                <p className="text-text-main/50">Esta mensagem só existe neste link e nunca tocou um servidor.</p>
+                <p className="text-text-main/50">Esta mensagem se auto-destruirá em {timeLeft} segundos.</p>
 
-                <div className="w-full bg-text-main/5 border-2 border-dashed border-border-main p-8 rounded-[32px] font-medium text-lg italic">
+                <div className="w-full bg-text-main/5 border-2 border-dashed border-border-main p-8 rounded-[32px] font-medium text-lg italic animate-in fade-in zoom-in-95 duration-500">
                     "{viewedData}"
+                </div>
+
+                <div className="w-full bg-red-500/5 h-2 rounded-full overflow-hidden">
+                    <div
+                        className="h-full bg-red-500 transition-all duration-1000 ease-linear"
+                        style={{ width: `${(timeLeft / 60) * 100}%` }}
+                    />
                 </div>
 
                 <button
@@ -72,7 +95,7 @@ export function SelfDestructMsg() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto flex flex-col gap-8 h-full justify-center">
+        <div className="max-w-2xl mx-auto flex flex-col gap-8 py-10 lg:py-16">
             <div className="text-center">
                 <div className="w-16 h-16 bg-orange-500/10 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Bomb size={32} />
