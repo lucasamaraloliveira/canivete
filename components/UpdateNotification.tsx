@@ -27,15 +27,16 @@ export function UpdateNotification({ show, tool, onClose, onAction }: UpdateNoti
                         <div className="bg-bg-main text-text-main m-0.5 rounded-[30px] p-5 relative">
                             <button
                                 onClick={onClose}
+                                aria-label="Fechar notificação"
                                 className="absolute top-4 right-4 p-1.5 hover:bg-text-main/5 rounded-full transition-colors"
                             >
                                 <X size={16} />
                             </button>
 
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="bg-green-500/10 text-green-500 px-3 py-1 rounded-full flex items-center gap-1.5">
+                                <div className="bg-green-500/10 text-green-600 dark:text-green-400 px-3 py-1 rounded-full flex items-center gap-1.5">
                                     <Sparkles size={12} className="fill-current" />
-                                    <span className="text-[10px] font-black uppercase tracking-widest">Nova Ferramenta</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-green-700 dark:text-green-300">Nova Ferramenta</span>
                                 </div>
                             </div>
 

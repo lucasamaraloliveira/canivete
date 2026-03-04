@@ -59,11 +59,11 @@ export function Tour({ isOpen, step, onNext, onClose }: TourProps) {
                             </div>
 
                             <div className="mb-8">
-                                <p className="text-[10px] font-black text-text-main/40 uppercase tracking-[4px] mb-2">Tutorial {step + 1}/{steps.length}</p>
+                                <p className="text-[10px] font-black text-text-main/70 uppercase tracking-[4px] mb-2">Tutorial {step + 1}/{steps.length}</p>
                                 <h3 className="text-2xl font-black mb-3 italic tracking-tighter uppercase">
                                     {steps[step].title}
                                 </h3>
-                                <p className="text-sm font-medium opacity-70 leading-relaxed italic">
+                                <p className="text-sm font-medium opacity-90 leading-relaxed italic">
                                     {steps[step].description}
                                 </p>
                             </div>
@@ -71,7 +71,7 @@ export function Tour({ isOpen, step, onNext, onClose }: TourProps) {
                             <div className="w-full flex gap-3">
                                 <button
                                     onClick={onClose}
-                                    className="flex-1 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity"
+                                    className="flex-1 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity"
                                 >
                                     Pular
                                 </button>
