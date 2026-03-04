@@ -45,25 +45,28 @@ const ToolCard = React.memo(({ tool, isMobile, onClick }: { tool: any, isMobile:
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
       className={cn(
-        "group bg-card-main p-4 lg:p-5 rounded-[20px] lg:rounded-[28px] border border-border-main shadow-sm transition-all duration-200 text-left flex flex-col relative overflow-hidden h-[160px] lg:h-[185px]",
+        "group bg-card-main p-5 lg:p-7 rounded-[26px] lg:rounded-[36px] border border-border-main shadow-sm transition-all duration-200 text-left flex flex-col relative overflow-hidden h-[190px] lg:h-[230px]",
         "hover:shadow-xl cursor-pointer"
       )}
     >
-      <div className="w-10 h-10 lg:w-14 lg:h-14 bg-text-main/5 rounded-xl lg:rounded-2xl flex items-center justify-center text-text-main mb-4 group-hover:bg-text-main group-hover:text-bg-main transition-colors">
+      <div className="w-10 h-10 lg:w-14 lg:h-14 bg-text-main/5 rounded-xl lg:rounded-[22px] flex items-center justify-center text-text-main mb-6 group-hover:bg-text-main group-hover:text-bg-main transition-colors shrink-0">
         <Icon name={tool.icon} className="w-5 h-5 lg:w-7 lg:h-7" />
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[7px] lg:text-[10px] font-black uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
-          {!isMobile && <span className="text-[8px] lg:text-[10px] font-mono opacity-60">#{tool.id}</span>}
+      <div className="flex-1 min-w-0 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[7px] lg:text-[10px] font-black uppercase tracking-widest opacity-90 truncate">{tool.category}</span>
+            {!isMobile && <span className="text-[8px] lg:text-[10px] font-mono opacity-60">#{tool.id}</span>}
+          </div>
+          <h3 className="font-bold text-xs sm:text-sm lg:text-lg mb-1.5 line-clamp-1 leading-tight">{tool.name}</h3>
+          <p className="hidden sm:block text-[10px] lg:text-[11px] opacity-70 leading-relaxed line-clamp-2 pr-2">
+            {tool.description}
+          </p>
         </div>
-        <h3 className="font-bold text-xs sm:text-sm lg:text-lg mb-2 line-clamp-1">{tool.name}</h3>
-        <p className="hidden sm:block text-[10px] lg:text-sm opacity-70 leading-relaxed line-clamp-2">
-          {tool.description}
-        </p>
-      </div>
-      <div className="mt-3 lg:mt-4 flex items-center font-bold text-[9px] lg:text-[10px] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-        <span>Abrir</span> <ChevronRight size={10} className="ml-1" />
+
+        <div className="flex items-center font-bold text-[9px] lg:text-[11px] opacity-70 sm:opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
+          <span>Abrir</span> <ChevronRight size={10} className="ml-1" />
+        </div>
       </div>
     </motion.button>
   );
