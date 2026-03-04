@@ -56,13 +56,19 @@ export function SecurityShield() {
                         console.clear();
                     }
                 })();
-            }, 1000);
+            }, 3000);
         };
 
         if (process.env.NODE_ENV === 'production') {
             document.addEventListener('contextmenu', handleContextMenu);
             document.addEventListener('keydown', handleKeyDown);
-            preventInspection();
+
+            // Iniciar proteção apenas quando a thread principal estiver livre
+            if ('requestIdleCallback' in window) {
+                (window as any).requestIdleCallback(() => preventInspection());
+            } else {
+                setTimeout(preventInspection, 5000);
+            }
         }
 
         return () => {

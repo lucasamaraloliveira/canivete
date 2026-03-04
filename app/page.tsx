@@ -189,28 +189,48 @@ export default function Page() {
     return `${payload}${finalCrc}`;
   }, [pixKey]);
 
+  const [visibleCount, setVisibleCount] = useState(12);
+
   useEffect(() => {
+    // Carregar o restante das ferramentas quando o navegador estiver ocioso
+    const loadRest = () => {
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(() => setVisibleCount(TOOLS.length));
+      } else {
+        setTimeout(() => setVisibleCount(TOOLS.length), 1000);
+      }
+    };
+    loadRest();
+
     const timer = setTimeout(() => {
       setIsDonationModalOpen(true);
-    }, 15000); // Atrasado para não conflitar com a notificação de nova ferramenta
+    }, 15000);
 
     if (typeof window !== 'undefined') {
       setCurrentUrl(window.location.href);
 
-      // Lógica de Notificação de Nova Ferramenta
-      const lastTool = TOOLS[TOOLS.length - 1];
-      const acknowledgedToolId = localStorage.getItem('last_seen_tool');
+      const initSecondaryLogic = () => {
+        // Lógica de Notificação de Nova Ferramenta
+        const lastTool = TOOLS[TOOLS.length - 1];
+        const acknowledgedToolId = localStorage.getItem('last_seen_tool');
 
-      if (lastTool && lastTool.id !== acknowledgedToolId) {
-        setLastInsertedTool(lastTool);
-        setHasUnreadNotifications(true);
-        // Pequeno atraso para o usuário notar a entrada
-        setTimeout(() => setShowUpdateNotification(true), 2000);
-      }
-      // Lógica de Tour Guiado
-      const tourCompleted = localStorage.getItem('has_completed_tour');
-      if (!tourCompleted) {
-        setTimeout(() => setIsTourOpen(true), 3000);
+        if (lastTool && lastTool.id !== acknowledgedToolId) {
+          setLastInsertedTool(lastTool);
+          setHasUnreadNotifications(true);
+          setTimeout(() => setShowUpdateNotification(true), 2000);
+        }
+
+        // Lógica de Tour Guiado
+        const tourCompleted = localStorage.getItem('has_completed_tour');
+        if (!tourCompleted) {
+          setTimeout(() => setIsTourOpen(true), 3000);
+        }
+      };
+
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(initSecondaryLogic);
+      } else {
+        setTimeout(initSecondaryLogic, 1000);
       }
     }
 
@@ -615,8 +635,11 @@ export default function Page() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 notebook-card-gap">
-                    {filteredTools.map((tool) => (
+                  <div
+                    className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 notebook-card-gap"
+                    style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 200px' } as any}
+                  >
+                    {filteredTools.slice(0, searchQuery ? undefined : visibleCount).map((tool) => (
                       <ToolCard
                         key={tool.id}
                         tool={tool}
