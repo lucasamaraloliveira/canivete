@@ -293,7 +293,10 @@ export default function Page() {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="flex h-screen bg-bg-main text-text-main font-sans overflow-hidden transition-colors duration-300">
+      <div className={cn(
+        "flex h-screen bg-bg-main text-text-main font-sans overflow-hidden transition-colors duration-300",
+        !isSidebarOpen && "sidebar-closed"
+      )}>
         <AnimatePresence>
           {isMobile && isSidebarOpen && (
             <motion.div
@@ -372,6 +375,7 @@ export default function Page() {
                       alt="Canivete Logo"
                       width={40}
                       height={40}
+                      priority
                       className={cn(
                         "w-10 h-10",
                         theme === 'light' ? "invert-0" : "invert"
@@ -440,14 +444,8 @@ export default function Page() {
           )}
         </AnimatePresence>
 
-        <main className={cn(
-          "flex-1 flex flex-col relative overflow-hidden transition-all duration-500 bg-bg-main",
-          isSidebarOpen && !isMobile ? "lg:pl-72 xl:pl-80" : "pl-0"
-        )}>
-          <header className={cn(
-            "fixed top-3 notebook-safe-header right-3 z-40 transition-all duration-500 flex items-center gap-3",
-            isSidebarOpen && !isMobile ? "left-[284px] xl:left-[320px]" : isMobile ? "left-3" : "left-20"
-          )}>
+        <main className="flex-1 flex flex-col relative overflow-hidden transition-all duration-500 bg-bg-main" style={{ paddingLeft: 'var(--sidebar-width)' }}>
+          <header className="fixed top-3 notebook-safe-header right-3 z-40 transition-all duration-500 flex items-center gap-3" style={{ left: 'calc(var(--sidebar-width) + 12px)' }}>
             <AnimatePresence>
               {!isSidebarOpen && (
                 <motion.button
@@ -593,14 +591,19 @@ export default function Page() {
               {!selectedToolId ? (
                 <motion.div
                   key="dashboard"
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="max-w-7xl mx-auto"
                 >
                   <div className="mb-6 lg:mb-10 notebook-title-mb">
                     <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
-                      {selectedCategory || (isMobile ? "Ferramentas" : "Todas as Ferramentas")}
+                      {selectedCategory || (
+                        <>
+                          <span className="inline lg:hidden">Ferramentas</span>
+                          <span className="hidden lg:inline">Todas as Ferramentas</span>
+                        </>
+                      )}
                     </h2>
                     <p className="text-text-main/80 font-medium text-xs sm:text-sm lg:text-base">
                       {filteredTools.length} {filteredTools.length === 1 ? 'ferramenta encontrada' : 'ferramentas encontradas'}.

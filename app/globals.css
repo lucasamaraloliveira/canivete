@@ -79,7 +79,18 @@ body {
   --text-main: #141414;
   --card-main: #FFFFFF;
   --border-main: rgba(20, 20, 20, 0.1);
+  --sidebar-width: 0rem;
   color-scheme: light;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --sidebar-width: 18rem;
+  }
+
+  .sidebar-closed {
+    --sidebar-width: 0rem !important;
+  }
 }
 
 .dark {
