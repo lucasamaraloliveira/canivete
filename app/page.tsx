@@ -657,7 +657,7 @@ export default function Page() {
                   exit={{ opacity: 0, scale: 0.98, y: 10 }}
                   className="max-w-[1700px] mx-auto w-full h-full flex flex-col grow"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2 lg:mb-6 notebook-title-mb">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 lg:mb-8 notebook-title-mb">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => {
@@ -676,7 +676,7 @@ export default function Page() {
                           <span className="w-0.5 h-0.5 rounded-full bg-text-main/20" />
                           <span className="text-[9px] font-mono opacity-90">#{selectedTool?.id}</span>
                         </div>
-                        <h2 className="text-lg lg:text-xl font-bold truncate">{selectedTool?.name}</h2>
+                        <h2 className="text-xl lg:text-2xl font-bold truncate leading-tight pb-1">{selectedTool?.name}</h2>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -748,7 +748,7 @@ export default function Page() {
                 )}
               >
                 {isMobile && <div className="w-12 h-1.5 bg-text-main/10 rounded-full mx-auto mt-4 mb-2" />}
-                <div className="p-8 lg:p-10 notebook-tool-p text-center">
+                <div className="p-8 lg:p-10 notebook-tool-p text-center overflow-y-auto custom-scrollbar">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 bg-text-main text-bg-main rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                     <Icon name={selectedTool?.icon || 'Code2'} className="w-8 h-8 sm:w-10 sm:h-10" />
                   </div>

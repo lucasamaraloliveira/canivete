@@ -100,12 +100,12 @@ export function BaseConverter() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto flex flex-col gap-8 h-full justify-center">
+        <div className="max-w-2xl mx-auto flex flex-col gap-8 py-8 sm:py-12">
             <div className="text-center">
                 <div className="w-16 h-16 bg-text-main/5 rounded-2xl flex items-center justify-center text-text-main mx-auto mb-4">
                     <Binary size={32} />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">Base Converter</h3>
+                <h3 className="text-2xl font-bold mb-2">Conversor de Bases</h3>
                 <p className="text-text-main/50">Conversão instantânea entre sistemas numéricos.</p>
             </div>
 
