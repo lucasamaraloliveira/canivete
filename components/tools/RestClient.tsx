@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Globe, Send, Plus, Trash2, Download, Upload,
     Settings, ChevronRight, Play, Save, FileJson,
-    Search, Code2, Clock, Zap, Database, Copy, Check, RefreshCw
+    Search, Code2, Clock, Zap, Database, Copy, Check, RefreshCw, ChevronDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -150,6 +150,13 @@ export function RestClient() {
 
     return (
         <div className="flex flex-col lg:flex-row h-full gap-6 overflow-hidden">
+            <style jsx global>{`
+                .custom-select-method[data-val="GET"] { color: #22c55e; }
+                .custom-select-method[data-val="POST"] { color: #eab308; }
+                .custom-select-method[data-val="PUT"] { color: #3b82f6; }
+                .custom-select-method[data-val="PATCH"] { color: #a855f7; }
+                .custom-select-method[data-val="DELETE"] { color: #ef4444; }
+            `}</style>
             {/* Sidebar de Requisições */}
             <div className="w-full lg:w-72 flex flex-col gap-4 shrink-0">
                 <div className="flex items-center justify-between mb-2">
@@ -205,17 +212,19 @@ export function RestClient() {
             <div className="flex-1 flex flex-col min-w-0 gap-6 overflow-y-auto lg:overflow-visible custom-scrollbar">
                 {/* URL e Método */}
                 <div className="bg-card-main border border-border-main rounded-[32px] p-2 flex flex-col sm:flex-row items-stretch gap-2 shadow-sm">
-                    <select
-                        value={activeRequest.method}
-                        onChange={(e) => updateActiveRequest({ method: e.target.value as any })}
-                        className="bg-text-main/5 px-4 py-3 rounded-2xl text-xs font-black uppercase tracking-widest outline-none border-none cursor-pointer hover:bg-text-main/10 transition-colors"
-                    >
-                        <option value="GET">GET</option>
-                        <option value="POST">POST</option>
-                        <option value="PUT">PUT</option>
-                        <option value="PATCH">PATCH</option>
-                        <option value="DELETE">DELETE</option>
-                    </select>
+                    <div className="relative group/select shrink-0">
+                        <CustomSelect
+                            value={activeRequest.method}
+                            onChange={(val) => updateActiveRequest({ method: val as any })}
+                            options={[
+                                { label: 'GET', value: 'GET' },
+                                { label: 'POST', value: 'POST' },
+                                { label: 'PUT', value: 'PUT' },
+                                { label: 'PATCH', value: 'PATCH' },
+                                { label: 'DELETE', value: 'DELETE' }
+                            ]}
+                        />
+                    </div>
                     <div className="flex-1 relative flex items-center">
                         <div className="absolute left-4 text-text-main/20">
                             <Globe size={16} />
@@ -335,6 +344,77 @@ export function RestClient() {
                     </div>
                 </div>
             </div>
+        </div>
+    );
+} function CustomSelect({
+    value,
+    onChange,
+    options
+}: {
+    value: string;
+    onChange: (val: string) => void;
+    options: { label: string; value: string }[]
+}) {
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedLabel = options.find(o => o.value === value)?.label || value;
+
+    return (
+        <div className="relative group/select h-full">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={cn(
+                    "h-full px-6 py-3 bg-text-main/5 border border-border-main/5 rounded-2xl text-xs font-black tracking-[2px] outline-none flex items-center justify-between transition-all hover:bg-text-main/10 min-w-[120px] custom-select-method",
+                    isOpen && "ring-4 ring-text-main/5 border-text-main/20"
+                )}
+                data-val={value}
+            >
+                <span className="truncate pr-2">{selectedLabel}</span>
+                <ChevronDown size={14} className={cn("shrink-0 opacity-30 group-hover/select:opacity-100 transition-all", isOpen && "rotate-180 opacity-100")} />
+            </button>
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <div
+                            className="fixed inset-0 z-[60]"
+                            onClick={() => setIsOpen(false)}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="absolute top-full left-0 mt-2 bg-card-main/90 backdrop-blur-xl border border-border-main rounded-[24px] shadow-2xl z-[70] overflow-hidden py-3 min-w-[140px]"
+                        >
+                            <div className="max-h-64 overflow-y-auto custom-scrollbar">
+                                {options.map((opt) => (
+                                    <button
+                                        key={opt.value}
+                                        onClick={() => {
+                                            onChange(opt.value);
+                                            setIsOpen(false);
+                                        }}
+                                        className={cn(
+                                            "w-full px-6 py-3 text-left text-[10px] font-bold uppercase tracking-widest transition-all relative overflow-hidden",
+                                            value === opt.value
+                                                ? "bg-text-main text-bg-main"
+                                                : "text-text-main/60 hover:bg-text-main/5 hover:text-text-main hover:pl-8"
+                                        )}
+                                        style={{
+                                            color: value !== opt.value ? (
+                                                opt.value === 'GET' ? '#22c55e' :
+                                                    opt.value === 'POST' ? '#eab308' :
+                                                        opt.value === 'DELETE' ? '#ef4444' : undefined
+                                            ) : undefined
+                                        }}
+                                    >
+                                        {opt.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

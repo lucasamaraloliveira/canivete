@@ -35,6 +35,31 @@ const TestPlanManager = dynamic(() => import('@/components/tools/TestPlanManager
 const BugReporter = dynamic(() => import('@/components/tools/BugReporter').then(mod => mod.BugReporter));
 const SupportersWall = dynamic(() => import('@/components/tools/SupportersWall').then(mod => mod.SupportersWall));
 
+// Diversos & Generators (New)
+const CpfGenerator = dynamic(() => import('@/components/tools/CpfGenerator').then(mod => mod.CpfGenerator));
+const CnpjGenerator = dynamic(() => import('@/components/tools/CnpjGenerator').then(mod => mod.CnpjGenerator));
+const RgGenerator = dynamic(() => import('@/components/tools/RgGenerator').then(mod => mod.RgGenerator));
+const CnhGenerator = dynamic(() => import('@/components/tools/CnhGenerator').then(mod => mod.CnhGenerator));
+const CepGenerator = dynamic(() => import('@/components/tools/CepGenerator').then(mod => mod.CepGenerator));
+const PisGenerator = dynamic(() => import('@/components/tools/PisGenerator').then(mod => mod.PisGenerator));
+const RenavamGenerator = dynamic(() => import('@/components/tools/RenavamGenerator').then(mod => mod.RenavamGenerator));
+const StateInclusionGenerator = dynamic(() => import('@/components/tools/StateInclusionGenerator').then(mod => mod.StateInclusionGenerator));
+const VoterTitleGenerator = dynamic(() => import('@/components/tools/VoterTitleGenerator').then(mod => mod.VoterTitleGenerator));
+const CreditCardGenerator = dynamic(() => import('@/components/tools/CreditCardGenerator').then(mod => mod.CreditCardGenerator));
+const BankAccountGenerator = dynamic(() => import('@/components/tools/BankAccountGenerator').then(mod => mod.BankAccountGenerator));
+const PeopleGenerator = dynamic(() => import('@/components/tools/PeopleGenerator').then(mod => mod.PeopleGenerator));
+const CompanyGenerator = dynamic(() => import('@/components/tools/CompanyGenerator').then(mod => mod.CompanyGenerator));
+const VehicleGenerator = dynamic(() => import('@/components/tools/VehicleGenerator').then(mod => mod.VehicleGenerator));
+const PlateGenerator = dynamic(() => import('@/components/tools/PlateGenerator').then(mod => mod.PlateGenerator));
+const NameGenerator = dynamic(() => import('@/components/tools/NameGenerator').then(mod => mod.NameGenerator));
+const NickGenerator = dynamic(() => import('@/components/tools/NickGenerator').then(mod => mod.NickGenerator));
+const FancyTextGenerator = dynamic(() => import('@/components/tools/FancyTextGenerator').then(mod => mod.FancyTextGenerator));
+const SymbolCopyTool = dynamic(() => import('@/components/tools/SymbolCopyTool').then(mod => mod.SymbolCopyTool));
+const RandomNumberGenerator = dynamic(() => import('@/components/tools/RandomNumberGenerator').then(mod => mod.RandomNumberGenerator));
+const PasswordGenerator = dynamic(() => import('@/components/tools/PasswordGenerator').then(mod => mod.PasswordGenerator));
+const DocumentGenerator = dynamic(() => import('@/components/tools/DocumentGenerator').then(mod => mod.DocumentGenerator));
+const ResumeGenerator = dynamic(() => import('@/components/tools/ResumeGenerator').then(mod => mod.ResumeGenerator));
+
 // Design Tools
 const GlassmorphismGenerator = dynamic(() => import('@/components/tools/GlassmorphismGenerator').then(mod => mod.GlassmorphismGenerator));
 const GridFlexGenerator = dynamic(() => import('@/components/tools/GridFlexGenerator').then(mod => mod.GridFlexGenerator));
@@ -198,6 +223,29 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '110': return <RestClient />;
     case '111': return <TestPlanManager />;
     case '112': return <BugReporter />;
+    case '113': return <CpfGenerator />;
+    case '114': return <CnpjGenerator />;
+    case '115': return <RgGenerator />;
+    case '116': return <CnhGenerator />;
+    case '117': return <CepGenerator />;
+    case '118': return <PisGenerator />;
+    case '119': return <RenavamGenerator />;
+    case '120': return <StateInclusionGenerator />;
+    case '121': return <VoterTitleGenerator />;
+    case '122': return <CreditCardGenerator />;
+    case '123': return <BankAccountGenerator />;
+    case '124': return <PeopleGenerator />;
+    case '125': return <CompanyGenerator />;
+    case '126': return <VehicleGenerator />;
+    case '127': return <PlateGenerator />;
+    case '128': return <NameGenerator />;
+    case '129': return <NickGenerator />;
+    case '130': return <FancyTextGenerator />;
+    case '131': return <SymbolCopyTool />;
+    case '132': return <RandomNumberGenerator />;
+    case '133': return <PasswordGenerator />;
+    case '134': return <DocumentGenerator />;
+    case '135': return <ResumeGenerator />;
     case '999': return <SupportersWall />;
 
     // Design
