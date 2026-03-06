@@ -165,6 +165,29 @@ const MazeGenerator = dynamic(() => import('@/components/tools/MazeGenerator').t
 const AnagramSolver = dynamic(() => import('@/components/tools/AnagramSolver').then(mod => mod.AnagramSolver));
 const RhymeFinder = dynamic(() => import('@/components/tools/RhymeFinder').then(mod => mod.RhymeFinder));
 
+// Novas Ferramentas Sugeridas
+const ContrastChecker = dynamic(() => import('@/components/tools/ContrastChecker').then(mod => mod.ContrastChecker));
+const JsonToTypescript = dynamic(() => import('@/components/tools/JsonToTypescript').then(mod => mod.JsonToTypescript));
+const CarbonSnippet = dynamic(() => import('@/components/tools/CarbonSnippet').then(mod => mod.CarbonSnippet));
+const EisenhowerMatrix = dynamic(() => import('@/components/tools/EisenhowerMatrix').then(mod => mod.EisenhowerMatrix));
+const RadixVisualizer = dynamic(() => import('@/components/tools/RadixVisualizer').then(mod => mod.RadixVisualizer));
+const ColorBlindnessSimulator = dynamic(() => import('@/components/tools/ColorBlindnessSimulator').then(mod => mod.ColorBlindnessSimulator));
+const WorldTimePlanner = dynamic(() => import('@/components/tools/WorldTimePlanner').then(mod => mod.WorldTimePlanner));
+const TailwindToCss = dynamic(() => import('@/components/tools/TailwindToCss').then(mod => mod.TailwindToCss));
+const PackageJsonAnalyzer = dynamic(() => import('@/components/tools/PackageJsonAnalyzer').then(mod => mod.PackageJsonAnalyzer));
+const VoiceTranscription = dynamic(() => import('@/components/tools/VoiceTranscription').then(mod => mod.VoiceTranscription));
+const MermaidEditor = dynamic(() => import('@/components/tools/MermaidEditor').then(mod => mod.MermaidEditor));
+const DirectoryTree = dynamic(() => import('@/components/tools/DirectoryTree').then(mod => mod.DirectoryTree));
+const FlexboxSim = dynamic(() => import('@/components/tools/FlexboxSim').then(mod => mod.FlexboxSim));
+const SvgOptimizer = dynamic(() => import('@/components/tools/SvgOptimizer').then(mod => mod.SvgOptimizer));
+const SmoothShadows = dynamic(() => import('@/components/tools/SmoothShadows').then(mod => mod.SmoothShadows));
+const ResponsiveType = dynamic(() => import('@/components/tools/ResponsiveType').then(mod => mod.ResponsiveType));
+const OcrReader = dynamic(() => import('@/components/tools/OcrReader').then(mod => mod.OcrReader));
+const BusinessMetrics = dynamic(() => import('@/components/tools/BusinessMetrics').then(mod => mod.BusinessMetrics));
+const VisualJson = dynamic(() => import('@/components/tools/VisualJson').then(mod => mod.VisualJson));
+const MathPlotter = dynamic(() => import('@/components/tools/MathPlotter').then(mod => mod.MathPlotter));
+
+
 
 function getCategoryIcon(category: string) {
   switch (category) {
@@ -270,6 +293,27 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '145': return <BankAccountValidator />;
     case '146': return <AreaCalculator />;
     case '147': return <DateTools />;
+    case '148': return <ContrastChecker />;
+    case '149': return <JsonToTypescript />;
+    case '150': return <CarbonSnippet />;
+    case '151': return <EisenhowerMatrix />;
+    case '152': return <ColorBlindnessSimulator />;
+    case '153': return <WorldTimePlanner />;
+    case '154': return <TailwindToCss />;
+    case '155': return <PackageJsonAnalyzer />;
+    case '156': return <VoiceTranscription />;
+    case '157': return <RadixVisualizer />;
+    case '158': return <MermaidEditor />;
+    case '159': return <DirectoryTree />;
+    case '160': return <FlexboxSim />;
+    case '161': return <SvgOptimizer />;
+    case '162': return <SmoothShadows />;
+    case '163': return <ResponsiveType />;
+    case '164': return <OcrReader />;
+    case '165': return <BusinessMetrics />;
+    case '166': return <VisualJson />;
+    case '167': return <MathPlotter />;
+
     case '999': return <SupportersWall />;
 
     // Design

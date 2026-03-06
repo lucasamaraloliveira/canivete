@@ -5,74 +5,12 @@ import { Cpu, Plus, Trash2, RefreshCw, Copy, Check, FileJson, Info, ChevronDown 
 import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { CodeBlock } from '../CodeBlock';
+import { CustomSelect } from '../CustomSelect';
 
 interface MockField {
     id: string;
     name: string;
     type: 'string' | 'number' | 'boolean' | 'uuid' | 'date' | 'email' | 'name';
-}
-
-function CustomSelect({
-    value,
-    onChange,
-    options
-}: {
-    value: string;
-    onChange: (val: string) => void;
-    options: { label: string; value: string }[]
-}) {
-    const [isOpen, setIsOpen] = useState(false);
-    const selectedLabel = options.find(o => o.value === value)?.label || value;
-
-    return (
-        <div className="relative group/select">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className={cn(
-                    "w-32 p-2.5 bg-bg-main border border-border-main rounded-xl text-[10px] font-black uppercase tracking-widest outline-none flex items-center justify-between transition-all hover:bg-text-main/5",
-                    isOpen && "ring-2 ring-text-main/10 border-text-main/20"
-                )}
-            >
-                <span className="truncate pr-2">{selectedLabel}</span>
-                <ChevronDown size={14} className={cn("shrink-0 opacity-30 group-hover/select:opacity-100 transition-all", isOpen && "rotate-180 opacity-100")} />
-            </button>
-            <AnimatePresence>
-                {isOpen && (
-                    <>
-                        <div
-                            className="fixed inset-0 z-10"
-                            onClick={() => setIsOpen(false)}
-                        />
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="absolute top-full left-0 right-0 mt-2 bg-card-main/90 backdrop-blur-xl border border-border-main rounded-2xl shadow-2xl z-20 overflow-hidden py-2"
-                        >
-                            {options.map((opt) => (
-                                <button
-                                    key={opt.value}
-                                    onClick={() => {
-                                        onChange(opt.value);
-                                        setIsOpen(false);
-                                    }}
-                                    className={cn(
-                                        "w-full px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest transition-all relative overflow-hidden",
-                                        value === opt.value
-                                            ? "bg-text-main text-bg-main"
-                                            : "text-text-main/60 hover:bg-text-main/5 hover:text-text-main hover:pl-6"
-                                    )}
-                                >
-                                    {opt.label}
-                                </button>
-                            ))}
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
-        </div>
-    );
 }
 
 export function ApiMocker() {

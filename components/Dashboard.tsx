@@ -749,6 +749,15 @@ export function Dashboard({ initialTool }: DashboardProps) {
                                         "flex-1 min-h-0 bg-card-main rounded-[24px] lg:rounded-[32px] border border-border-main shadow-2xl flex flex-col overflow-hidden backdrop-blur-sm transition-all duration-500",
                                         isFullscreen && "fixed inset-2 z-[100] rounded-[32px] sm:rounded-[40px] shadow-[0_0_100px_rgba(0,0,0,0.5)]"
                                     )}>
+                                        {isFullscreen && (
+                                            <button
+                                                onClick={() => setIsFullscreen(false)}
+                                                className="absolute top-6 right-6 z-[110] p-3 bg-text-main text-bg-main rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center font-bold"
+                                                aria-label="Sair da Tela Cheia"
+                                            >
+                                                <X size={20} />
+                                            </button>
+                                        )}
                                         <div className="flex-1 p-4 sm:p-6 lg:p-8 notebook-tool-p overflow-y-auto custom-scrollbar">
                                             <ToolRenderer toolId={selectedToolId} />
                                         </div>
