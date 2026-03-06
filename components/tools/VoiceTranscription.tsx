@@ -8,12 +8,14 @@ export function VoiceTranscription() {
     const [isListening, setIsListening] = useState(false);
     const [transcript, setTranscript] = useState('');
     const [interimTranscript, setInterimTranscript] = useState('');
+    const [isSupported, setIsSupported] = useState<boolean | null>(null);
     const [copied, setCopied] = useState(false);
     const recognitionRef = useRef<any>(null);
 
     useEffect(() => {
         const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         if (SpeechRecognition) {
+            setIsSupported(true);
             recognitionRef.current = new SpeechRecognition();
             recognitionRef.current.continuous = true;
             recognitionRef.current.interimResults = true;
@@ -43,6 +45,8 @@ export function VoiceTranscription() {
             recognitionRef.current.onend = () => {
                 setIsListening(false);
             };
+        } else {
+            setIsSupported(false);
         }
     }, []);
 
@@ -67,7 +71,7 @@ export function VoiceTranscription() {
         setInterimTranscript('');
     };
 
-    if (!(window as any).SpeechRecognition && !(window as any).webkitSpeechRecognition) {
+    if (isSupported === false) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-12 text-center">
                 <div className="w-20 h-20 bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center mb-6">
@@ -80,6 +84,8 @@ export function VoiceTranscription() {
             </div>
         );
     }
+
+    if (isSupported === null) return null; // Wait for client-side check
 
     return (
         <div className="space-y-8 h-full flex flex-col">
