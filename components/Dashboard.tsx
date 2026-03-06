@@ -36,6 +36,7 @@ const getCategoryIcon = (category: string): string => {
         case 'Multimídia': return 'Video';
         case 'Utilitários': return 'Wrench';
         case 'Educação': return 'BookOpen';
+        case 'Saúde': return 'Heart';
         default: return 'Box';
     }
 };

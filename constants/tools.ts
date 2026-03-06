@@ -2,7 +2,7 @@ export interface Tool {
   id: string;
   name: string;
   description: string;
-  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos' | 'Comunidade';
+  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos' | 'Comunidade' | 'Saúde';
   icon: string;
   slug: string;
   categorySlug: string;
@@ -177,5 +177,8 @@ export const TOOLS: Tool[] = [
   { id: '165', name: 'Métricas de Negócio', description: 'Calculadora de ROI, CAC, LTV e outras métricas essenciais para startups.', category: 'Produtividade', icon: 'TrendingUp', slug: 'metricas-de-negocio', categorySlug: 'produtividade' },
   { id: '166', name: 'Editor JSON Visual', description: 'Manipule objetos JSON complexos através de uma interface de árvore interativa.', category: 'Dev', icon: 'Braces', slug: 'editor-json-visual', categorySlug: 'dev' },
   { id: '167', name: 'Plotter Matemático', description: 'Visualize funções matemáticas reais em um plano cartesiano dinâmico.', category: 'Ciência', icon: 'LineChart', slug: 'plotter-matematico', categorySlug: 'ciencia' },
+  { id: '168', name: 'Respiração Guiada', description: 'Exercícios de respiração (Box Breathing) para redução de estresse e foco.', category: 'Saúde', icon: 'Wind', slug: 'respiracao-guiada', categorySlug: 'saude' },
+  { id: '169', name: 'Descanso Ocular', description: 'Temporizador baseado na técnica 20-20-20 para evitar fadiga visual no PC.', category: 'Saúde', icon: 'Eye', slug: 'descanso-ocular', categorySlug: 'saude' },
+  { id: '170', name: 'Lembrete de Água', description: 'Calculadora de hidratação diária com sistema de lembretes e metas.', category: 'Saúde', icon: 'Droplets', slug: 'lembrete-de-agua', categorySlug: 'saude' },
   { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete Possível.', category: 'Comunidade', icon: 'Crown', slug: 'hall-da-fama', categorySlug: 'comunidade' },
 ];

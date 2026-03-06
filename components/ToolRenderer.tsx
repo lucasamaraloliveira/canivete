@@ -186,6 +186,9 @@ const OcrReader = dynamic(() => import('./tools/OcrReader').then(mod => mod.OcrR
 const BusinessMetrics = dynamic(() => import('./tools/BusinessMetrics').then(mod => mod.BusinessMetrics));
 const VisualJson = dynamic(() => import('./tools/VisualJson').then(mod => mod.VisualJson));
 const MathPlotter = dynamic(() => import('./tools/MathPlotter').then(mod => mod.MathPlotter));
+const BreathWork = dynamic(() => import('@/components/tools/BreathWork').then(mod => mod.BreathWork));
+const EyeGuard = dynamic(() => import('@/components/tools/EyeGuard').then(mod => mod.EyeGuard));
+const WaterReminder = dynamic(() => import('@/components/tools/WaterReminder').then(mod => mod.WaterReminder));
 
 
 
@@ -197,6 +200,7 @@ function getCategoryIcon(category: string) {
     case 'Ciência': return 'Atom';
     case 'Segurança': return 'Lock';
     case 'Diversos': return 'Gamepad2';
+    case 'Saúde': return 'Heart';
     default: return 'Code2';
   }
 }
@@ -313,6 +317,9 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '165': return <BusinessMetrics />;
     case '166': return <VisualJson />;
     case '167': return <MathPlotter />;
+    case '168': return <BreathWork />;
+    case '169': return <EyeGuard />;
+    case '170': return <WaterReminder />;
 
     case '999': return <SupportersWall />;
 
