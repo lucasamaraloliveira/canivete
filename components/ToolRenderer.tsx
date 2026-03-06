@@ -176,16 +176,16 @@ const WorldTimePlanner = dynamic(() => import('@/components/tools/WorldTimePlann
 const TailwindToCss = dynamic(() => import('@/components/tools/TailwindToCss').then(mod => mod.TailwindToCss));
 const PackageJsonAnalyzer = dynamic(() => import('@/components/tools/PackageJsonAnalyzer').then(mod => mod.PackageJsonAnalyzer));
 const VoiceTranscription = dynamic(() => import('@/components/tools/VoiceTranscription').then(mod => mod.VoiceTranscription));
-const MermaidEditor = dynamic(() => import('@/components/tools/MermaidEditor').then(mod => mod.MermaidEditor));
-const DirectoryTree = dynamic(() => import('@/components/tools/DirectoryTree').then(mod => mod.DirectoryTree));
-const FlexboxSim = dynamic(() => import('@/components/tools/FlexboxSim').then(mod => mod.FlexboxSim));
-const SvgOptimizer = dynamic(() => import('@/components/tools/SvgOptimizer').then(mod => mod.SvgOptimizer));
-const SmoothShadows = dynamic(() => import('@/components/tools/SmoothShadows').then(mod => mod.SmoothShadows));
-const ResponsiveType = dynamic(() => import('@/components/tools/ResponsiveType').then(mod => mod.ResponsiveType));
-const OcrReader = dynamic(() => import('@/components/tools/OcrReader').then(mod => mod.OcrReader));
-const BusinessMetrics = dynamic(() => import('@/components/tools/BusinessMetrics').then(mod => mod.BusinessMetrics));
-const VisualJson = dynamic(() => import('@/components/tools/VisualJson').then(mod => mod.VisualJson));
-const MathPlotter = dynamic(() => import('@/components/tools/MathPlotter').then(mod => mod.MathPlotter));
+const MermaidEditor = dynamic(() => import('./tools/MermaidEditor').then(mod => mod.MermaidEditor));
+const DirectoryTree = dynamic(() => import('./tools/DirectoryTree').then(mod => mod.DirectoryTree));
+const FlexboxSim = dynamic(() => import('./tools/FlexboxSim').then(mod => mod.FlexboxSim));
+const SvgOptimizer = dynamic(() => import('./tools/SvgOptimizer').then(mod => mod.SvgOptimizer));
+const SmoothShadows = dynamic(() => import('./tools/SmoothShadows').then(mod => mod.SmoothShadows));
+const ResponsiveType = dynamic(() => import('./tools/ResponsiveType').then(mod => mod.ResponsiveType));
+const OcrReader = dynamic(() => import('./tools/OcrReader').then(mod => mod.OcrReader));
+const BusinessMetrics = dynamic(() => import('./tools/BusinessMetrics').then(mod => mod.BusinessMetrics));
+const VisualJson = dynamic(() => import('./tools/VisualJson').then(mod => mod.VisualJson));
+const MathPlotter = dynamic(() => import('./tools/MathPlotter').then(mod => mod.MathPlotter));
 
 
 
