@@ -180,5 +180,6 @@ export const TOOLS: Tool[] = [
   { id: '168', name: 'Respiração Guiada', description: 'Exercícios de respiração (Box Breathing) para redução de estresse e foco.', category: 'Saúde', icon: 'Wind', slug: 'respiracao-guiada', categorySlug: 'saude' },
   { id: '169', name: 'Descanso Ocular', description: 'Temporizador baseado na técnica 20-20-20 para evitar fadiga visual no PC.', category: 'Saúde', icon: 'Eye', slug: 'descanso-ocular', categorySlug: 'saude' },
   { id: '170', name: 'Lembrete de Água', description: 'Calculadora de hidratação diária com sistema de lembretes e metas.', category: 'Saúde', icon: 'Droplets', slug: 'lembrete-de-agua', categorySlug: 'saude' },
+  { id: '171', name: 'Transcrição de Vídeo Social', description: 'Transcreve vídeos do Instagram, TikTok e Facebook via link ou arquivo local.', category: 'Produtividade', icon: 'Video', slug: 'transcricao-de-video-social', categorySlug: 'produtividade' },
   { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete Possível.', category: 'Comunidade', icon: 'Crown', slug: 'hall-da-fama', categorySlug: 'comunidade' },
 ];

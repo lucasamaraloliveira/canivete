@@ -189,7 +189,7 @@ const MathPlotter = dynamic(() => import('./tools/MathPlotter').then(mod => mod.
 const BreathWork = dynamic(() => import('@/components/tools/BreathWork').then(mod => mod.BreathWork));
 const EyeGuard = dynamic(() => import('@/components/tools/EyeGuard').then(mod => mod.EyeGuard));
 const WaterReminder = dynamic(() => import('@/components/tools/WaterReminder').then(mod => mod.WaterReminder));
-
+const VideoTranscription = dynamic(() => import('@/components/tools/VideoTranscription').then(mod => mod.VideoTranscription));
 
 
 function getCategoryIcon(category: string) {
@@ -320,6 +320,7 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '168': return <BreathWork />;
     case '169': return <EyeGuard />;
     case '170': return <WaterReminder />;
+    case '171': return <VideoTranscription />;
 
     case '999': return <SupportersWall />;
 
