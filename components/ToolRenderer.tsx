@@ -4,6 +4,8 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Settings, RotateCcw } from "lucide-react";
 import { Icon } from "@/components/Icon";
+import { AiToolWrapper } from "@/components/AiToolWrapper";
+import { GenericAiTool } from "@/components/tools/GenericAiTool";
 
 // Tool Implementation Components
 const JsonToZod = dynamic(() => import('@/components/tools/JsonToZod').then(mod => mod.JsonToZod));
@@ -34,6 +36,7 @@ const RestClient = dynamic(() => import('@/components/tools/RestClient').then(mo
 const TestPlanManager = dynamic(() => import('@/components/tools/TestPlanManager').then(mod => mod.TestPlanManager));
 const BugReporter = dynamic(() => import('@/components/tools/BugReporter').then(mod => mod.BugReporter));
 const SupportersWall = dynamic(() => import('@/components/tools/SupportersWall').then(mod => mod.SupportersWall));
+const WorkflowAutomator = dynamic(() => import('@/components/tools/WorkflowAutomator').then(mod => mod.WorkflowAutomator));
 
 // Diversos & Generators (New)
 const CpfGenerator = dynamic(() => import('@/components/tools/CpfGenerator').then(mod => mod.CpfGenerator));
@@ -192,6 +195,7 @@ const WaterReminder = dynamic(() => import('@/components/tools/WaterReminder').t
 const VideoTranscription = dynamic(() => import('@/components/tools/VideoTranscription').then(mod => mod.VideoTranscription));
 const YoutubeTranscription = dynamic(() => import('@/components/tools/YoutubeTranscription').then(mod => mod.YoutubeTranscription));
 const SqlConverter = dynamic(() => import('@/components/tools/SqlConverter').then(mod => mod.SqlConverter));
+const IAClientOmnichannel = dynamic(() => import('@/components/tools/IAClientOmnichannel').then(mod => mod.IAClientOmnichannel));
 
 
 function getCategoryIcon(category: string) {
@@ -203,6 +207,7 @@ function getCategoryIcon(category: string) {
     case 'Segurança': return 'Lock';
     case 'Diversos': return 'Gamepad2';
     case 'Saúde': return 'Heart';
+    case 'IA': return 'Brain';
     default: return 'Code2';
   }
 }
@@ -322,12 +327,33 @@ function ToolRenderer({ toolId }: { toolId: string }) {
     case '168': return <BreathWork />;
     case '169': return <EyeGuard />;
     case '170': return <WaterReminder />;
-    case '171':
-      return <VideoTranscription />;
-    case '172':
-      return <YoutubeTranscription />;
     case '173':
       return <SqlConverter />;
+
+    // --- IA TOOLS ---
+    case '174': return <AiToolWrapper title="IA Client Omnichannel" description="Chat universal compatível com OpenAI, Google Gemini e Anthropic Claude.">{(config) => <IAClientOmnichannel initialProvider={config.provider} initialKey={config.apiKey} />}</AiToolWrapper>;
+    case '175': return <AiToolWrapper title="Escritor de Emails IA" description="Gera rascunhos de emails profissionais baseados em contextos rápidos.">{(config) => <GenericAiTool {...config} title="Escritor" instruction="Você é um assistente de escrita de emails profissionais. Escreva um email claro, conciso e com tom adequado." inputPlaceholder="Ex: Pedir aumento ao chefe / Responder convite de palestra..." options={[{label: 'Formal', value: 'formal'}, {label: 'Casual', value: 'casual'}, {label: 'Urgente', value: 'urgent'}]} />}</AiToolWrapper>;
+    case '176': return <AiToolWrapper title="Resumidor de Textos" description="Transforma textos longos em resumos concisos e tópicos principais.">{(config) => <GenericAiTool {...config} title="Resumidor" instruction="Resuma o texto a seguir em tópicos principais e um parágrafo de conclusão. Seja direto." inputPlaceholder="Cole o texto longo aqui..." />}</AiToolWrapper>;
+    case '177': return <AiToolWrapper title="Gerador de Código IA" description="Gera snippets de código em diversas linguagens a partir de descrições.">{(config) => <GenericAiTool {...config} title="Gerador de Código" isCode instruction="Gera código de alta qualidade baseado na descrição. Retorne APENAS o código." inputPlaceholder="Ex: Uma função em React para ler o localStorage..." options={[{label: 'React', value: 'react'}, {label: 'Python', value: 'python'}, {label: 'TypeScript', value: 'typescript'}]} />}</AiToolWrapper>;
+    case '178': return <AiToolWrapper title="Tradutor Inteligente" description="Tradução de alta precisão com ajuste de tom e contexto cultural.">{(config) => <GenericAiTool {...config} title="Tradutor" instruction="Traduza o texto para o idioma selecionado mantendo o contexto." inputPlaceholder="Digite o texto para traduzir..." options={[{label: 'Inglês', value: 'english'}, {label: 'Espanhol', value: 'spanish'}, {label: 'Alemão', value: 'german'}]} />}</AiToolWrapper>;
+    case '179': return <AiToolWrapper title="Analisador de Sentimento" description="Detecta o tom emocional de textos (Positivo, Negativo, Neutro).">{(config) => <GenericAiTool {...config} title="Analisador" instruction="Analise o sentimento do texto a seguir. Responda com uma nota de 1 a 10 e uma breve explicação." inputPlaceholder="Cole um feedback ou mensagem aqui..." />}</AiToolWrapper>;
+    case '180': return <AiToolWrapper title="SEO Keyword Generator" description="Sugere palavras-chave e otimizações de SEO para seu conteúdo.">{(config) => <GenericAiTool {...config} title="SEO" instruction="Gere uma lista de palavras-chave de cauda longa e estratégias de SEO para o tema." inputPlaceholder="Ex: Loja de sapatos online / Blog de culinária..." />}</AiToolWrapper>;
+    case '181': return <AiToolWrapper title="Revisão Gramatical IA" description="Melhora a escrita, corrigindo gramática e sugerindo melhorias de estilo.">{(config) => <GenericAiTool {...config} title="Revisor" instruction="Revise o texto gramaticalmente e sugira 3 melhorias de estilo/fluidez." inputPlaceholder="Cole seu rascunho aqui..." />}</AiToolWrapper>;
+    case '182': return <AiToolWrapper title="Gerador de Prompts Art" description="Cria prompts detalhados para ferramentas de IA generativa de imagens.">{(config) => <GenericAiTool {...config} title="Prompts Art" instruction="Transforme a ideia simples do usuário em um prompt detalhado e otimizado especificamente para a ferramenta selecionada. Retorne APENAS o texto do prompt final pronto para uso, sem qualquer introdução, explicação ou formatação extra." inputPlaceholder="Ex: Um astronauta medieval em Marte..." options={[{label: 'Midjourney', value: 'midjourney'}, {label: 'DALL-E 3', value: 'dalle'}, {label: 'Stable Diffusion', value: 'stable-diffusion'}, {label: 'Nano Banana', value: 'nano-banana'}]} />}</AiToolWrapper>;
+    case '183': return <AiToolWrapper title="Extrator de Insights" description="Identifica entidades, datas e pontos chave em documentos complexos.">{(config) => <GenericAiTool {...config} title="Extrator" instruction="Extraia nomes, datas, valores monetários e decisões principais deste texto." inputPlaceholder="Cole o conteúdo do documento aqui..." />}</AiToolWrapper>;
+    case '184': return <AiToolWrapper title="Gerador de Títulos" description="Cria títulos chamativos para blogs, vídeos e redes sociais.">{(config) => <GenericAiTool {...config} title="Títulos" instruction="Crie 10 opções de títulos chamativos (clickbait ético) para o tema." inputPlaceholder="Assunto do conteúdo..." />}</AiToolWrapper>;
+    case '185': return <AiToolWrapper title="Brainstorming Partner" description="Gera ideias criativas e expande conceitos iniciais de projetos.">{(config) => <GenericAiTool {...config} title="Brainstorming" instruction="Seja um parceiro criativo. Pegue a ideia inicial e sugira 5 expansões inovadoras." inputPlaceholder="Ideia do projeto..." />}</AiToolWrapper>;
+    case '186': return <AiToolWrapper title="Python Script Helper" description="Ajuda a criar e debugar scripts Python com explicações detalhadas.">{(config) => <GenericAiTool {...config} title="Python Helper" isCode instruction="Ajude com scripts Python. Explique o que o código faz." inputPlaceholder="Descreva o script ou cole o código com erro..." />}</AiToolWrapper>;
+    case '187': return <AiToolWrapper title="SQL Query Assistant" description="Transforma perguntas em linguagem natural em queries SQL válidas.">{(config) => <GenericAiTool {...config} title="SQL Assistant" isCode instruction="Transforme a pergunta em uma query SQL válida. Assuma nomes de tabelas padrão se não informados." inputPlaceholder="Ex: Selecionar todos os usuários que compraram no último mês..." />}</AiToolWrapper>;
+    case '188': return <AiToolWrapper title="Gerador de RegEx IA" description="Cria expressões regulares complexas a partir de descrições simples.">{(config) => <GenericAiTool {...config} title="Regex IA" isCode instruction="Cria uma RegEx para o padrão descrito e forneça uma breve explicação da lógica." inputPlaceholder="Ex: Validar uma senha com 8 dígitos e um símbolo..." />}</AiToolWrapper>;
+    case '189': return <AiToolWrapper title="Explicador de Conceitos" description="Explica temas complexos de forma simples (estilo ELI5).">{(config) => <GenericAiTool {...config} title="ELI5" instruction="Explique este conceito para uma criança de 5 anos (ELI5), use analogias simples." inputPlaceholder="Ex: Como funciona a computação quântica?" />}</AiToolWrapper>;
+    case '190': return <AiToolWrapper title="Analisador de Código" description="Revisa seu código em busca de bugs e oportunidades de otimização.">{(config) => <GenericAiTool {...config} title="Analisador" instruction="Revise o código em busca de vulnerabilidades, bugs e problemas de performance." inputPlaceholder="Cole o código aqui..." />}</AiToolWrapper>;
+    case '191': return <AiToolWrapper title="Gerador de User Stories" description="Cria histórias de usuário completas para o desenvolvimento ágil.">{(config) => <GenericAiTool {...config} title="Agile" instruction="Crie User Stories no formato 'Como um [papel], eu quero [objetivo] para [benefício]'." inputPlaceholder="Funcionalidade do sistema..." />}</AiToolWrapper>;
+    case '192': return <AiToolWrapper title="IA Regex Debugger" description="Explica o que uma expressão regular faz e sugere correções.">{(config) => <GenericAiTool {...config} title="Regex Debug" instruction="Explique o funcionamento da RegEx fornecida e aponte possíveis erros." inputPlaceholder="Cole a RegEx aqui..." />}</AiToolWrapper>;
+    case '193': return <AiToolWrapper title="Commit Message IA" description="Gera mensagens de commit seguindo o padrão Conventional Commits.">{(config) => <GenericAiTool {...config} title="Git Commits" instruction="Gere uma mensagem de commit clara seguindo o padrão Conventional Commits baseado no resumo." inputPlaceholder="O que você mudou no código?..." />}</AiToolWrapper>;
+    case '194': return <AiToolWrapper title="Readme Generator IA" description="Cria documentação técnica completa para seus repositórios.">{(config) => <GenericAiTool {...config} title="README" instruction="Gere um README.md completo e profissional em Markdown para o projeto." inputPlaceholder="Nome e descrição rápida do projeto..." />}</AiToolWrapper>;
+    case '195': return <AiToolWrapper title="Unit Test Generator" description="Sugere casos de teste unitário baseados na lógica do seu código.">{(config) => <GenericAiTool {...config} title="Testes" isCode instruction="Gere casos de teste unitário para o código fornecido. Use Jest/Vitest como padrão." inputPlaceholder="Cole a função ou componente aqui..." />}</AiToolWrapper>;
+    case '196': return <WorkflowAutomator />;
 
     case '999': return <SupportersWall />;
 

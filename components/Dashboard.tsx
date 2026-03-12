@@ -9,7 +9,8 @@ import {
     Search, Menu, X, Code2, ChevronRight, Moon, Sun, LayoutDashboard, Settings,
     Info, ExternalLink, Check, Copy, RotateCcw, Heart, Mail, MessageSquarePlus,
     Grid, ShieldAlert, RefreshCw, Bell, Sparkles, Compass, MousePointer2, Plus,
-    ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, Maximize, Lock, ChevronRight as ChevronRightIcon
+    ArrowRight, LayoutGrid, List, Wand2, ShieldCheck, Smartphone, Monitor, Maximize, Lock, ChevronRight as ChevronRightIcon,
+    Brain, Bot, Sparkles as SparklesIcon
 } from 'lucide-react';
 
 import { LazyMotion, domAnimation, motion, AnimatePresence } from 'motion/react';
@@ -37,6 +38,7 @@ const getCategoryIcon = (category: string): string => {
         case 'Utilitários': return 'Wrench';
         case 'Educação': return 'BookOpen';
         case 'Saúde': return 'Heart';
+        case 'IA': return 'Brain';
         default: return 'Box';
     }
 };
@@ -114,7 +116,8 @@ export function Dashboard({ initialTool }: DashboardProps) {
         'Segurança': ['Criptografia', 'Senha', 'Hash', 'Privacidade', 'SSL', 'Validadores'],
         'Ciência': ['Matemática', 'Física', 'Biologia', 'Conversor', 'Algoritmos'],
         'Saúde': ['Bem-estar', 'Exercícios', 'Hidratação', 'Foco Mental', 'Ergonomia'],
-        'Diversos': ['Jogos', 'RPG', 'Música', 'Memes', 'Geradores', 'Brasil']
+        'Diversos': ['Jogos', 'RPG', 'Música', 'Memes', 'Geradores', 'Brasil'],
+        'IA': ['OpenAI', 'Chat', 'GPT', 'Prompts', 'NLP', 'Imagens', 'Dev', 'Escrita']
     };
 
 

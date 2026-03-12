@@ -2,7 +2,7 @@ export interface Tool {
   id: string;
   name: string;
   description: string;
-  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos' | 'Comunidade' | 'Saúde';
+  category: 'Dev' | 'Design' | 'Produtividade' | 'Ciência' | 'Segurança' | 'Diversos' | 'Comunidade' | 'Saúde' | 'IA';
   icon: string;
   slug: string;
   categorySlug: string;
@@ -184,5 +184,28 @@ export const TOOLS: Tool[] = [
   { id: '171', name: 'Transcrição de Redes Sociais', description: 'Transcreve vídeos do Instagram, TikTok e Facebook via link usando IA.', category: 'Produtividade', icon: 'Share2', slug: 'transcricao-de-redes-sociais', categorySlug: 'produtividade' },
   { id: '172', name: 'Transcrição de YouTube', description: 'Transcreve vídeos do YouTube diretamente via link com alta precisão e IA.', category: 'Produtividade', icon: 'Youtube', slug: 'transcricao-de-youtube', categorySlug: 'produtividade' },
   { id: '173', name: 'Conversor SQL Server', description: 'Converte SQL Server para MySQL, PG e NoSQL com formatação inteligente.', category: 'Dev', icon: 'RefreshCw', slug: 'conversor-sql-server', categorySlug: 'dev', tags: ['SQL', 'SQL Server', 'MySQL', 'PostgreSQL', 'NoSQL', 'Conversor'] },
+  { id: '174', name: 'IA Client Omnichannel', description: 'Chat universal compatível com OpenAI, Google Gemini e Anthropic Claude.', category: 'IA', icon: 'MessageSquare', slug: 'ia-client-omnichannel', categorySlug: 'ia', tags: ['OpenAI', 'Gemini', 'Claude', 'Chat', 'GPT'] },
+  { id: '175', name: 'Escritor de Emails IA', description: 'Gera rascunhos de emails profissionais baseados em contextos rápidos.', category: 'IA', icon: 'Mail', slug: 'escritor-de-emails-ia', categorySlug: 'ia', tags: ['Escrita', 'Produtividade', 'Emails'] },
+  { id: '176', name: 'Resumidor de Textos', description: 'Transforma textos longos em resumos concisos e tópicos principais.', category: 'IA', icon: 'AlignLeft', slug: 'resumidor-de-textos', categorySlug: 'ia', tags: ['Resumo', 'Leitura', 'NLP'] },
+  { id: '177', name: 'Gerador de Código IA', description: 'Gera snippets de código em diversas linguagens a partir de descrições.', category: 'IA', icon: 'Code2', slug: 'gerador-de-codigo-ia', categorySlug: 'ia', tags: ['Programação', 'Dev', 'Productivity'] },
+  { id: '178', name: 'Tradutor Inteligente', description: 'Tradução de alta precisão com ajuste de tom e contexto cultural.', category: 'IA', icon: 'Languages', slug: 'tradutor-inteligente', categorySlug: 'ia', tags: ['Tradução', 'Idiomas'] },
+  { id: '179', name: 'Analisador de Sentimento', description: 'Detecta o tom emocional de textos (Positivo, Negativo, Neutro).', category: 'IA', icon: 'Smile', slug: 'analisador-de-sentimento', categorySlug: 'ia', tags: ['Análise', 'NLP', 'Social'] },
+  { id: '180', name: 'SEO Keyword Generator', description: 'Sugere palavras-chave e otimizações de SEO para seu conteúdo.', category: 'IA', icon: 'Search', slug: 'seo-keyword-generator', categorySlug: 'ia', tags: ['SEO', 'Marketing', 'Conteúdo'] },
+  { id: '181', name: 'Revisão Gramatical IA', description: 'Melhora a escrita, corrigindo gramática e sugerindo melhorias de estilo.', category: 'IA', icon: 'CheckCheck', slug: 'revisao-gramatical-ia', categorySlug: 'ia', tags: ['Escrita', 'Gramática'] },
+  { id: '182', name: 'Gerador de Prompts Art', description: 'Cria prompts detalhados para Midjourney, DALL-E e Stable Diffusion.', category: 'IA', icon: 'Palette', slug: 'gerador-de-prompts-art', categorySlug: 'ia', tags: ['Design', 'Arte', 'Prompts'] },
+  { id: '183', name: 'Extrator de Insights', description: 'Identifica entidades, datas e pontos chave em documentos complexos.', category: 'IA', icon: 'Lightbulb', slug: 'extrator-de-insights', categorySlug: 'ia', tags: ['Dados', 'Análise', 'Documentos'] },
+  { id: '184', name: 'Gerador de Títulos', description: 'Cria títulos chamativos para blogs, vídeos e redes sociais.', category: 'IA', icon: 'Type', slug: 'gerador-de-titulos', categorySlug: 'ia', tags: ['Marketing', 'Copywriting'] },
+  { id: '185', name: 'Brainstorming Partner', description: 'Gera ideias criativas e expande conceitos iniciais de projetos.', category: 'IA', icon: 'Brain', slug: 'brainstorming-partner', categorySlug: 'ia', tags: ['Criatividade', 'Planejamento'] },
+  { id: '186', name: 'Python Script Helper', description: 'Ajuda a criar e debugar scripts Python com explicações detalhadas.', category: 'IA', icon: 'Terminal', slug: 'python-script-helper', categorySlug: 'ia', tags: ['Python', 'Dev', 'Debug'] },
+  { id: '187', name: 'SQL Query Assistant', description: 'Transforma perguntas em linguagem natural em queries SQL válidas.', category: 'IA', icon: 'Database', slug: 'sql-query-assistant', categorySlug: 'ia', tags: ['SQL', 'Dados', 'Backend'] },
+  { id: '188', name: 'Gerador de RegEx IA', description: 'Cria expressões regulares complexas a partir de descrições simples.', category: 'IA', icon: 'Hash', slug: 'gerador-de-regex-ia', categorySlug: 'ia', tags: ['Regex', 'Dev', 'Lógica'] },
+  { id: '189', name: 'Explicador de Conceitos', description: 'Explica temas complexos de forma simples (estilo ELI5).', category: 'IA', icon: 'BookOpen', slug: 'explicador-de-conceitos', categorySlug: 'ia', tags: ['Educação', 'Aprendizado'] },
+  { id: '190', name: 'Analisador de Código', description: 'Revisa seu código em busca de bugs e oportunidades de otimização.', category: 'IA', icon: 'SearchCode', slug: 'analisador-de-codigo', categorySlug: 'ia', tags: ['Dev', 'Qualidade', 'Clean Code'] },
+  { id: '191', name: 'Gerador de User Stories', description: 'Cria histórias de usuário completas para o desenvolvimento ágil.', category: 'IA', icon: 'UserCircle', slug: 'gerador-de-user-stories', categorySlug: 'ia', tags: ['Agile', 'Gestão', 'Produto'] },
+  { id: '192', name: 'IA Regex Debugger', description: 'Explica o que uma expressão regular faz e sugere correções.', category: 'IA', icon: 'ShieldAlert', slug: 'ia-regex-debugger', categorySlug: 'ia', tags: ['Regex', 'Debug', 'Dev'] },
+  { id: '193', name: 'Commit Message IA', description: 'Gera mensagens de commit seguindo o padrão Conventional Commits.', category: 'IA', icon: 'GitCommit', slug: 'commit-message-ia', categorySlug: 'ia', tags: ['Git', 'Dev', 'Workflow'] },
+  { id: '194', name: 'Readme Generator IA', description: 'Cria documentação técnica completa para seus repositórios.', category: 'IA', icon: 'FileJson', slug: 'readme-generator-ia', categorySlug: 'ia', tags: ['Documentação', 'GitHub', 'Dev'] },
+  { id: '195', name: 'Unit Test Generator', description: 'Sugere casos de teste unitário baseados na lógica do seu código.', category: 'IA', icon: 'TestTube2', slug: 'unit-test-generator', categorySlug: 'ia', tags: ['Testes', 'Dev', 'QA'] },
+  { id: '196', name: 'Canivete Automator', description: 'Combine e encadeie ferramentas em fluxos de trabalho personalizados.', category: 'Produtividade', icon: 'Layers', slug: 'canivete-automator', categorySlug: 'produtividade', tags: ['Workflow', 'Automação', 'Flow', 'Pipeline'] },
   { id: '999', name: 'Hall da Fama', description: 'Nossa gratidão eterna aos apoiadores que tornam o Canivete Possível.', category: 'Comunidade', icon: 'Crown', slug: 'hall-da-fama', categorySlug: 'comunidade' },
 ];
