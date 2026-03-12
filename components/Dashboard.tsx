@@ -105,6 +105,17 @@ export function Dashboard({ initialTool }: DashboardProps) {
     const [isAboutOpen, setIsAboutOpen] = useState(false);
     const [isShareOpen, setIsShareOpen] = useState(false);
     const [shareStatus, setShareStatus] = useState<'idle' | 'copied'>('idle');
+    const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+
+    const CATEGORY_KEYWORDS: Record<string, string[]> = {
+        'Dev': ['JSON', 'SQL', 'TypeScript', 'React', 'CSS', 'API', 'JWT', 'Regex', 'GitHub', 'Backend'],
+        'Design': ['Cores', 'SVG', 'Layout', 'CSS', 'UI/UX', 'Figma', 'Imagens', 'Formatos'],
+        'Produtividade': ['PDF', 'Texto', 'Markdown', 'Foco', 'Tempo', 'Organização', 'Documentos'],
+        'Segurança': ['Criptografia', 'Senha', 'Hash', 'Privacidade', 'SSL', 'Validadores'],
+        'Ciência': ['Matemática', 'Física', 'Biologia', 'Conversor', 'Algoritmos'],
+        'Saúde': ['Bem-estar', 'Exercícios', 'Hidratação', 'Foco Mental', 'Ergonomia'],
+        'Diversos': ['Jogos', 'RPG', 'Música', 'Memes', 'Geradores', 'Brasil']
+    };
 
 
     const pixKey = "5904eb47-9c13-4ee1-b018-6acb40d8a154";
@@ -310,9 +321,29 @@ export function Dashboard({ initialTool }: DashboardProps) {
             const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 tool.description.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesCategory = !selectedCategory || tool.category === selectedCategory;
-            return matchesSearch && matchesCategory;
+            
+            // Intelligent Keyword Logic
+            const matchesKeywords = selectedKeywords.length === 0 || 
+                selectedKeywords.every(kw => 
+                    tool.tags?.includes(kw) || 
+                    tool.name.toLowerCase().includes(kw.toLowerCase()) ||
+                    tool.description.toLowerCase().includes(kw.toLowerCase())
+                );
+
+            return matchesSearch && matchesCategory && matchesKeywords;
         });
-    }, [searchQuery, selectedCategory]);
+    }, [searchQuery, selectedCategory, selectedKeywords]);
+
+    // Reset keywords when category changes
+    useEffect(() => {
+        setSelectedKeywords([]);
+    }, [selectedCategory]);
+
+    const toggleKeyword = (kw: string) => {
+        setSelectedKeywords(prev => 
+            prev.includes(kw) ? prev.filter(k => k !== kw) : [...prev, kw]
+        );
+    };
 
     const selectedTool = useMemo(() =>
         TOOLS.find(t => t.id === selectedToolId),
@@ -666,17 +697,55 @@ export function Dashboard({ initialTool }: DashboardProps) {
                                     className="max-w-[1600px] mx-auto"
                                 >
                                     <div className="mb-6 lg:mb-10 notebook-title-mb">
-                                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
-                                            {selectedCategory || (
-                                                <>
-                                                    <span className="inline lg:hidden">Ferramentas</span>
-                                                    <span className="hidden lg:inline">Todas as Ferramentas</span>
-                                                </>
+                                        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-4">
+                                            <div>
+                                                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
+                                                    {selectedCategory || (
+                                                        <>
+                                                            <span className="inline lg:hidden">Ferramentas</span>
+                                                            <span className="hidden lg:inline">Todas as Ferramentas</span>
+                                                        </>
+                                                    )}
+                                                </h2>
+                                                <p className="text-text-main/60 font-medium text-xs sm:text-sm lg:text-base">
+                                                    {filteredTools.length} {filteredTools.length === 1 ? 'ferramenta encontrada' : 'ferramentas encontradas'}.
+                                                </p>
+                                            </div>
+
+                                            {/* Smart Keyword Filter */}
+                                            {selectedCategory && CATEGORY_KEYWORDS[selectedCategory] && (
+                                                <div className="flex-1 lg:max-w-2xl">
+                                                    <div className="flex flex-wrap gap-2 animate-in fade-in slide-in-from-right-4 duration-500">
+                                                        <div className="flex items-center gap-2 mr-2 py-2">
+                                                            <Sparkles size={14} className="text-blue-500" />
+                                                            <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Keywords:</span>
+                                                        </div>
+                                                        {CATEGORY_KEYWORDS[selectedCategory].map(kw => (
+                                                            <button
+                                                                key={kw}
+                                                                onClick={() => toggleKeyword(kw)}
+                                                                className={cn(
+                                                                    "px-4 py-1.5 rounded-full text-[10px] lg:text-[11px] font-bold transition-all border active:scale-95",
+                                                                    selectedKeywords.includes(kw)
+                                                                        ? "bg-text-main text-bg-main border-text-main shadow-md"
+                                                                        : "bg-text-main/5 border-transparent hover:border-text-main/20"
+                                                                )}
+                                                            >
+                                                                {kw}
+                                                            </button>
+                                                        ))}
+                                                        {selectedKeywords.length > 0 && (
+                                                            <button
+                                                                onClick={() => setSelectedKeywords([])}
+                                                                className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/10 transition-colors"
+                                                            >
+                                                                Limpar
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                </div>
                                             )}
-                                        </h2>
-                                        <p className="text-text-main/80 font-medium text-xs sm:text-sm lg:text-base">
-                                            {filteredTools.length} {filteredTools.length === 1 ? 'ferramenta encontrada' : 'ferramentas encontradas'}.
-                                        </p>
+                                        </div>
                                     </div>
 
                                     <div

@@ -191,6 +191,7 @@ const EyeGuard = dynamic(() => import('@/components/tools/EyeGuard').then(mod =>
 const WaterReminder = dynamic(() => import('@/components/tools/WaterReminder').then(mod => mod.WaterReminder));
 const VideoTranscription = dynamic(() => import('@/components/tools/VideoTranscription').then(mod => mod.VideoTranscription));
 const YoutubeTranscription = dynamic(() => import('@/components/tools/YoutubeTranscription').then(mod => mod.YoutubeTranscription));
+const SqlConverter = dynamic(() => import('@/components/tools/SqlConverter').then(mod => mod.SqlConverter));
 
 
 function getCategoryIcon(category: string) {
@@ -325,6 +326,8 @@ function ToolRenderer({ toolId }: { toolId: string }) {
       return <VideoTranscription />;
     case '172':
       return <YoutubeTranscription />;
+    case '173':
+      return <SqlConverter />;
 
     case '999': return <SupportersWall />;
 
