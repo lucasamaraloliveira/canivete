@@ -19,25 +19,31 @@ export function SecurityShield() {
             }
 
             // Bloquear Ctrl+Shift+I (Inspecionar)
-            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
                 e.preventDefault();
                 return false;
             }
 
             // Bloquear Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Bloquear Ctrl+Shift+C (Inspecionar Elemento)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
                 e.preventDefault();
                 return false;
             }
 
             // Bloquear Ctrl+U (Ver Código Fonte)
-            if (e.ctrlKey && e.key === 'u') {
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
                 e.preventDefault();
                 return false;
             }
 
             // Bloquear Ctrl+S (Salvar Página)
-            if (e.ctrlKey && e.key === 's') {
+            if (e.ctrlKey && (e.key === 'S' || e.key === 's')) {
                 e.preventDefault();
                 return false;
             }
@@ -45,30 +51,31 @@ export function SecurityShield() {
 
         // 3. "Anti-Debugger" - Cria um loop que pausa o script se o DevTools for aberto
         const preventInspection = () => {
-            setInterval(() => {
-                (function () {
-                    const start = new Date().getTime();
-                    debugger;
-                    const end = new Date().getTime();
-                    if (end - start > 100) {
-                        // Se demorar mais que 100ms entre o debugger e o próximo passo, 
-                        // provavelmente o DevTools está aberto e pausou aqui.
-                        console.clear();
-                    }
-                })();
-            }, 3000);
+            const check = () => {
+                const start = new Date().getTime();
+                debugger;
+                const end = new Date().getTime();
+                if (end - start > 100) {
+                    console.clear();
+                    // Opcional: Redirecionar ou mostrar mensagem
+                }
+            };
+            
+            const interval = setInterval(check, 2000);
+            return () => clearInterval(interval);
         };
 
         if (process.env.NODE_ENV === 'production') {
             document.addEventListener('contextmenu', handleContextMenu);
             document.addEventListener('keydown', handleKeyDown);
 
-            // Iniciar proteção apenas quando a thread principal estiver livre
-            if ('requestIdleCallback' in window) {
-                (window as any).requestIdleCallback(() => preventInspection());
-            } else {
-                setTimeout(preventInspection, 5000);
-            }
+            const cleanupDebugger = preventInspection();
+            
+            return () => {
+                document.removeEventListener('contextmenu', handleContextMenu);
+                document.removeEventListener('keydown', handleKeyDown);
+                cleanupDebugger();
+            };
         }
 
         return () => {
